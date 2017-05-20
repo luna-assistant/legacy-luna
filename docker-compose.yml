@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  db:
+    image: postgres
+  broker:
+    image: jllopis/mosquitto
+    depends_on:
+      - db
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: backend.docker
+    depends_on:
+      - broker
+  frontend:
+    build:
+      context: ./frontend/
+      dockerfile: frontend.docker
+    depends_on:
+      - backend
