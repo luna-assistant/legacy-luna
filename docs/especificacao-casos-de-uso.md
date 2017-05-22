@@ -1,6 +1,6 @@
 # Especificação dos Casos de Uso
 
-## Cadastrar no Sistema
+## Cadastrar Usuário no Sistema
 
 ### Resumo
 
@@ -26,7 +26,7 @@ O ator Usuário realiza o seu cadastro no sistema.
 
 4. O ator Usuário insere suas informações no formulário de cadastro.
 
-5. O ator Usuário submete o formulário para a finalização do processo.
+5. O ator Usuário submete o formulário para a finalização do processo de cadastro.
 
 #### Fluxos Alternativos
 
@@ -36,7 +36,7 @@ O ator Usuário realiza o seu cadastro no sistema.
 
 ##### 4a: O ator já está cadastrado
 
-1. O sistema já informa que o email informado no formulário já está cadastrado.
+1. O sistema informa que o email informado no formulário já está cadastrado.
 
 ## Autenticar
 
@@ -66,7 +66,7 @@ O ator Usuário, Dependente ou Administrador autentica-se no sistema.
 
 3. O ator Usuário insere suas informações no formulário de autenticação.
 
-4. O ator Usuário submete o formulário para a finalização do processo.
+4. O ator Usuário submete o formulário para a finalização do processo de autenticação.
 
 #### Fluxos Alternativos
 
@@ -84,7 +84,7 @@ O ator Usuário, Dependente ou Administrador autentica-se no sistema.
 
 ### Resumo
 
-O usuário pode editar suas informações pessoais e salvando-as no sistema.
+O usuário pode editar suas informações pessoais e salva-las no sistema.
 
 ### Atores
 
@@ -104,9 +104,9 @@ O usuário pode editar suas informações pessoais e salvando-as no sistema.
 
 6. O ator Usuário abre a página do perfil.
 
-7. O ator Usuário realiza as modificações.
+7. O ator Usuário realiza as modificações do perfil.
 
-8. O ator Usuário salva as modificações.
+8. O ator Usuário salva as modificações feitas.
 
 #### Fluxos Alternativos
 
@@ -136,7 +136,7 @@ O usuário visualiza, adiciona ou remove usuários dependentes enviando uma soli
 
 1. O ator Usuário acessa a seção de Usuários Dependentes.
 
-2. O ator Usuário decide adicionar, editar ou excluir.
+2. O ator Usuário decide adicionar, editar ou excluir os Usuários Dependentes.
 
 3. O ator Usuário acessa o formulário de Usuário Dependente.
 
@@ -168,7 +168,7 @@ O usuário visualiza, adiciona ou remove contatos de emergência que podem ser a
 
 1. O ator Usuário acessa a seção de Contatos de Emergência.
 
-2. O ator Usuário decide adicionar, editar ou excluir.
+2. O ator Usuário decide adicionar, editar ou excluir Contatos de Emergência.
 
 3. O ator Usuário acessa o formulário de Contato de Emergência.
 
@@ -202,7 +202,7 @@ O usuário ou dependente cadastra, altera ou remove seus módulos adquiridos.
 
 1. O ator Usuário ou Dependente acessa a seção de Módulos.
 
-2. O ator Usuário ou Dependente decide adicionar, editar ou excluir.
+2. O ator Usuário ou Dependente decide adicionar, editar ou excluir Módulos.
 
 3. O ator Usuário ou Dependente acessa o formulário de Módulo.
 
@@ -268,7 +268,7 @@ O usuário ou dependente visualiza através de um painel o estado dos módulos.
 
 1. O ator Usuário ou Dependente acessa a seção de Módulos.
 
-2. O ator Broker envia os últimos estados dos módulos.
+2. O ator Broker envia para o sistema os últimos estados dos módulos.
 
 3. O sistema apresenta os últimos estados dos módulos.
 
@@ -282,7 +282,7 @@ O sistema deve realizar a conexão com o ator Broker por MQTT e, em seguida, **I
 
 ### Resumo
 
-Em caso de emergência, o usuário envia uma mensagem para os contatos de emergência cadastrados, assim, solicitando ajuda.
+Em caso de emergência, o usuário envia uma mensagem para os contatos de emergência cadastrados solicitando ajuda.
 
 ### Atores
 
@@ -354,7 +354,7 @@ O administrador visualiza, edita, adiciona ou exclui tipos de módulos no sistem
 
 1. O ator Administrador acessa a seção de Tipos de Módulos.
 
-2. O ator Administrador decide adicionar, editar ou excluir.
+2. O ator Administrador decide adicionar, editar ou excluir os Tipos de Módulos.
 
 3. O ator Administrador acessa o formulário de Tipo de Módulo.
 
@@ -386,7 +386,7 @@ O administrador gerencia os módulos disponíveis para serem adquiridos pelos us
 
 1. O ator Administrador acessa a seção de Módulos Disponíveis.
 
-2. O ator Administrador decide adicionar, editar ou excluir.
+2. O ator Administrador decide adicionar, editar ou excluir Módulos Disponíveis.
 
 3. O ator Administrador acessa o formulário de Módulo Disponível.
 
