@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - Luna Web</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+  <style>
+    .ui.menu .item img.logo {
+      margin-right: 1.5em;
+    }
+
+    .main.container {
+      margin-top: 3em;
+    }
+
+    .main.container section.room {
+      margin-top: 3em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui inverted menu">
+    <div class="ui container">
+      <a href="#" class="header item">
+        <img class="logo" src="http://via.placeholder.com/150x150" /> Luna
+      </a>
+
+      <div class="right menu">
+        <a href="#" class="item">Novo Módulo</a>
+        <a href="#" class="item">Contatos de Emergência</a>
+        <a href="#" class="item">Dependentes</a>
+        <a href="#" class="item">Sair</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ui main container">
+    <h2 class="ui header">
+      Dashboard
+      <div class="sub header">Tudo certo, <span class="">Bruno</span>?</div>
+    </h2>
+
+    <section class="room">
+      <h3 class="ui sub dividing header">
+        Cozinha
+      </h3>
+      <div class="ui basic segment">
+        <div class="ui cards">
+
+          <div class="card">
+            <div class="content">
+              <span class="right floated">
+                <i class="big yellow lightbulb icon"></i>
+              </span>
+              <div class="header">Iluminação</div>
+              <div class="meta">
+                Ligado há 30min
+              </div>
+            </div>
+            <div class="extra content">
+              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked class="hidden">
+                <label>Ligado</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="content">
+              <span class="right floated">
+                <i class="big grey tint icon"></i>
+              </span>
+              <div class="header">Torneira</div>
+              <div class="meta">
+                Fechada desde ontem
+              </div>
+            </div>
+            <div class="extra content">
+              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <div class="ui toggle checkbox">
+                <input type="checkbox" class="hidden">
+                <label>Fechada</label>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+    <section class="room">
+      <h3 class="ui sub dividing header">
+        Quarto
+      </h3>
+      <div class="ui basic segment">
+        <div class="ui cards">
+
+          <div class="card">
+            <div class="content">
+              <span class="right floated">
+                <i class="big grey lightbulb icon"></i>
+              </span>
+              <div class="header">Iluminação</div>
+              <div class="meta">
+                Desligada há 5min
+              </div>
+            </div>
+            <div class="extra content">
+              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <div class="ui toggle checkbox">
+                <input type="checkbox" class="hidden">
+                <label>Desligada</label>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </section>
+
+    <section class="room">
+      <h3 class="ui sub dividing header">
+        Garagem
+      </h3>
+      <div class="ui basic segment">
+        <div class="ui cards">
+
+          <div class="card">
+            <div class="content">
+              <span class="right floated">
+                <i class="big grey lightbulb icon"></i>
+              </span>
+              <div class="header">Iluminação</div>
+              <div class="meta">
+                Desligada há 3h
+              </div>
+            </div>
+            <div class="extra content">
+              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <div class="ui toggle checkbox">
+                <input type="checkbox" class="hidden">
+                <label>Desligada</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="content">
+              <span class="right floated">
+                <i class="big red lock icon"></i>
+              </span>
+              <div class="header">Porta</div>
+              <div class="meta">
+                Trancada há 5h
+              </div>
+            </div>
+            <div class="extra content">
+              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <div class="ui toggle checkbox">
+                <input type="checkbox" checked class="hidden">
+                <label>Trancada</label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+</body>
+
+</html>
