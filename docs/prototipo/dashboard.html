@@ -33,17 +33,27 @@
         <a href="#" class="item">Novo Módulo</a>
         <a href="#" class="item">Contatos de Emergência</a>
         <a href="#" class="item">Dependentes</a>
-        <a href="#" class="item">Sair</a>
+        <div class="ui dropdown item">
+           Mais <i class="dropdown icon"></i>
+           <div class="menu">
+             <a class="item">Perfil</a>
+             <a class="item">Sair</a>
+           </div>
+         </div>
       </div>
 
     </div>
   </div>
 
   <div class="ui main container">
+    <div class="ui right floated big primary button">
+      Pedido de Socorro
+    </div>
     <h2 class="ui header">
       Dashboard
       <div class="sub header">Tudo certo, <span class="">Bruno</span>?</div>
     </h2>
+
 
     <section class="room">
       <h3 class="ui sub dividing header">
@@ -178,6 +188,9 @@
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script>
+    $('.ui.dropdown').dropdown();
+  </script>
 </body>
 
 </html>
