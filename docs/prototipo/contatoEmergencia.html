@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contatos de Emergência</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+  <style>
+    .ui.menu .item img.logo {
+      margin-right: 1.5em;
+    }
+
+    .main.container {
+      margin-top: 3em;
+    }
+
+    .main.container section.room {
+      margin-top: 3em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui inverted menu">
+    <div class="ui container">
+      <a href="#" class="header item">
+        <img class="logo" src="http://via.placeholder.com/150x150" /> Luna
+      </a>
+
+      <div class="right menu">
+        <a href="#" class="item">Novo Módulo</a>
+        <a href="#" class="item">Contatos de Emergência</a>
+        <a href="#" class="item">Dependentes</a>
+        <div class="ui dropdown item">
+           Mais <i class="dropdown icon"></i>
+           <div class="menu">
+             <a href="profile.html" class="item">Perfil</a>
+             <a class="item">Sair</a>
+           </div>
+         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ui main container">
+   
+    <h2 class="ui header">
+      Dependentes
+      <div class="sub header">Gerenciamento</div>
+    </h2>
+
+      <section class="contacts">
+      <h3 class="ui sub dividing header">
+        Contatos
+      </h3>
+      <div class="ui basic segment">
+        <div class="ui cards">
+
+          <div class="card">
+            <div class="content">
+              <span class="right floated">
+                <i class="big user icon"></i>
+              </span>
+              <div class="header">Dielly</div>
+              <div class="meta">
+                Pai
+              </div>
+            </div>
+            <div class="extra content">
+              <span>(84) 9 9666-1234</span>
+              <a href="#" class="right floated"><i class="big call icon"></i></i>Ligar</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="content">
+              <span class="right floated">
+                <i class="big user icon"></i>
+              </span>
+              <div class="header">Dayanne</div>
+              <div class="meta">
+                Mãe
+              </div>
+            </div>
+            <div class="extra content">
+              <span>(84) 9 9123-4321</span>
+              <a href="#" class="right floated"><i class="big call icon"></i></i>Ligar</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+      <section class="services">
+      <h3 class="ui sub dividing header">
+        Serviços
+      </h3>
+      <div class="ui basic segment">
+        <div class="ui cards">
+
+          <div class="card">
+            <div class="content">
+              <span class="right floated">
+                <i class="big emergency icon"></i>
+              </span>
+              <div class="header">SAMU</div>
+              <div class="meta">
+                Ambulância
+              </div>
+            </div>
+            <div class="extra content">
+              <span>190</span>
+              <a href="#" class="right floated"><i class="big call icon"></i></i>Ligar</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+      
+
+    </div>
+  
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script>
+    $('.ui.dropdown').dropdown();
+  </script>
+</body>
+
+</html>

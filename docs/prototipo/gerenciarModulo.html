@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gerenciar Módulos</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+  <style>
+    .ui.menu .item img.logo {
+      margin-right: 1.5em;
+    }
+
+    .main.container {
+      margin-top: 3em;
+    }
+
+    .main.container section.room {
+      margin-top: 3em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui inverted menu">
+    <div class="ui container">
+      <a href="#" class="header item">
+        <img class="logo" src="http://via.placeholder.com/150x150" /> Luna
+      </a>
+
+      <div class="right menu">
+        <a href="#" class="item">Novo Módulo</a>
+        <a href="#" class="item">Contatos de Emergência</a>
+        <a href="#" class="item">Dependentes</a>
+        <div class="ui dropdown item">
+           Mais <i class="dropdown icon"></i>
+           <div class="menu">
+             <a href="profile.html" class="item">Perfil</a>
+             <a class="item">Sair</a>
+           </div>
+         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ui main container">
+   
+    <h2 class="ui header">
+      Dependentes
+      <div class="sub header">Gerenciamento</div>
+    </h2>
+
+		<div class="ui form">
+			<div class="three fields">
+				<div class="field">
+					<label>Nome</label>
+					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Dielly">
+				</div>
+				<div class="field">
+					<label>Sobrenome</label>
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Viana">
+				</div>
+				<div class="field">
+					<label>Telefone</label>
+					<input type="text" name="cell" placeholder="CELL" value="84-9999-5555">
+				</div>
+			</div>
+
+			<div class="three fields">
+				<div class="field">
+					<label>Nome</label>
+					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Yuri">
+				</div>
+				<div class="field">
+					<label>Sobrenome</label>
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Costa">
+				</div>
+				<div class="field">
+					<label>Telefone</label>
+					<input type="text" name="cell" placeholder="CELL" value="84-9999-6666">
+				</div>
+			</div>
+
+			<div class="three fields">
+				<div class="field">
+					<label>Nome</label>
+					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Chico">
+				</div>
+				<div class="field">
+					<label>Sobrenome</label>
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Bento">
+				</div>
+				<div class="field">
+					<label>Telefone</label>
+					<input type="text" name="cell" placeholder="CELL" value="84-9999-7777">
+				</div>
+			</div>
+
+			<div class="three fields">
+				<div class="field">
+					<label>Nome</label>
+					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Dayanne">
+				</div>
+				<div class="field">
+					<label>Sobrenome</label>
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Moratto">
+				</div>
+				<div class="field">
+					<label>Telefone</label>
+					<input type="text" name="cell" placeholder="CELL" value="84-9999-8888">
+				</div>
+			</div>
+			
+				<button class="ui green button">Salvar</button>
+				<button class="ui blue button">Adicionar</button>
+				<button class="ui red button">Cancelar</button>
+
+		</div>
+	
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script>
+    $('.ui.dropdown').dropdown();
+  </script>
+</body>
+
+</html>
