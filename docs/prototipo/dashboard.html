@@ -46,8 +46,10 @@
   </div>
 
   <div class="ui main container">
+    <div class="ui right floated big primary button">
     <button class="ui right floated big primary call-for-help button">
       Pedido de Socorro
+    </div>
     </button>
     <h2 class="ui header">
       Dashboard
@@ -73,7 +75,12 @@
               </div>
             </div>
             <div class="extra content">
-              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <a href="#" class="right floated">
+                    <button class="ui right floated small primary gerenciar-modulo button">
+                    <i class="edit icon"></i> 
+                      Editar
+                    </button>
+              </a>
               <div class="ui toggle checkbox">
                 <input type="checkbox" checked class="hidden">
                 <label>Ligado</label>
@@ -92,7 +99,12 @@
               </div>
             </div>
             <div class="extra content">
-              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <a href="#" class="right floated">
+                    <button class="ui right floated small primary gerenciar-modulo button">
+                    <i class="edit icon"></i> 
+                      Editar
+                    </button>
+              </a>
               <div class="ui toggle checkbox">
                 <input type="checkbox" class="hidden">
                 <label>Fechada</label>
@@ -123,7 +135,12 @@
               </div>
             </div>
             <div class="extra content">
-              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <a href="#" class="right floated">
+                    <button class="ui right floated small primary gerenciar-modulo button">
+                    <i class="edit icon"></i> 
+                      Editar
+                    </button>
+              </a>
               <div class="ui toggle checkbox">
                 <input type="checkbox" class="hidden">
                 <label>Desligada</label>
@@ -154,7 +171,12 @@
               </div>
             </div>
             <div class="extra content">
-              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+              <a href="#" class="right floated">
+                    <button class="ui right floated small primary gerenciar-modulo button">
+                    <i class="edit icon"></i> 
+                      Editar
+                    </button>
+              </a>
               <div class="ui toggle checkbox">
                 <input type="checkbox" class="hidden">
                 <label>Desligada</label>
@@ -173,9 +195,17 @@
               </div>
             </div>
             <div class="extra content">
-              <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
+            
+              <a href="#" class="right floated">
+                    <button class="ui right floated small primary gerenciar-modulo button">
+                    <i class="edit icon"></i> 
+                      Editar
+                    </button>
+              </a>
               <div class="ui toggle checkbox">
+
                 <input type="checkbox" checked class="hidden">
+
                 <label>Trancada</label>
               </div>
             </div>
@@ -184,6 +214,46 @@
         </div>
       </div>
     </section>
+  </div>
+
+
+  <div id="gerenciar-modulo" class="ui small gerenciar-modulo modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Gerenciar Modulos
+    </div>
+    <div class="content">
+      <div class="description">
+        <div class="ui form">
+          <div class="field">
+            
+             <div class="three fields">
+                 <div class="field">
+                 <label>Lugar</label>
+                 <input type="text" name="Lugar" placeholder="lugar" value="Quarto">
+            </div>
+            <div class="field">
+                 <label>Nº Módulo</label>
+                 <input type="text" name="numero-modulo" placeholder="num-Modulo" value="98374987397492">
+            </div>
+            <div class="field">
+                  <label>Nome</label>
+                  <input type="text" name="identification" placeholder="identification" value="Iluminação">
+            </div>
+                  <button class="ui red button">Excluir</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui negative button">Cancelar</div>
+      <div class="ui positive right labeled icon button">
+        Salvar
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
   </div>
 
   <div class="ui small call-for-help modal">
@@ -224,6 +294,10 @@
      */
     $('.call-for-help.button').click(function() {
       $('.call-for-help.modal').modal('show');
+    });
+
+    $('.gerenciar-modulo.button').click(function() {
+      $('.gerenciar-modulo.modal').modal('show');
     });
   </script>
 </body>
