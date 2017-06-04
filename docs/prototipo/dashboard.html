@@ -46,9 +46,9 @@
   </div>
 
   <div class="ui main container">
-    <div class="ui right floated big primary button">
+    <button class="ui right floated big primary call-for-help button">
       Pedido de Socorro
-    </div>
+    </button>
     <h2 class="ui header">
       Dashboard
       <div class="sub header">Tudo certo, <span class="">Bruno</span>?</div>
@@ -186,10 +186,45 @@
     </section>
   </div>
 
+  <div class="ui small call-for-help modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Pedido de Socorro
+    </div>
+    <div class="content">
+      <div class="description">
+        <div class="ui form">
+          <div class="field">
+            <label>Mensagem</label>
+            <textarea rows="2" placeholder="Oi, Bruno está precisando de sua ajuda!"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui negative button">Cancelar</div>
+      <div class="ui positive right labeled icon button">
+        Continuar
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
   <script>
+    /*
+     * Iniciando os componentes
+     */
     $('.ui.dropdown').dropdown();
+    $('.ui.modal').modal();
+
+    /*
+     * Configurando os eventos
+     */
+    $('.call-for-help.button').click(function() {
+      $('.call-for-help.modal').modal('show');
+    });
   </script>
 </body>
 
