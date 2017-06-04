@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Perfil - Luna Web</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+  <style>
+    .ui.menu .item img.logo {
+      margin-right: 1.5em;
+    }
+
+    .main.container {
+      margin-top: 3em;
+    }
+
+    .main.container section.room {
+      margin-top: 3em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui inverted menu">
+    <div class="ui container">
+      <a href="#" class="header item">
+        <img class="logo" src="http://via.placeholder.com/150x150" /> Luna
+      </a>
+
+      <div class="right menu">
+        <a href="#" class="item">Novo Módulo</a>
+        <a href="#" class="item">Contatos de Emergência</a>
+        <a href="#" class="item">Dependentes</a>
+        <div class="ui dropdown item">
+           Mais <i class="dropdown icon"></i>
+           <div class="menu">
+             <a href="profile.html" class="item">Perfil</a>
+             <a class="item">Sair</a>
+           </div>
+         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ui main container">
+    <div class="ui right floated big primary button">
+      Pedido de Socorro
+    </div>
+    <h2 class="ui header">
+      Perfil
+      <div class="sub header">Aqui você pode alterar suas informações</div>
+    </h2>
+
+		<div class="ui form">
+			<div class="three fields">
+				<div class="field">
+					<label>Nome</label>
+					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Dielly">
+				</div>
+				<div class="field">
+					<label>Sobrenome</label>
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Viana">
+				</div>
+				<div class="field">
+					<label>CPF</label>
+					<input type="text" name="CPF" placeholder="CPF" value="123456707-66">
+				</div>
+			</div>
+			<div class="three fields">
+				<div class="field">
+					<label>RG</label>
+					<input type="text" name="RG" placeholder="RG" value="123.335-565">
+				</div>
+				<div class="field">
+					<label>Naturalidade</label>
+					<input type="text" name="naturalidade" placeholder="Naturalidade" value="Brasileira">
+				</div>
+				<div class="field">
+					<label>Email</label>
+					<input type="email" name="email" placeholder="Email" value="dielly.viana@luna.com">
+				</div>
+			</div>
+			<div class="three fields">
+				<div class="field">
+					<label>Endereço</label>
+					<input type="text" name="endereco" placeholder="Endereço" value="Av. Bernado Vieira, 2234, Lagoa Nova">
+				</div>
+				<div class="field">
+					<label>Complemento</label>
+					<input type="text" name="complemento" placeholder="Complemento" value="Apt. 364">
+				</div>
+				<div class="field">
+					<label>Cidade</label>
+					<input type="text" name="cidade" placeholder="Cidade" value="Natal">
+				</div>
+			</div>
+
+			<div class="field">
+				<label>Estado</label>
+					<select class="ui fluid dropdown">
+						<option value="">State</option>
+						<option value="AC">Acre</option>
+						<option value="AL">Alagoas</option>
+						<option value="AM">Amapá</option>
+						<option value="BA">Bahia</option>
+						<option value="CE">Ceará</option>
+						<option value="DF">Distrito Federal</option>
+						<option value="ES">Espírito Santo</option>
+						<option value="GO">Goiás</option>
+						<option value="MA">Maranhão</option>
+						<option value="MT">Mato Grosso</option>
+						<option value="MS">Mato Grosso Do Sul</option>
+						<option value="MG">Minas Gerais</option>
+						<option value="PA">Pará</option>
+						<option value="PB">Paraíba</option>
+						<option value="PR">Paraná</option>
+						<option value="PB">Pernambuco</option>
+						<option value="PI">Piauí</option>
+						<option value="RJ">Rio de Janeiro</option>
+						<option value="RN" selected>Rio Grande do Norte</option>
+						<option value="RS">Rio Grande do Sul</option>
+						<option value="RO">Rondônia</option>
+						<option value="RR">Roraima</option>
+						<option value="SC">Santa Catarina</option>
+						<option value="SP">São Paulo</option>
+						<option value="SE">Sergipe</option>
+						<option value="TO">Tocantins</option>
+					</select>
+				</div>
+
+				<button class="ui green button">Salvar</button>
+				<button class="ui blue button">Restaurar</button>
+		</div>
+		<!--
+    <form class="ui form">
+    	<h4 class="ui dividing header">Dados do usuário</h4>
+				<div class="ui segment">
+					<div class="field">
+						<label>Nome</label>
+						<div class="four fields">
+							<div class="field">
+									<input type="text" name="shipping[first-name]" placeholder="Nome" value="Dielly">
+							</div>
+						</div>						
+						<label>Sobrenome</label>
+						<div class="four fields">
+							<div class="field">
+									<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Viana">
+							</div>
+						</div>
+						<label>CPF</label>
+						<div class="four fields">
+							<div class="field">
+									<input type="text" name="CPF" placeholder="CPF" value="123456707-66">
+							</div>
+						</div>
+						<label>RG</label>
+						<div class="four fields">
+							<div class="field">
+									<input type="text" name="RG" placeholder="RG" value="123.335-565">
+							</div>
+						</div>
+						<label>Email</label>
+						<div class="four fields">
+							<div class="field">
+									<input type="email" name="email" placeholder="email" value="dielly.viana@luna.com">
+							</div>
+						</div>
+						<label>Endereço</label>
+						<div class="four fields">
+							<div class="field">
+								<input type="text" name="shipping[address]" placeholder="Rua, nº" value="Av. Bernado Vieira, 2234">
+							</div>
+						</div>
+						<label>Complemento</label>
+						<div class="two fields">
+							<div class="field">
+								<input type="text" name="shipping[address-2]" placeholder="Complemento" value="Apt. 364">
+							</div>
+						</div>
+						<label>Bairro</label>
+						<div class="three fields">
+							<div class="field">
+								<input type="text" name="shipping[address-3]" placeholder="Bairro" value="Lagoa Nova">
+							</div>
+						</div>
+						<label>Cidade</label>
+							<div class="three fields">
+								<div class="field">
+									<input type="text" name="shipping[address-4]" placeholder="Cidade" value="Natal">
+								</div>
+						</div>				
+					</div>
+					
+					<div class="four fields">
+							<div class="field">
+								<label>Estado</label>
+								<select class="ui fluid dropdown">
+										<option value="">State</option>
+										<option value="AC">Acre</option>
+										<option value="AL">Alagoas</option>
+										<option value="AM">Amapá</option>
+										<option value="BA">Bahia</option>
+										<option value="CE">Ceará</option>
+										<option value="DF">Distrito Federal</option>
+										<option value="ES">Espírito Santo</option>
+										<option value="GO">Goiás</option>
+										<option value="MA">Maranhão</option>
+										<option value="MT">Mato Grosso</option>
+										<option value="MS">Mato Grosso Do Sul</option>
+										<option value="MG">Minas Gerais</option>
+										<option value="PA">Pará</option>
+										<option value="PB">Paraíba</option>
+										<option value="PR">Paraná</option>
+										<option value="PB">Pernambuco</option>
+										<option value="PI">Piauí</option>
+										<option value="RJ">Rio de Janeiro</option>
+										<option value="RN" selected>Rio Grande do Norte</option>
+										<option value="RS">Rio Grande do Sul</option>
+										<option value="RO">Rondônia</option>
+										<option value="RR">Roraima</option>
+										<option value="SC">Santa Catarina</option>
+										<option value="SP">São Paulo</option>
+										<option value="SE">Sergipe</option>
+										<option value="TO">Tocantins</option>
+								</select>
+							</div>
+					</div>
+			</div>
+    	<button class="ui green button">Salvar</button>
+			<button class="ui blue button">Restaurar</button>
+		</form> -->
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script>
+    $('.ui.dropdown').dropdown();
+  </script>
+</body>
+
+</html>
