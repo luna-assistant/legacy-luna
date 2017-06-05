@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gerenciar Módulos</title>
+  <title>Gerenciar Dependentes</title>
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
   <style>
@@ -52,80 +52,214 @@
       <div class="sub header">Gerenciamento</div>
     </h2>
 
-		<div class="ui form">
+    <section class="room">
+			<div class="ui teal labeled icon button" onclick="activateModalCreate()">
+    			Cadastrar novo dependente
+    		<i class="add icon"></i>
+  		</div>
+    <table class="ui purple table">
+				<thead>
+					<tr><th>Nome</th>
+					<th>Sobrenome</th>
+					<th>Telefone</th>
+					<th>Ações</th>
+				</tr></thead><tbody>
+					<tr>
+						<td>Silvia</td>
+						<td>Karla</td>
+						<td>84-9999-5555</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>Dayanne</td>
+						<td>Vieira</td>
+						<td>84-9999-6666</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>Robson</td>
+						<td>Santos</td>
+						<td>84-9999-7777</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>Paula</td>
+						<td>Santos</td>
+						<td>84-9999-8888</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>Haroldo</td>
+						<td>Macêdo</td>
+						<td>84-9999-9999</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>Even</td>
+						<td>Næsheim</td>
+						<td>84-9999-1111</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+    </section>
+  </div>
+
+  <div class="ui small create modal">
+    <div class="header">
+      Cadastrar Dependente
+    </div>
+    <div class="content">
+	    <div class="ui form">
 			<div class="three fields">
 				<div class="field">
 					<label>Nome</label>
-					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Dielly">
+					<input type="text" name="shipping[first-name]" placeholder="Nome">
 				</div>
 				<div class="field">
 					<label>Sobrenome</label>
-					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Viana">
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome">
 				</div>
 				<div class="field">
 					<label>Telefone</label>
-					<input type="text" name="cell" placeholder="CELL" value="84-9999-5555">
+					<input type="text" name="cell" placeholder="Cel" >
 				</div>
 			</div>
-
-			<div class="three fields">
-				<div class="field">
-					<label>Nome</label>
-					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Yuri">
-				</div>
-				<div class="field">
-					<label>Sobrenome</label>
-					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Costa">
-				</div>
-				<div class="field">
-					<label>Telefone</label>
-					<input type="text" name="cell" placeholder="CELL" value="84-9999-6666">
-				</div>
-			</div>
-
-			<div class="three fields">
-				<div class="field">
-					<label>Nome</label>
-					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Chico">
-				</div>
-				<div class="field">
-					<label>Sobrenome</label>
-					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Bento">
-				</div>
-				<div class="field">
-					<label>Telefone</label>
-					<input type="text" name="cell" placeholder="CELL" value="84-9999-7777">
-				</div>
-			</div>
-
-			<div class="three fields">
-				<div class="field">
-					<label>Nome</label>
-					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Dayanne">
-				</div>
-				<div class="field">
-					<label>Sobrenome</label>
-					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Moratto">
-				</div>
-				<div class="field">
-					<label>Telefone</label>
-					<input type="text" name="cell" placeholder="CELL" value="84-9999-8888">
-				</div>
-			</div>
-			
-				<button class="ui green button"><a href="gerenciar_dependentes.html" style="color: white">Salvar</a></button>
-				<button class="ui blue button">Adicionar</button>
-				<button class="ui red button"><a href="gerenciar_dependentes.html" style="color: white">Cancelar</a></button>
-
 		</div>
-	
+    </div>
+    <div class="actions">
+      <div class="ui green button">
+        Cadastrar
+      </div>
+			<div class="ui red button">
+        Cancelar
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small show modal">
+    <div class="header">
+      Nome do Dependente
+    </div>
+    <div class="content">
+      <div class="description">
+				<b>Nome do dependente:</b> Nome <br>
+        		<b>Sobrenome do dependente:</b> Sobrenome <br>
+				<b>Telefone:</b> Telefone <br>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui approve button">
+        Voltar
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small edit modal">
+    <div class="header">
+      Editar dependente
+    </div>
+    <div class="content">
+        <div class="ui form">
+			<div class="three fields">
+				<div class="field">
+					<label>Nome</label>
+					<input type="text" name="shipping[first-name]" placeholder="Nome">
+				</div>
+				<div class="field">
+					<label>Sobrenome</label>
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome">
+				</div>
+				<div class="field">
+					<label>Telefone</label>
+					<input type="text" name="cell" placeholder="Cel" >
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="actions">
+      <div class="ui green button">
+        Salvar
+      </div>
+			<div class="ui red button">
+        Cancelar
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small basic remove modal">
+    <div class="ui icon header">
+      <i class="trash outline icon"></i>
+      Deseja excluir este dependente?
+    </div>
+    <div class="actions">
+      <div class="ui red basic cancel inverted button">
+        <i class="remove icon"></i>
+        Cancelar
+      </div>
+      <div class="ui green ok inverted button">
+        <i class="checkmark icon"></i>
+        Sim
+      </div>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
   <script>
     $('.ui.dropdown').dropdown();
+		$('.ui.modal').modal();
+
+		function activateModalCreate() {
+			$('.ui.small.create.modal')
+  			.modal('show')
+			;
+		}
+
+		function activateModalShow() {
+			$('.ui.small.show.modal')
+  			.modal('show')
+			;
+		}
+
+		function activateModalEdit() {
+			$('.ui.small.edit.modal')
+  			.modal('show')
+			;
+		}
+
+		function activateModalRemove() {
+			$('.ui.small.basic.remove.modal')
+				.modal('setting', 'closable', false)
+  			.modal('show')
+			;
+		}
   </script>
 </body>
 
 </html>
+
