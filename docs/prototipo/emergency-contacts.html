@@ -28,11 +28,10 @@
       <a href="dashboard.html" class="header item">
         <img class="logo" src="http://via.placeholder.com/150x150" /> Luna
       </a>
-
       <div class="right menu">
         <a href="#" class="item">Novo Módulo</a>
-        <a href="contatoEmergencia.html" class="item">Contatos de Emergência</a>
-        <a href="gerenciar_dependentes.html" class="item">Dependentes</a>
+        <a href="emergency-contacts.html" class="item">Contatos de Emergência</a>
+        <a href="dependents.html" class="item">Dependentes</a>
         <div class="ui dropdown item">
            Mais <i class="dropdown icon"></i>
            <div class="menu">
@@ -41,12 +40,11 @@
            </div>
          </div>
       </div>
-
     </div>
   </div>
 
   <div class="ui main container">
-   
+
     <h2 class="ui header">
       Contatos de Emergência
       <div class="sub header">Gerenciamento</div>
@@ -74,7 +72,7 @@
                 Pai
               </div>
               <button class="ui left floated small primary editar-contato button">
-                <i class="edit icon"></i> 
+                <i class="edit icon"></i>
                   Editar
               </button>
             </div>
@@ -94,7 +92,7 @@
                 Mãe
               </div>
               <button class="ui left floated small primary editar-contato button">
-                <i class="edit icon"></i> 
+                <i class="edit icon"></i>
                   Editar
               </button>
             </div>
@@ -125,7 +123,7 @@
                 Ambulância
               </div>
               <button class="ui left floated small primary editar-contato button">
-                <i class="edit icon"></i> 
+                <i class="edit icon"></i>
                   Editar
               </button>
             </div>
@@ -138,10 +136,10 @@
         </div>
       </div>
     </section>
-      
+
 
     </div>
-  
+
     <div class="ui small create modal">
     <div class="header">
       Cadastrar Contato
@@ -196,13 +194,13 @@
     });
 
     $('.ui.teal').click(function(){
-      $('.create.modal').modal('show'); 
+      $('.create.modal').modal('show');
     })
 
     $('.editar-contato.button').click(function(){
       $('.create.modal').find('.header').text("Editar Contato");
       $('.create.modal').find('.actions').find('.ui.green.button').text("Atualizar");
-      $('.create.modal').modal('show'); 
+      $('.create.modal').modal('show');
 
     });
   </script>

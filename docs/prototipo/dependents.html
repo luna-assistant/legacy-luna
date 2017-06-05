@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Módulos Disponíveis - Luna Web</title>
+  <title>Gerenciar Dependentes</title>
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
   <style>
@@ -25,46 +25,47 @@
 <body>
   <div class="ui inverted menu">
     <div class="ui container">
-      <a href="admin.html" class="header item">
-        <img class="logo" src="http://via.placeholder.com/150x150" /> Luna Admin
+      <a href="dashboard.html" class="header item">
+        <img class="logo" src="http://via.placeholder.com/150x150" /> Luna
       </a>
-
       <div class="right menu">
-        <a href="modulosTipo.html" class="item">Tipos de Módulo</a>
-        <a href="available_modules.html" class="item">Módulos Disponíveis</a>
+        <a href="#" class="item">Novo Módulo</a>
+        <a href="emergency-contacts.html" class="item">Contatos de Emergência</a>
+        <a href="dependents.html" class="item">Dependentes</a>
         <div class="ui dropdown item">
-          Mais <i class="dropdown icon"></i>
-          <div class="menu">
-            <a class="item">Alterar Senha</a>
-            <a href="index.html" class="item">Sair</a>
-          </div>
-        </div>
+           Mais <i class="dropdown icon"></i>
+           <div class="menu">
+             <a href="profile.html" class="item">Perfil</a>
+             <a href="index.html" class="item">Sair</a>
+           </div>
+         </div>
       </div>
-
     </div>
   </div>
 
   <div class="ui main container">
+
     <h2 class="ui header">
-      Módulos Disponíveis
+      Dependentes
+      <div class="sub header">Gerenciamento</div>
     </h2>
 
     <section class="room">
 			<div class="ui teal labeled icon button" onclick="activateModalCreate()">
-    			Cadastrar novo módulo
+    			Cadastrar novo dependente
     		<i class="add icon"></i>
   		</div>
-      <table class="ui purple table">
+    <table class="ui purple table">
 				<thead>
-					<tr><th>Código</th>
-					<th>Tipo</th>
-					<th>Usuário vinculado</th>
+					<tr><th>Nome</th>
+					<th>Sobrenome</th>
+					<th>Telefone</th>
 					<th>Ações</th>
 				</tr></thead><tbody>
 					<tr>
-						<td>00001</td>
-						<td>Iluminação</td>
-						<td>Silvia Karla</td>
+						<td>Silvia</td>
+						<td>Karla</td>
+						<td>84-9999-5555</td>
 						<td>
 							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
 							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
@@ -72,9 +73,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td>00002</td>
-						<td>Torneira</td>
-						<td>Dayanne Vieira</td>
+						<td>Dayanne</td>
+						<td>Vieira</td>
+						<td>84-9999-6666</td>
 						<td>
 							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
 							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
@@ -82,9 +83,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td>00003</td>
-						<td>Iluminação</td>
-						<td>Robson Santos</td>
+						<td>Robson</td>
+						<td>Santos</td>
+						<td>84-9999-7777</td>
 						<td>
 							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
 							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
@@ -92,9 +93,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td>00004</td>
-						<td>Torneira</td>
-						<td>Paula Santos</td>
+						<td>Paula</td>
+						<td>Santos</td>
+						<td>84-9999-8888</td>
 						<td>
 							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
 							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
@@ -102,9 +103,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td>00005</td>
-						<td>Porta</td>
-						<td>Haroldo Macêdo</td>
+						<td>Haroldo</td>
+						<td>Macêdo</td>
+						<td>84-9999-9999</td>
 						<td>
 							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
 							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
@@ -112,9 +113,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td>00006</td>
-						<td>Torneira</td>
-						<td>Dayanne Vieira</td>
+						<td>Even</td>
+						<td>Næsheim</td>
+						<td>84-9999-1111</td>
 						<td>
 							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
 							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
@@ -126,44 +127,27 @@
     </section>
   </div>
 
-	<div class="ui small create modal">
+  <div class="ui small create modal">
     <div class="header">
-      Cadastrar Módulo
+      Cadastrar Dependente
     </div>
     <div class="content">
-      <div class="ui form">
-				<div class="grouped fields">
-					<label for="tipo">Tipo de módulo</label>
-					<div class="field">
-						<div class="ui radio checkbox">
-							<input type="radio" name="tipo" tabindex="0" class="hidden">
-							<label>Iluminação</label>
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui radio checkbox">
-							<input type="radio" name="tipo" tabindex="0" class="hidden">
-							<label>Torneira</label>
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui radio checkbox">
-							<input type="radio" name="tipo" tabindex="0" class="hidden">
-							<label>Porta</label>
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui radio checkbox">
-							<input type="radio" name="tipo" tabindex="0" class="hidden">
-							<label>Janela</label>
-						</div>
-					</div>
+	    <div class="ui form">
+			<div class="three fields">
+				<div class="field">
+					<label>Nome</label>
+					<input type="text" name="shipping[first-name]" placeholder="Nome">
 				</div>
 				<div class="field">
-					<label>Descrição</label>
-					<textarea rows="3"></textarea>
+					<label>Sobrenome</label>
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome">
+				</div>
+				<div class="field">
+					<label>Telefone</label>
+					<input type="text" name="cell" placeholder="Cel" >
 				</div>
 			</div>
+		</div>
     </div>
     <div class="actions">
       <div class="ui green button">
@@ -175,24 +159,15 @@
     </div>
   </div>
 
-	<div class="ui small show modal">
+  <div class="ui small show modal">
     <div class="header">
-      Nome do módulo
+      Nome do Dependente
     </div>
     <div class="content">
       <div class="description">
-				<b>Código do módulo:</b> código <br>
-        <b>Usuário vinculado:</b> nome do Usuário <br>
-				<b>Estado:</b> ligado <br>
-				<b>Descrição:</b> <br>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tellus velit,
-					consectetur at euismod ac, iaculis sit amet leo. Pellentesque tincidunt justo metus,
-					sit amet facilisis turpis fermentum non. Ut quis interdum nisl. Phasellus vitae ex a
-					arcu gravida convallis vitae at dolor. Fusce non sollicitudin elit. Pellentesque a
-					nisl nec erat efficitur luctus. Cras vitae posuere elit, finibus lobortis orci.
-					In mi lectus, consectetur eu blandit sit amet, consequat condimentum metus.
-				</p>
+				<b>Nome do dependente:</b> Nome <br>
+        		<b>Sobrenome do dependente:</b> Sobrenome <br>
+				<b>Telefone:</b> Telefone <br>
       </div>
     </div>
     <div class="actions">
@@ -202,72 +177,27 @@
     </div>
   </div>
 
-	<div class="ui small edit modal">
+  <div class="ui small edit modal">
     <div class="header">
-      Editar Módulo
+      Editar dependente
     </div>
     <div class="content">
-      <div class="ui form">
-				<div class="grouped fields">
-					<label for="tipo">Tipo de módulo</label>
-					<div class="field">
-						<div class="ui radio checkbox">
-							<input type="radio" name="tipo" tabindex="0" class="hidden">
-							<label>Iluminação</label>
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui radio checkbox">
-							<input type="radio" name="tipo" tabindex="0" class="hidden">
-							<label>Torneira</label>
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui radio checkbox">
-							<input type="radio" name="tipo" tabindex="0" class="hidden">
-							<label>Porta</label>
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui radio checkbox">
-							<input type="radio" name="tipo" tabindex="0" class="hidden">
-							<label>Janela</label>
-						</div>
-					</div>
+        <div class="ui form">
+			<div class="three fields">
+				<div class="field">
+					<label>Nome</label>
+					<input type="text" name="shipping[first-name]" placeholder="Nome">
 				</div>
 				<div class="field">
-					<label>Descrição</label>
-					<textarea rows="3"></textarea>
+					<label>Sobrenome</label>
+					<input type="text" name="shipping[last-name]" placeholder="Sobrenome">
 				</div>
 				<div class="field">
-					<label>Vincular a:</label>
-					<div class="ui fluid multiple search selection dropdown">
-						<input type="hidden" name="receipt">
-						<i class="dropdown icon"></i>
-						<div class="default text">Usuários</div>
-						<div class="menu">
-							<div class="item" data-value="jenny" data-text="Jenny">
-								#0001 - Jenny Hess
-							</div>
-							<div class="item" data-value="elliot" data-text="Elliot">
-								#0002 - Elliot Fu
-							</div>
-							<div class="item" data-value="stevie" data-text="Stevie">
-								#0003 - Stevie Feliciano
-							</div>
-							<div class="item" data-value="christian" data-text="Christian">
-								#0004 - Christian
-							</div>
-							<div class="item" data-value="matt" data-text="Matt">
-								#0005 - Matt
-							</div>
-							<div class="item" data-value="justen" data-text="Justen">
-								#0006 - Justen Kitsune
-							</div>
-						</div>
-					</div>
-   			</div>
+					<label>Telefone</label>
+					<input type="text" name="cell" placeholder="Cel" >
+				</div>
 			</div>
+		</div>
     </div>
     <div class="actions">
       <div class="ui green button">
@@ -279,10 +209,10 @@
     </div>
   </div>
 
-	<div class="ui small basic remove modal">
+  <div class="ui small basic remove modal">
     <div class="ui icon header">
       <i class="trash outline icon"></i>
-      Deseja excluir este módulo
+      Deseja excluir este dependente?
     </div>
     <div class="actions">
       <div class="ui red basic cancel inverted button">
@@ -299,7 +229,6 @@
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
   <script>
-
     $('.ui.dropdown').dropdown();
 		$('.ui.modal').modal();
 
@@ -327,7 +256,6 @@
   			.modal('show')
 			;
 		}
-
   </script>
 </body>
 
