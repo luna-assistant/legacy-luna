@@ -11,12 +11,15 @@
     body {
       background-color: #eee;
     }
-    body > .grid {
+
+    body>.grid {
       height: 100%;
     }
+
     .image {
       margin-top: -100px;
     }
+
     .column {
       max-width: 450px;
     }
@@ -29,7 +32,7 @@
       <h2 class="ui blue image header">
         <img class="ui image circular" src="http://via.placeholder.com/150x150" />
         <div class="content">
-          Entre na sua conta!
+          Acesse sua conta
         </div>
       </h2>
       <form action="dashboard.html" class="ui large form">
@@ -66,37 +69,33 @@
      * Iniciando os componentes
      */
     $('.ui.form').form({
-           fields: {
-             email: {
-               identifier  : 'email',
-               rules: [
-                 {
-                   type   : 'empty',
-                   prompt : 'Por favor, insira seu email'
-                 },
-                 {
-                   type   : 'email',
-                   prompt : 'Por favor, insira um email válido'
-                 }
-               ]
-             },
-             password: {
-               identifier  : 'password',
-               rules: [
-                 {
-                   type   : 'empty',
-                   prompt : 'Por favor, insira sua senha'
-                 },
-                 {
-                   type   : 'length[6]',
-                   prompt : 'Sua senha deve ter no mínimo 6 caracteres'
-                 }
-               ]
-             }
-           }
-         });
-
-
+      fields: {
+        email: {
+          identifier: 'email',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira seu email'
+            },
+            {
+              type: 'email',
+              prompt: 'Por favor, insira um email válido'
+            }
+          ]
+        },
+        password: {
+          identifier: 'password',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira sua senha'
+            },
+            {
+              type: 'length[6]',
+              prompt: 'Sua senha deve ter no mínimo 6 caracteres'
+            }
+          ]
+        }
+      }
+    });
   </script>
 </body>
 

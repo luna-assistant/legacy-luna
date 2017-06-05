@@ -1,68 +1,130 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Cadastro - Luna Web</title>
-		<link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
-		<style>
-	    	.ui.menu .item img.logo {
-			margin-right: 1.5em;
-	    }
 
-	    	.main.container {
-	      	margin-top: 3em;
-	    }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Registro - Luna Web</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+  <style>
+    body {
+      background-color: #eee;
+    }
 
-	    	.main.container section.room {
-	      	margin-top: 3em;
-	    }
-	    </style>
-	</head>
+    body>.grid {
+      height: 100%;
+    }
 
-	<body>
+    .image {
+      margin-top: -100px;
+    }
 
-	  	<div class="ui main container">
-		    <h2 class="ui header">
-		      Cadastro
-		    <div class="sub header">Aqui você irá criar seu cadastro</div>
-		    </h2>
+    .column {
+      max-width: 450px;
+    }
+  </style>
+</head>
 
-			<div class="ui form">
-				<div class="three fields">
-					<div class="field">
-						<label>Usuário</label>
-						<input type="text" name="login" placeholder="Usuário" value="Dielly123">
-					</div>
-					<div class="field">
-						<label>Senha</label>
-						<input type="password" name="senha" placeholder="Senha">
-					</div>
-					<div class="field">
-						<label>Confirme a senha</label>
-						<input type="password" name="confirmsenha" placeholder="Digite a senha novamente">
-					</div>
-				</div>
-				<div class="two fields">
-					<div class="field">
-						<label>Email</label>
-						<input type="email" name="email" placeholder="Email" value="dielly.viana@luna.com">
-					</div>
-					<div class="field">
-						<label>Código do Módulo</label>
-						<input type="text" name="nummodulo" placeholder="Código do Módulo" value="95A48u">
-					</div>				
-				</div>
-				<button class="ui green button"><a href="login.html" style="color: white">Finalizar</a></button>
-				<button class="ui red button"><a href="index.html" style="color: white">Cancelar</a></button>
-			</div>
-	    </div>
+<body>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <h2 class="ui blue image header">
+        <img class="ui image circular" src="http://via.placeholder.com/150x150" />
+        <div class="content">
+          Cadastra-se
+        </div>
+      </h2>
+      <form action="dashboard.html" class="ui large form">
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="barcode icon"></i>
+              <input type="text" name="module" placeholder="Identificador do Módulo">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="email" placeholder="Email">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input id="senha" type="password" name="password" placeholder="Senha">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input id="senha" type="password" name="password_confirmation" placeholder="Confirmação">
+            </div>
+          </div>
+          <div class="ui fluid large blue submit button">Cadastrar</div>
+        </div>
 
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
-		<script>
-			$('.ui.dropdown').dropdown();
-		</script>
-	</body>
+        <div class="ui error message"></div>
+
+      </form>
+
+      <div class="ui message">
+        Já tem conta? <a href="login.html">Acesse!</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script>
+    /*
+     * Iniciando os componentes
+     */
+    $('.ui.form').form({
+      fields: {
+        module: {
+          identifier: 'module',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, identifique seu módulo'
+            },
+          ]
+        },
+        email: {
+          identifier: 'email',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira seu email'
+            },
+            {
+              type: 'email',
+              prompt: 'Por favor, insira um email válido'
+            }
+          ]
+        },
+        password: {
+          identifier: 'password',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira sua senha'
+            },
+            {
+              type: 'length[6]',
+              prompt: 'Sua senha deve ter no mínimo 6 caracteres'
+            }
+          ]
+        },
+        password_confirmation: {
+          identifier: 'password_confirmation',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira a confirmação da senha'
+            }
+          ]
+        }
+      }
+    });
+  </script>
+</body>
+
 </html>
