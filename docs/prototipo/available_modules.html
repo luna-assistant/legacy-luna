@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Módulos Disponíveis - Luna Web</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+  <style>
+    .ui.menu .item img.logo {
+      margin-right: 1.5em;
+    }
+
+    .main.container {
+      margin-top: 3em;
+    }
+
+    .main.container section.room {
+      margin-top: 3em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui inverted menu">
+    <div class="ui container">
+      <a href="admin.html" class="header item">
+        <img class="logo" src="http://via.placeholder.com/150x150" /> Luna Admin
+      </a>
+
+      <div class="right menu">
+        <a href="#" class="item">Tipos de Módulo</a>
+        <a href="available_modules.html" class="item">Módulos Disponíveis</a>
+        <div class="ui dropdown item">
+          Mais <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item">Alterar Senha</a>
+            <a href="index.html" class="item">Sair</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ui main container">
+    <h2 class="ui header">
+      Módulos Disponíveis
+    </h2>
+
+    <section class="room">
+			<div class="ui teal labeled icon button" onclick="activateModalCreate()">
+    			Cadastrar novo módulo
+    		<i class="add icon"></i>
+  		</div>
+      <table class="ui purple table">
+				<thead>
+					<tr><th>Código</th>
+					<th>Tipo</th>
+					<th>Usuário vinculado</th>
+					<th>Ações</th>
+				</tr></thead><tbody>
+					<tr>
+						<td>00001</td>
+						<td>Iluminação</td>
+						<td>Silvia Karla</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>00002</td>
+						<td>Torneira</td>
+						<td>Dayanne Vieira</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>00003</td>
+						<td>Iluminação</td>
+						<td>Robson Santos</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>00004</td>
+						<td>Torneira</td>
+						<td>Paula Santos</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>00005</td>
+						<td>Porta</td>
+						<td>Haroldo Macêdo</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+					<tr>
+						<td>00006</td>
+						<td>Torneira</td>
+						<td>Dayanne Vieira</td>
+						<td>
+							<button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
+							<button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
+  						<button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+    </section>
+  </div>
+	
+	<div class="ui small create modal">
+    <div class="header">
+      Cadastrar Módulo
+    </div>
+    <div class="content">
+      <div class="ui form">
+				<div class="grouped fields">
+					<label for="tipo">Tipo de módulo</label>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="tipo" tabindex="0" class="hidden">
+							<label>Iluminação</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="tipo" tabindex="0" class="hidden">
+							<label>Torneira</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="tipo" tabindex="0" class="hidden">
+							<label>Porta</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="tipo" tabindex="0" class="hidden">
+							<label>Janela</label>
+						</div>
+					</div>
+				</div>
+				<div class="field">
+					<label>Descrição</label>
+					<textarea rows="3"></textarea>
+				</div>
+			</div>
+    </div>
+    <div class="actions">
+      <div class="ui green button">
+        Cadastrar
+      </div>
+			<div class="ui red button">
+        Cancelar
+      </div>
+    </div>
+  </div>
+
+	<div class="ui small show modal">
+    <div class="header">
+      Nome do módulo
+    </div>
+    <div class="content">
+      <div class="description">
+				<b>Código do módulo:</b> código <br>
+        <b>Usuário vinculado:</b> nome do Usuário <br>
+				<b>Estado:</b> ligado <br>
+				<b>Descrição:</b> <br>
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tellus velit, 
+					consectetur at euismod ac, iaculis sit amet leo. Pellentesque tincidunt justo metus, 
+					sit amet facilisis turpis fermentum non. Ut quis interdum nisl. Phasellus vitae ex a 
+					arcu gravida convallis vitae at dolor. Fusce non sollicitudin elit. Pellentesque a 
+					nisl nec erat efficitur luctus. Cras vitae posuere elit, finibus lobortis orci. 
+					In mi lectus, consectetur eu blandit sit amet, consequat condimentum metus.
+				</p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui approve button">
+        Voltar
+      </div>
+    </div>
+  </div>
+	
+	<div class="ui small edit modal">
+    <div class="header">
+      Editar Módulo
+    </div>
+    <div class="content">
+      <div class="ui form">
+				<div class="grouped fields">
+					<label for="tipo">Tipo de módulo</label>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="tipo" tabindex="0" class="hidden">
+							<label>Iluminação</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="tipo" tabindex="0" class="hidden">
+							<label>Torneira</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="tipo" tabindex="0" class="hidden">
+							<label>Porta</label>
+						</div>
+					</div>
+					<div class="field">
+						<div class="ui radio checkbox">
+							<input type="radio" name="tipo" tabindex="0" class="hidden">
+							<label>Janela</label>
+						</div>
+					</div>
+				</div>
+				<div class="field">
+					<label>Descrição</label>
+					<textarea rows="3"></textarea>
+				</div>
+				<div class="field">
+					<label>Vincular a:</label>
+					<div class="ui fluid multiple search selection dropdown">
+						<input type="hidden" name="receipt">
+						<i class="dropdown icon"></i>
+						<div class="default text">Usuários</div>
+						<div class="menu">
+							<div class="item" data-value="jenny" data-text="Jenny">
+								#0001 - Jenny Hess
+							</div>
+							<div class="item" data-value="elliot" data-text="Elliot">
+								#0002 - Elliot Fu
+							</div>
+							<div class="item" data-value="stevie" data-text="Stevie">
+								#0003 - Stevie Feliciano
+							</div>
+							<div class="item" data-value="christian" data-text="Christian">
+								#0004 - Christian
+							</div>
+							<div class="item" data-value="matt" data-text="Matt">
+								#0005 - Matt
+							</div>
+							<div class="item" data-value="justen" data-text="Justen">
+								#0006 - Justen Kitsune
+							</div>
+						</div>
+					</div>
+   			</div>
+			</div>
+    </div>
+    <div class="actions">
+      <div class="ui green button">
+        Salvar
+      </div>
+			<div class="ui red button">
+        Cancelar
+      </div>
+    </div>
+  </div>
+
+	<div class="ui small basic remove modal">
+    <div class="ui icon header">
+      <i class="trash outline icon"></i>
+      Deseja excluir este módulo
+    </div>
+    <div class="actions">
+      <div class="ui red basic cancel inverted button">
+        <i class="remove icon"></i>
+        Cancelar
+      </div>
+      <div class="ui green ok inverted button">
+        <i class="checkmark icon"></i>
+        Sim
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script>
+
+    $('.ui.dropdown').dropdown();
+		$('.ui.modal').modal();
+
+		function activateModalCreate() {
+			$('.ui.small.create.modal')
+  			.modal('show')
+			;
+		}
+
+		function activateModalShow() {
+			$('.ui.small.show.modal')
+  			.modal('show')
+			;
+		}
+
+		function activateModalEdit() {
+			$('.ui.small.edit.modal')
+  			.modal('show')
+			;
+		}
+
+		function activateModalRemove() {
+			$('.ui.small.basic.remove.modal')
+				.modal('setting', 'closable', false)
+  			.modal('show')
+			;
+		}
+		
+  </script>
+</body>
+
+</html>

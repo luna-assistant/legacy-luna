@@ -25,19 +25,19 @@
 <body>
   <div class="ui inverted menu">
     <div class="ui container">
-      <a href="#" class="header item">
+      <a href="dashboard.html" class="header item">
         <img class="logo" src="http://via.placeholder.com/150x150" /> Luna
       </a>
 
       <div class="right menu">
         <a href="#" class="item">Novo Módulo</a>
-        <a href="#" class="item">Contatos de Emergência</a>
-        <a href="#" class="item">Dependentes</a>
+        <a href="contatoEmergencia.html" class="item">Contatos de Emergência</a>
+        <a href="gerenciar_dependentes.html" class="item">Dependentes</a>
         <div class="ui dropdown item">
            Mais <i class="dropdown icon"></i>
            <div class="menu">
              <a href="profile.html" class="item">Perfil</a>
-             <a class="item">Sair</a>
+             <a href="index.html" class="item">Sair</a>
            </div>
          </div>
       </div>
@@ -46,8 +46,36 @@
   </div>
 
   <div class="ui main container">
-    <div class="ui right floated big primary button">
-      Pedido de Socorro
+    <div class="ui right floated big red button">
+        <button class="ui right floated big red call-for-help button">
+          Pedido de Socorro
+        </button>
+    </div>
+    
+
+
+    <div class="ui small call-for-help modal">
+        <i class="close icon"></i>
+        <div class="header">
+          Pedido de Socorro
+        </div>
+        <div class="content">
+          <div class="description">
+            <div class="ui form">
+              <div class="field">
+                <label>Mensagem</label>
+                <textarea rows="2" placeholder="Oi, Bruno está precisando de sua ajuda!"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+            <div class="ui positive right labeled icon button">
+                Continuar
+                <i class="checkmark icon"></i>
+            </div>
+            <div class="ui negative button">Cancelar</div>
+        </div>
     </div>
     <h2 class="ui header">
       Perfil
@@ -131,8 +159,8 @@
 					</select>
 				</div>
 
-				<button class="ui green button">Salvar</button>
-				<button class="ui red button">Cancelar</button>
+				<button class="ui green button"><a href="profile.html" style="color: white">Salvar</a></button>
+				<button class="ui red button"><a href="profile.html" style="color: white">Cancelar</a></button>
 		</div>
 		<!--
     <form class="ui form">
@@ -239,6 +267,22 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
   <script>
     $('.ui.dropdown').dropdown();
+    /*
+     * Iniciando os componentes
+     */
+    $('.ui.dropdown').dropdown();
+    $('.ui.modal').modal();
+
+    /*
+     * Configurando os eventos
+     */
+    $('.call-for-help.button').click(function() {
+      $('.call-for-help.modal').modal('show');
+    });
+
+    $('.gerenciar-modulo.button').click(function() {
+      $('.gerenciar-modulo.modal').modal('show');
+    });
   </script>
 </body>
 
