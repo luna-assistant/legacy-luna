@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tipos de Módulos - Luna Web</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+  <style>
+    .ui.menu .item img.logo {
+      margin-right: 1.5em;
+    }
+
+    .main.container {
+      margin-top: 3em;
+    }
+
+    .main.container section.room {
+      margin-top: 3em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui inverted menu">
+    <div class="ui container">
+      <a href="admin.html" class="header item">
+        <img class="logo" src="http://via.placeholder.com/150x150" /> Luna Admin
+      </a>
+
+      <div class="right menu">
+        <a href="modulosTipo.html" class="item">Tipos de Módulo</a>
+        <a href="available_modules.html" class="item">Módulos Disponíveis</a>
+        <div class="ui dropdown item">
+          Mais <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item">Alterar Senha</a>
+            <a href="index.html" class="item">Sair</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="ui main container">
+    <h2 class="ui header">
+      Tipos de Módulos
+    </h2>
+
+    <section class="room">
+      <div class="ui novo teal labeled icon button">
+        Cadastrar Tipo de Módulo
+        <i class="add icon"></i>
+      </div>
+      <table class="ui purple unstackable table">
+        <thead>
+          <tr>
+            <th class="two wide">Código</th>
+            <th class="nine wide">Nome</th>
+            <th class="five wide">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>00001</td>
+            <td>Iluminação</td>
+            <td>
+              <button class="ui visualizar green basic button">Visualizar</button>
+              <button class="ui editar blue basic button">Editar</button>
+              <button class="ui excluir red basic button">Excluir</button>
+            </td>
+          </tr>
+          <tr>
+            <td>00002</td>
+            <td>Torneira</td>
+            <td>
+              <button class="ui visualizar green basic button">Visualizar</button>
+              <button class="ui editar blue basic button">Editar</button>
+              <button class="ui excluir red basic button">Excluir</button>
+            </td>
+          </tr>
+          <tr>
+            <td>00003</td>
+            <td>Porta</td>
+            <td>
+              <button class="ui visualizar green basic button">Visualizar</button>
+              <button class="ui editar blue basic button">Editar</button>
+              <button class="ui excluir red basic button">Excluir</button>
+            </td>
+          </tr>
+          <tr>
+            <td>00004</td>
+            <td>Janela</td>
+            <td>
+              <button class="ui visualizar green basic button">Visualizar</button>
+              <button class="ui editar blue basic button">Editar</button>
+              <button class="ui excluir red basic button">Excluir</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div class="ui small novo modal">
+    <div class="header">
+      Cadastrar Tipo de Módulo
+    </div>
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label>Nome</label>
+          <input type="text">
+        </div>
+        <div class="field">
+          <label>Descrição</label>
+          <textarea rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui cancel red button">
+        Cancelar
+      </div>
+      <div class="ui positive button">
+        Cadastrar
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small visualizar modal">
+    <div class="header">
+      Nome do Tipo de Módulo
+    </div>
+    <div class="content">
+      <div class="description">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tellus velit, consectetur at euismod ac, iaculis sit amet leo. Pellentesque tincidunt justo metus, sit amet facilisis turpis fermentum non. Ut quis interdum nisl. Phasellus vitae ex a arcu
+          gravida convallis vitae at dolor. Fusce non sollicitudin elit. Pellentesque a nisl nec erat efficitur luctus. Cras vitae posuere elit, finibus lobortis orci. In mi lectus, consectetur eu blandit sit amet, consequat condimentum metus.
+        </p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui approve button">
+        Voltar
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small editar modal">
+    <div class="header">
+      Editar Tipo de Módulo
+    </div>
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label>Código</label>
+          <input id="codigo" type="text" readonly>
+        </div>
+        <div class="field">
+          <label>Nome</label>
+          <input id="nome" type="text">
+        </div>
+        <div class="field">
+          <label>Descrição</label>
+          <textarea rows="7">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tellus velit, consectetur at euismod ac, iaculis sit amet leo. Pellentesque tincidunt justo metus, sit amet facilisis turpis fermentum non. Ut quis interdum nisl. Phasellus vitae ex a arcu gravida convallis vitae at dolor. Fusce non sollicitudin elit. Pellentesque a nisl nec erat efficitur luctus. Cras vitae posuere elit, finibus lobortis orci. In mi lectus, consectetur eu blandit sit amet, consequat condimentum metus.
+          </textarea>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui cancel red button">
+        Cancelar
+      </div>
+      <div class="ui positive button">
+        Salvar
+      </div>
+    </div>
+  </div>
+
+  <div class="ui small basic excluir modal">
+    <div class="ui icon header">
+      <i class="trash outline icon"></i> Deseja excluir este tipo de módulo?
+    </div>
+    <div class="actions">
+      <div class="ui red basic cancel inverted button">
+        <i class="remove icon"></i> Cancelar
+      </div>
+      <div class="ui green ok inverted button">
+        <i class="checkmark icon"></i> Sim
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script>
+    $('.ui.modal').modal();
+
+    $('.novo.button').click(function(){
+      $('.ui.small.novo.modal').modal('show');
+    });
+
+    $('.visualizar.button').click(function(){
+      var $linha = $(this).closest('tr');
+      var codigo = $linha.find('td').eq(0).html();
+      var nome = $linha.find('td').eq(1).html();
+
+      $modal = $('.ui.small.visualizar.modal');
+
+      $modal.find('.header').html(codigo + ' - ' + nome);
+
+      $modal.modal('show');
+    });
+
+    $('.editar.button').click(function(){
+      var $linha = $(this).closest('tr');
+      var codigo = $linha.find('td').eq(0).html();
+      var nome = $linha.find('td').eq(1).html();
+
+      $modal = $('.ui.small.editar.modal');
+
+      $modal.find('#codigo').val(codigo);
+      $modal.find('#nome').val(nome);
+
+      $modal.modal('show');
+    });
+
+    $('.excluir.button').click(function(){
+      $('.ui.small.basic.excluir.modal').modal({
+          closable: false
+      }).modal('show');
+    });
+  </script>
+</body>
+
+</html>
