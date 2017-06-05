@@ -33,27 +33,27 @@
         <a href="emergency-contacts.html" class="item">Contatos de Emergência</a>
         <a href="dependents.html" class="item">Dependentes</a>
         <div class="ui dropdown item">
-           Mais <i class="dropdown icon"></i>
-           <div class="menu">
-             <a href="profile.html" class="item">Perfil</a>
-             <a href="index.html" class="item">Sair</a>
-           </div>
-         </div>
+          Mais <i class="dropdown icon"></i>
+          <div class="menu">
+            <a href="profile.html" class="item">Perfil</a>
+            <a href="index.html" class="item">Sair</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="ui main container">
+    <div id="new" class="ui right floated teal labeled icon button">
+      Cadastrar Novo Contato
+      <i class="add icon"></i>
+    </div>
 
     <h2 class="ui header">
       Contatos de Emergência
       <div class="sub header">Gerenciamento</div>
     </h2>
 
-    <div id="new" class="ui teal labeled icon button">
-        Cadastrar Novo Contato
-      <i class="add icon"></i>
-    </div>
 
     <section class="contacts">
       <h3 class="ui sub dividing header">
@@ -71,14 +71,10 @@
               <div class="meta">
                 Pai
               </div>
-              <button class="ui left floated small primary editar-contato button">
-                <i class="edit icon"></i>
-                  Editar
-              </button>
             </div>
             <div class="extra content">
               <span>(84) 9 9666-1234</span>
-              <a href="#" class="right floated"><i class="big call icon"></i>Ligar</a>
+              <a href="#" class="right floated editar-contato"><i class="edit icon"></i>Editar</a>
             </div>
           </div>
 
@@ -91,14 +87,10 @@
               <div class="meta">
                 Mãe
               </div>
-              <button class="ui left floated small primary editar-contato button">
-                <i class="edit icon"></i>
-                  Editar
-              </button>
             </div>
             <div class="extra content">
-              <span>(84) 9 9123-4321</span>
-              <a href="#" class="right floated"><i class="big call icon"></i>Ligar</a>
+              <span>(84) 9 9666-1234</span>
+              <a href="#" class="right floated editar-contato"><i class="edit icon"></i>Editar</a>
             </div>
           </div>
 
@@ -106,7 +98,7 @@
       </div>
     </section>
 
-      <section class="services">
+    <section class="services">
       <h3 class="ui sub dividing header">
         Serviços
       </h3>
@@ -122,14 +114,10 @@
               <div class="meta">
                 Ambulância
               </div>
-              <button class="ui left floated small primary editar-contato button">
-                <i class="edit icon"></i>
-                  Editar
-              </button>
             </div>
             <div class="extra content">
               <span>190</span>
-              <a href="#" class="right floated"><i class="big call icon"></i>Ligar</a>
+              <a href="#" class="right floated editar-contato"><i class="edit icon"></i>Editar</a>
             </div>
           </div>
 
@@ -138,35 +126,36 @@
     </section>
 
 
-    </div>
+  </div>
 
-    <div class="ui small create modal">
+  <div class="ui small create modal">
+    <i class="close icon"></i>
     <div class="header">
       Cadastrar Contato
     </div>
     <div class="content">
       <div class="ui form">
-      <div class="three fields">
-        <div class="field">
-          <label>Nome</label>
-          <input id="1" type="text" name="shipping[first-name]" placeholder="Nome">
-        </div>
-        <div class="field">
-          <label>Tipo</label>
-          <input id="2" type="text" name="shipping[last-name]" placeholder="Sobrenome">
-        </div>
-        <div class="field">
-          <label>Telefone</label>
-          <input id="3" type="text" name="cell" placeholder="Cel" >
+        <div class="three fields">
+          <div class="field">
+            <label>Nome</label>
+            <input id="1" type="text" name="shipping[first-name]" placeholder="Nome">
+          </div>
+          <div class="field">
+            <label>Tipo</label>
+            <input id="2" type="text" name="shipping[last-name]" placeholder="Sobrenome">
+          </div>
+          <div class="field">
+            <label>Telefone</label>
+            <input id="3" type="text" name="cell" placeholder="Cel">
+          </div>
         </div>
       </div>
-    </div>
     </div>
     <div class="actions">
-      <div class="ui green button">
+      <div class="ui positive button">
         Cadastrar
       </div>
-      <div class="ui red button">
+      <div class="ui negative button">
         Cancelar
       </div>
     </div>
@@ -193,11 +182,11 @@
       $('.gerenciar-modulo.modal').modal('show');
     });
 
-    $('.ui.teal').click(function(){
+    $('.ui.teal').click(function() {
       $('.create.modal').modal('show');
     })
 
-    $('.editar-contato.button').click(function(){
+    $('a.editar-contato').click(function() {
       $('.create.modal').find('.header').text("Editar Contato");
       $('.create.modal').find('.actions').find('.ui.green.button').text("Atualizar");
       $('.create.modal').modal('show');
