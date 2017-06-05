@@ -19,6 +19,16 @@
     .main.container section.room {
       margin-top: 3em;
     }
+
+    .call-for-help {
+      position: absolute;
+      top: 5em;
+      right: -1em;
+    }
+
+    .call-for-help:hover {
+      right: 0;
+    }
   </style>
 </head>
 
@@ -33,100 +43,98 @@
         <a href="emergency-contacts.html" class="item">Contatos de Emergência</a>
         <a href="dependents.html" class="item">Dependentes</a>
         <div class="ui dropdown item">
-           Mais <i class="dropdown icon"></i>
-           <div class="menu">
-             <a href="profile.html" class="item">Perfil</a>
-             <a href="index.html" class="item">Sair</a>
-           </div>
-         </div>
+          Mais <i class="dropdown icon"></i>
+          <div class="menu">
+            <a href="profile.html" class="item">Perfil</a>
+            <a href="index.html" class="item">Sair</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="ui main container">
-    <div class="ui right floated big red button">
-        <button class="ui right floated big red call-for-help button">
+    <button class="ui right floated big red call-for-help button">
           Pedido de Socorro
         </button>
-    </div>
 
 
 
     <div class="ui small call-for-help modal">
-        <i class="close icon"></i>
-        <div class="header">
-          Pedido de Socorro
-        </div>
-        <div class="content">
-          <div class="description">
-            <div class="ui form">
-              <div class="field">
-                <label>Mensagem</label>
-                <textarea rows="2" placeholder="Oi, Bruno está precisando de sua ajuda!"></textarea>
-              </div>
+      <i class="close icon"></i>
+      <div class="header">
+        Pedido de Socorro
+      </div>
+      <div class="content">
+        <div class="description">
+          <div class="ui form">
+            <div class="field">
+              <label>Mensagem</label>
+              <textarea rows="2" placeholder="Oi, Bruno está precisando de sua ajuda!"></textarea>
             </div>
           </div>
         </div>
-        <div class="actions">
-            <div class="ui positive right labeled icon button">
-                Continuar
-                <i class="checkmark icon"></i>
-            </div>
-            <div class="ui negative button">Cancelar</div>
+      </div>
+      <div class="actions">
+        <div class="ui positive right labeled icon button">
+          Continuar
+          <i class="checkmark icon"></i>
         </div>
+        <div class="ui negative button">Cancelar</div>
+      </div>
     </div>
     <h2 class="ui header">
       Perfil
       <div class="sub header">Aqui você pode alterar suas informações</div>
     </h2>
 
-		<div class="ui form">
-			<div class="three fields">
-				<div class="field">
-					<label>Nome</label>
-					<input type="text" name="shipping[first-name]" placeholder="Nome" value="Dielly">
-				</div>
-				<div class="field">
-					<label>Sobrenome</label>
-					<input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Viana">
-				</div>
-				<div class="field">
-					<label>CPF</label>
-					<input type="text" name="CPF" placeholder="CPF" value="123456707-66">
-				</div>
-			</div>
-			<div class="three fields">
-				<div class="field">
-					<label>RG</label>
-					<input type="text" name="RG" placeholder="RG" value="123.335-565">
-				</div>
-				<div class="field">
-					<label>Naturalidade</label>
-					<input type="text" name="naturalidade" placeholder="Naturalidade" value="Brasileira">
-				</div>
-				<div class="field">
-					<label>Email</label>
-					<input type="email" name="email" placeholder="Email" value="dielly.viana@luna.com">
-				</div>
-			</div>
-			<div class="three fields">
-				<div class="field">
-					<label>Endereço</label>
-					<input type="text" name="endereco" placeholder="Endereço" value="Av. Bernado Vieira, 2234, Lagoa Nova">
-				</div>
-				<div class="field">
-					<label>Complemento</label>
-					<input type="text" name="complemento" placeholder="Complemento" value="Apt. 364">
-				</div>
-				<div class="field">
-					<label>Cidade</label>
-					<input type="text" name="cidade" placeholder="Cidade" value="Natal">
-				</div>
-			</div>
+    <div class="ui form">
+      <div class="three fields">
+        <div class="field">
+          <label>Nome</label>
+          <input type="text" name="shipping[first-name]" placeholder="Nome" value="Dielly">
+        </div>
+        <div class="field">
+          <label>Sobrenome</label>
+          <input type="text" name="shipping[last-name]" placeholder="Sobrenome" value="Viana">
+        </div>
+        <div class="field">
+          <label>CPF</label>
+          <input type="text" name="CPF" placeholder="CPF" value="123456707-66">
+        </div>
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <label>RG</label>
+          <input type="text" name="RG" placeholder="RG" value="123.335-565">
+        </div>
+        <div class="field">
+          <label>Naturalidade</label>
+          <input type="text" name="naturalidade" placeholder="Naturalidade" value="Brasileira">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="Email" value="dielly.viana@luna.com">
+        </div>
+      </div>
+      <div class="three fields">
+        <div class="field">
+          <label>Endereço</label>
+          <input type="text" name="endereco" placeholder="Endereço" value="Av. Bernado Vieira, 2234, Lagoa Nova">
+        </div>
+        <div class="field">
+          <label>Complemento</label>
+          <input type="text" name="complemento" placeholder="Complemento" value="Apt. 364">
+        </div>
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" name="cidade" placeholder="Cidade" value="Natal">
+        </div>
+      </div>
 
-			<div class="field">
-				<label>Estado</label>
-					<select class="ui fluid dropdown">
+      <div class="field">
+        <label>Estado</label>
+        <select class="ui fluid dropdown">
 						<option value="">State</option>
 						<option value="AC">Acre</option>
 						<option value="AL">Alagoas</option>
@@ -155,11 +163,11 @@
 						<option value="SE">Sergipe</option>
 						<option value="TO">Tocantins</option>
 					</select>
-				</div>
+      </div>
 
-				<button class="ui green button"><a href="profile.html" style="color: white">Salvar</a></button>
-				<button class="ui red button"><a href="profile.html" style="color: white">Cancelar</a></button>
-		</div>
+      <button class="ui green button"><a href="profile.html" style="color: white">Salvar</a></button>
+      <button class="ui red button"><a href="profile.html" style="color: white">Cancelar</a></button>
+    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -176,10 +184,6 @@
      */
     $('.call-for-help.button').click(function() {
       $('.call-for-help.modal').modal('show');
-    });
-
-    $('.gerenciar-modulo.button').click(function() {
-      $('.gerenciar-modulo.modal').modal('show');
     });
   </script>
 </body>

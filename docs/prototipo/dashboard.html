@@ -19,6 +19,16 @@
     .main.container section.room {
       margin-top: 3em;
     }
+
+    .call-for-help {
+      position: absolute;
+      top: 5em;
+      right: -1em;
+    }
+
+    .call-for-help:hover {
+      right: 0;
+    }
   </style>
 </head>
 
@@ -29,16 +39,16 @@
         <img class="logo" src="http://via.placeholder.com/150x150" /> Luna
       </a>
       <div class="right menu">
-        <a href="#" class="item">Novo Módulo</a>
+        <a href="#" class="novo-modulo item">Novo Módulo</a>
         <a href="emergency-contacts.html" class="item">Contatos de Emergência</a>
         <a href="dependents.html" class="item">Dependentes</a>
         <div class="ui dropdown item">
-           Mais <i class="dropdown icon"></i>
-           <div class="menu">
-             <a href="profile.html" class="item">Perfil</a>
-             <a href="index.html" class="item">Sair</a>
-           </div>
-         </div>
+          Mais <i class="dropdown icon"></i>
+          <div class="menu">
+            <a href="profile.html" class="item">Perfil</a>
+            <a href="index.html" class="item">Sair</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -186,6 +196,42 @@
     </section>
   </div>
 
+  <div id="novo-modulo" class="ui small novo-modulo modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Novo Modulo
+    </div>
+    <div class="content">
+      <div class="ui form">
+        <div class="field">
+          <label>Identificador</label>
+          <input type="text" name="name" placeholder="Identificador do Módulo" value="0xag2x1">
+        </div>
+        <div class="field">
+          <label>Cômodo</label>
+          <select class="ui dropdown" name="room">
+            <option value="">Cômodo</option>
+            <option value="1">Cozinha</option>
+            <option value="0">Sala de Jantar</option>
+            <option value="0">Garagem</option>
+            <option value="0" selected>Quarto</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Nome</label>
+          <input type="text" name="name" placeholder="Nome do Módulo" value="Iluminação">
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui negative button">Cancelar</div>
+      <div class="ui positive right labeled icon button">
+        Salvar
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
+  </div>
+
 
   <div id="gerenciar-modulo" class="ui small gerenciar-modulo modal">
     <i class="close icon"></i>
@@ -250,7 +296,7 @@
     </div>
     <div class="content">
       <div class="description">
-          O módulo de Iluminação foi ativado!
+        O módulo de Iluminação foi ativado!
       </div>
     </div>
     <div class="actions">
@@ -296,6 +342,11 @@
     $('a.gerenciar-modulo').click(function(e) {
       e.preventDefault();
       $('.gerenciar-modulo.modal').modal('show');
+    });
+
+    $('a.novo-modulo').click(function(e) {
+      e.preventDefault();
+      $('.novo-modulo.modal').modal('show');
     });
 
     /*
