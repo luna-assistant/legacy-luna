@@ -48,13 +48,13 @@
   <div class="ui main container">
    
     <h2 class="ui header">
-      Dependentes
+      Contatos de Emergência
       <div class="sub header">Gerenciamento</div>
     </h2>
 
       <section class="contacts">
       <h3 class="ui sub dividing header">
-        Contatos
+        Familiares
       </h3>
       <div class="ui basic segment">
         <div class="ui cards">
@@ -129,8 +129,25 @@
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
   <script>
+    /*
+     * Iniciando os componentes
+     */
     $('.ui.dropdown').dropdown();
+    $('.ui.modal').modal();
+
+    /*
+     * Configurando os eventos
+     */
+    $('.call-for-help.button').click(function() {
+      $('.call-for-help.modal').modal('show');
+    });
+
+    $('.gerenciar-modulo.button').click(function() {
+      $('.gerenciar-modulo.modal').modal('show');
+    });
   </script>
 </body>
 
