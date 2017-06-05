@@ -82,7 +82,7 @@
                     </button>
               </a>
               <div class="ui toggle checkbox">
-                <input type="checkbox" checked class="hidden">
+                <input type="checkbox" checked>
                 <label>Ligado</label>
               </div>
             </div>
@@ -106,7 +106,7 @@
                     </button>
               </a>
               <div class="ui toggle checkbox">
-                <input type="checkbox" class="hidden">
+                <input type="checkbox">
                 <label>Fechada</label>
               </div>
             </div>
@@ -142,7 +142,7 @@
                     </button>
               </a>
               <div class="ui toggle checkbox">
-                <input type="checkbox" class="hidden">
+                <input type="checkbox" >
                 <label>Desligada</label>
               </div>
             </div>
@@ -178,7 +178,7 @@
                     </button>
               </a>
               <div class="ui toggle checkbox">
-                <input type="checkbox" class="hidden">
+                <input type="checkbox">
                 <label>Desligada</label>
               </div>
             </div>
@@ -204,7 +204,7 @@
               </a>
               <div class="ui toggle checkbox">
 
-                <input type="checkbox" checked class="hidden">
+                <input type="checkbox" checked>
 
                 <label>Trancada</label>
               </div>
@@ -280,6 +280,46 @@
     </div>
   </div>
 
+  <div class="ui small checkOn modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Sucesso
+    </div>
+    <div class="content">
+      <div class="description">
+        <div class="ui form">
+          <div class="field">
+            <label>O item foi ativado!</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui positive right labeled icon button">
+        Fechar</div>
+    </div>
+  </div>
+
+  <div class="ui small checkOff modal">
+    <i class="close icon"></i>
+    <div class="header">
+      Sucesso
+    </div>
+    <div class="content">
+      <div class="description">
+        <div class="ui form">
+          <div class="field">
+            <label>O item foi desativado!</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui positive right labeled icon button">
+        Fechar
+      </div>
+    </div>
+  </div>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
   <script>
@@ -299,6 +339,31 @@
     $('.gerenciar-modulo.button').click(function() {
       $('.gerenciar-modulo.modal').modal('show');
     });
+    /*
+     * Toggle CheckBox
+     */
+    var icon = 'gray';
+    $('.ui.toggle').click(function () {
+      if($(this).find('input').is(':checked')){
+        $(this).find('label').text("Ligado");
+        icon = "yellow";
+        $('.checkOn.modal').modal('show');
+      }else{
+        $(this).find('label').text("Desligado");
+        $('.checkOff.modal').modal('show');
+        icon = "gray";
+      }
+      var className = $(this).parent().parent().find('.content').find('span').find('i').attr('class');
+      className = className.split(" ");
+      className[1] = icon;
+      var str = "";
+      for (var i = 0; i < className.length; i++) {
+        str = str + className[i] + " ";
+      }
+      $(this).parent().parent().find('.content').find('span').find('i').attr('class', str);
+      
+    });   
+
   </script>
 </body>
 
