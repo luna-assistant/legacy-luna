@@ -1,4 +1,4 @@
-# project/server/tests/test_user.py
+# luna/server/tests/test_user.py
 
 
 import datetime
@@ -7,9 +7,9 @@ import unittest
 from flask_login import current_user
 
 from base import BaseTestCase
-from luna.api import bcrypt
-from luna.api.models import User
-from luna.api.user.forms import LoginForm
+from luna.server import bcrypt
+from luna.server.models import User
+from luna.server.user.forms import LoginForm
 
 
 class TestUserBlueprint(BaseTestCase):

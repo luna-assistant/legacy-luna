@@ -1,20 +1,21 @@
-# project/server/models.py
+# luna/server/models.py
 
 
 import datetime
 
-from luna.api import app, db, bcrypt
+from luna.server import app, bcrypt
 
 
-class User(db.Model):
+class User():
 
     __tablename__ = "users"
+    __primary_key__ = "id"
 
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(255), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
-    registered_on = db.Column(db.DateTime, nullable=False)
-    admin = db.Column(db.Boolean, nullable=False, default=False)
+    # id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    # email = db.Column(db.String(255), unique=True, nullable=False)
+    # password = db.Column(db.String(255), nullable=False)
+    # registered_on = db.Column(db.DateTime, nullable=False)
+    # admin = db.Column(db.Boolean, nullable=False, default=False)
 
     def __init__(self, email, password, admin=False):
         self.email = email

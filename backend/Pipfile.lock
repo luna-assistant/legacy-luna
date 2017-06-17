@@ -1,0 +1,99 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "d297a90260ce84c95f73b95c1e2517a1043315249f6ebade8949ff1f57977e7d"
+        },
+        "requires": {},
+        "sources": [
+            {
+                "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "bcrypt": {
+            "version": "==3.1.3"
+        },
+        "cffi": {
+            "version": "==1.10.0"
+        },
+        "click": {
+            "version": "==6.7"
+        },
+        "coverage": {
+            "version": "==4.4.1"
+        },
+        "flask": {
+            "version": "==0.12.2"
+        },
+        "flask-bcrypt": {
+            "version": "==0.7.1"
+        },
+        "flask-login": {
+            "version": "==0.4.0"
+        },
+        "flask-script": {
+            "version": "==2.0.5"
+        },
+        "flask-wtf": {
+            "version": "==0.14.2"
+        },
+        "itsdangerous": {
+            "version": "==0.24"
+        },
+        "jinja2": {
+            "version": "==2.9.6"
+        },
+        "markupsafe": {
+            "version": "==1.0"
+        },
+        "peewee": {
+            "version": "==2.10.1"
+        },
+        "pycparser": {
+            "version": "==2.17"
+        },
+        "python-decouple": {
+            "version": "==3.0"
+        },
+        "six": {
+            "version": "==1.10.0"
+        },
+        "werkzeug": {
+            "version": "==0.12.2"
+        },
+        "wtforms": {
+            "version": "==2.1"
+        }
+    },
+    "develop": {
+        "blinker": {
+            "version": "==1.4"
+        },
+        "click": {
+            "version": "==6.7"
+        },
+        "flask": {
+            "version": "==0.12.2"
+        },
+        "flask-debugtoolbar": {
+            "version": "==0.10.1"
+        },
+        "flask-testing": {
+            "version": "==0.6.2"
+        },
+        "itsdangerous": {
+            "version": "==0.24"
+        },
+        "jinja2": {
+            "version": "==2.9.6"
+        },
+        "markupsafe": {
+            "version": "==1.0"
+        },
+        "werkzeug": {
+            "version": "==0.12.2"
+        }
+    }
+}

@@ -1,4 +1,4 @@
-# project/server/tests/test_config.py
+# luna/server/tests/test_config.py
 
 
 import unittest
@@ -6,13 +6,13 @@ import unittest
 from flask import current_app
 from flask_testing import TestCase
 
-from luna.api import app
+from luna.server import app
 
 
 class TestDevelopmentConfig(TestCase):
 
     def create_app(self):
-        app.config.from_object('luna.api.config.DevelopmentConfig')
+        app.config.from_object('luna.server.config.DevelopmentConfig')
         return app
 
     def test_app_is_development(self):
@@ -26,7 +26,7 @@ class TestDevelopmentConfig(TestCase):
 class TestTestingConfig(TestCase):
 
     def create_app(self):
-        app.config.from_object('luna.api.config.TestingConfig')
+        app.config.from_object('luna.server.config.TestingConfig')
         return app
 
     def test_app_is_testing(self):
@@ -39,7 +39,7 @@ class TestTestingConfig(TestCase):
 class TestProductionConfig(TestCase):
 
     def create_app(self):
-        app.config.from_object('luna.api.config.ProductionConfig')
+        app.config.from_object('luna.server.config.ProductionConfig')
         return app
 
     def test_app_is_production(self):

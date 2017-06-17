@@ -1,16 +1,16 @@
-# project/server/tests/base.py
+# luna/server/tests/base.py
 
 
 from flask_testing import TestCase
 
-from luna.api import app, db
-from luna.api.models import User
+from luna.server import app, db
+from luna.server.models import User
 
 
 class BaseTestCase(TestCase):
 
     def create_app(self):
-        app.config.from_object('luna.api.config.TestingConfig')
+        app.config.from_object('luna.server.config.TestingConfig')
         return app
 
     def setUp(self):

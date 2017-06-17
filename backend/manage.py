@@ -6,34 +6,29 @@ import unittest
 import coverage
 
 from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
 
 COV = coverage.coverage(
     branch=True,
-    include='project/*',
+    include='luna/*',
     omit=[
-        'project/tests/*',
-        'project/server/config.py',
-        'project/server/*/__init__.py'
+        'luna/tests/*',
+        'luna/server/config.py',
+        'luna/server/*/__init__.py'
     ]
 )
 COV.start()
 
-from luna.api import app, db
-from luna.api.models import User
+from luna.server import app
+from luna.server.models import User
 
 
-migrate = Migrate(app, db)
 manager = Manager(app)
-
-# migrations
-manager.add_command('db', MigrateCommand)
 
 
 @manager.command
 def test():
     """Runs the unit tests without test coverage."""
-    tests = unittest.TestLoader().discover('project/tests', pattern='test*.py')
+    tests = unittest.TestLoader().discover('luna/tests', pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         return 0
@@ -43,7 +38,7 @@ def test():
 @manager.command
 def cov():
     """Runs the unit tests with coverage."""
-    tests = unittest.TestLoader().discover('project/tests')
+    tests = unittest.TestLoader().discover('luna/tests')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         COV.stop()
@@ -59,20 +54,20 @@ def cov():
 @manager.command
 def create_db():
     """Creates the db tables."""
-    db.create_all()
+    # db.create_all()
 
 
 @manager.command
 def drop_db():
     """Drops the db tables."""
-    db.drop_all()
+    # db.drop_all()
 
 
 @manager.command
 def create_admin():
     """Creates the admin user."""
-    db.session.add(User(email='ad@min.com', password='admin', admin=True))
-    db.session.commit()
+    # db.session.add(User(email='ad@min.com', password='admin', admin=True))
+    # db.session.commit()
 
 
 @manager.command

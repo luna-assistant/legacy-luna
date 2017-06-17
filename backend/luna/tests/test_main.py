@@ -1,4 +1,4 @@
-# project/server/tests/test_main.py
+# luna/server/tests/test_main.py
 
 
 import unittest

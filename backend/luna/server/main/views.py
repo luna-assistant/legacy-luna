@@ -1,11 +1,11 @@
-# project/server/main/views.py
+# luna/server/main/views.py
 
 
 #################
 #### imports ####
 #################
 
-from flask import Blueprint, json
+from flask import render_template, Blueprint
 
 
 ################
@@ -21,5 +21,10 @@ main_blueprint = Blueprint('main', __name__,)
 
 
 @main_blueprint.route('/')
-def version():
-    return json.jsonify(dict(version='0.1.0'))
+def home():
+    return render_template('main/home.html')
+
+
+@main_blueprint.route("/about/")
+def about():
+    return render_template("main/about.html")
