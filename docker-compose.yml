@@ -10,12 +10,12 @@ services:
   backend:
     build:
       context: ./backend/
-      dockerfile: backend.docker
+      dockerfile: backend.Dockerfile
     depends_on:
       - broker
   frontend:
     build:
       context: ./frontend/
-      dockerfile: frontend.docker
+      dockerfile: frontend.Dockerfile
     depends_on:
       - backend
