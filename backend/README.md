@@ -5,6 +5,7 @@
 ## Requirements
 
 - Python 3 and pip, [see how to install](https://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3)
+- PostgreSQL, [see how to install](https://www.digitalocean.com/community/tutorials/como-instalar-e-utilizar-o-postgresql-no-ubuntu-16-04-pt)
 - pipenv, [see how to install](https://github.com/kennethreitz/pipenv/#-installation)
 
 ## Build and deploy
@@ -46,8 +47,8 @@ So access the application at the address http://localhost:5000/
 
 ### Workflow
 
-1. Define your table at `backend/migrations/NUMBER_create_YOUR_TABLE_NAME_table.sql`
-2. Migrate your new table: `./migrate NUMBER_create_YOUR_TABLE_NAME_table.sql`
-2. Define your model at `backend/luna/server/models.py`
-3. Define your repository at `backend/luna/server/repositories.py`
-4. Create your views, templates and urls
+1. Define your table at `migrations/NUMBER_create_YOUR_TABLE_NAME_table.sql`
+2. Migrate your new table: `$ psql -d YOUR_DB -h YOUR_HOST -U YOUR_USER -a -f migrations/NUMBER_create_YOUR_TABLE_NAME_table.sql`
+2. Define your model at `luna/server/models.py`
+3. Define your repository at `luna/server/repositories.py`
+4. Create your views, forms and templates
