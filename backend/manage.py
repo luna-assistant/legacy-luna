@@ -55,7 +55,16 @@ def cov():
 @manager.command
 def create_db():
     """Creates the db tables."""
-    # db.create_all()
+    import glob
+
+    migrations = glob.glob('migrations/*.sql')
+
+    for migration in migrations:
+        os.system('psql -h {} -d {} -U {} -a -f {}'.format(
+            app.config.get('DB_HOST'),
+            app.config.get('DB_DATABASE'),
+            app.config.get('DB_USERNAME'),
+            migration))
 
 
 @manager.command

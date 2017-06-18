@@ -21,7 +21,7 @@ $ ./up
 
 ### Workflow
 
-1. Define your table at `backend/migrations/NUMBER_create_YOUR_TABLE_NAME_table.`sql
+1. Define your table at `backend/migrations/NUMBER_create_YOUR_TABLE_NAME_table.sql`
 2. Migrate your new table: `./migrate NUMBER_create_YOUR_TABLE_NAME_table.sql`
 2. Define your model at `backend/luna/server/models.py`
 3. Define your repository at `backend/luna/server/repositories.py`
