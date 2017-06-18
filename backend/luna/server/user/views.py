@@ -11,6 +11,7 @@ from flask_login import login_user, logout_user, login_required
 
 from luna.server import bcrypt
 from luna.server.models import User
+from luna.server.repositories import UserRepository
 from luna.server.user.forms import LoginForm, RegisterForm
 
 ################
@@ -29,11 +30,11 @@ def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
         user = User(
-            email=form.email.data,
+            username=form.username.data,
             password=form.password.data
         )
-        # db.session.add(user)
-        # db.session.commit()
+        
+        user = UserRepository().create(user)
 
         login_user(user)
 
@@ -47,14 +48,15 @@ def register():
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        print(form.username, request.form['username'], form.username.data)
+        user = next(UserRepository().findByField('username', form.username.data))
         if user and bcrypt.check_password_hash(
                 user.password, request.form['password']):
             login_user(user)
             flash('You are logged in. Welcome!', 'success')
             return redirect(url_for('user.members'))
         else:
-            flash('Invalid email and/or password.', 'danger')
+            flash('Invalid username and/or password.', 'danger')
             return render_template('user/login.html', form=form)
     return render_template('user/login.html', title='Please Login', form=form)
 

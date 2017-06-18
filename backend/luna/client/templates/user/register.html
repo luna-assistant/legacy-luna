@@ -1,5 +1,4 @@
 {% extends '_base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block content %}
 
@@ -14,14 +13,14 @@
 
     {{ form.csrf_token }}
     {{ form.hidden_tag() }}
-    {{ wtf.form_errors(form, hiddens="only") }}
+    {# {{ wtf.form_errors(form, hiddens="only") }}#}
 
 
     <div class="col-lg-4 col-sm-4">
 
-      {{ wtf.form_field(form.email) }}
-      {{ wtf.form_field(form.password) }}
-      {{ wtf.form_field(form.confirm) }}
+      {{ form.username }}
+      {{ form.password }}
+      {{ form.confirm }}
 
       <button class="btn btn-success" type="submit">Register!</button>
       <br><br>

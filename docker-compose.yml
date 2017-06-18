@@ -5,6 +5,7 @@ services:
     image: postgres:alpine
     volumes:
       - ./pgdata:/var/lib/postgresql/data
+      - ./backend/migrations:/usr/src/app/migrations
     ports:
       - 5432:5432
   # broker:

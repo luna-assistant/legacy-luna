@@ -20,6 +20,7 @@ COV.start()
 
 from luna.server import app
 from luna.server.models import User
+from luna.server.repositories import UserRepository
 
 
 manager = Manager(app)
@@ -73,7 +74,20 @@ def create_admin():
 @manager.command
 def create_data():
     """Creates sample data."""
-    pass
+    userRepository = UserRepository()
+    
+    felipe = next(userRepository.findByField('username', 'pontes'))
+    
+    if felipe:
+        felipe.username = 'felipemfp'
+        felipe.password = 'mudar@123'
+        userRepository.update(felipe.id, felipe, update_password=True)
+    
+    # felipe = User(username='felipemfp', password='senha')
+    # felipe = userRepository.create(felipe)
+    
+    # felipe.username = 'pontes'
+    # felipe = userRepository.update(felipe.id, felipe)    
 
 
 if __name__ == '__main__':

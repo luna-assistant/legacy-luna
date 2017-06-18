@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d297a90260ce84c95f73b95c1e2517a1043315249f6ebade8949ff1f57977e7d"
+            "sha256": "24b0e3bffcd45b19e129377df9a065205fbe80607547ded1a349890e6e0c3add"
         },
         "requires": {},
         "sources": [
@@ -50,6 +50,9 @@
         },
         "peewee": {
             "version": "==2.10.1"
+        },
+        "psycopg2": {
+            "version": "==2.7.1"
         },
         "pycparser": {
             "version": "==2.17"

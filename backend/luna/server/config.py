@@ -11,16 +11,16 @@ class BaseConfig(object):
     SECRET_KEY = config('APP_KEY')
     DEBUG = config('DEBUG', False, cast=bool)
     BCRYPT_LOG_ROUNDS = config('BCRYPT_LOG_ROUNDS', 13, cast=int)
-    SQLALCHEMY_TRACK_MODIFICATIONS = config(
-        'SQLALCHEMY_TRACK_MODIFICATIONS', False, cast=bool)
+    DEBUG_TB_ENABLED = config('DEBUG_TB_ENABLED', False, cast=bool)
+    DEBUG_TB_INTERCEPT_REDIRECTS = config('DEBUG_TB_INTERCEPT_REDIRECTS', False, cast=bool)
 
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""
     DEBUG = config('DEBUG', True, cast=bool)
     BCRYPT_LOG_ROUNDS = config('BCRYPT_LOG_ROUNDS', 4, cast=int)
-    SQLALCHEMY_DATABASE_URI = config(
-        'SQLALCHEMY_DATABASE_URI',
+    DATABASE_URL = config(
+        'DATABASE_URL',
         'sqlite:///' + os.path.join(basedir, 'dev.sqlite')
     )
 
@@ -30,12 +30,12 @@ class TestingConfig(BaseConfig):
     DEBUG = True
     TESTING = True
     BCRYPT_LOG_ROUNDS = 4
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///'
+    DATABASE_URL = 'sqlite:///'
     PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 
 class ProductionConfig(BaseConfig):
     """Production configuration."""
     DEBUG = config('DEBUG', False)
-    SQLALCHEMY_DATABASE_URI = config(
-        'SQLALCHEMY_DATABASE_URI', 'postgresql://localhost/example')
+    DATABASE_URL = config(
+        'DATABASE_URL', 'postgresql://localhost/example')
