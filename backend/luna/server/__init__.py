@@ -39,12 +39,17 @@ login_manager.init_app(app)
 bcrypt = Bcrypt(app)
 toolbar = DebugToolbarExtension(app)
 
-# TODO: set as config
+
+####################
+######## db ########
+####################
+
 db = PostgresqlDatabase(
-    'postgres',
-    user='postgres',
-    password='postgres',
-    host='db'
+    app.config.get('DB_DATABASE'),
+    user=app.config.get('DB_USERNAME'),
+    password=app.config.get('DB_PASSWORD'),
+    host=app.config.get('DB_HOST'),
+    port=app.config.get('DB_PORT')
 )
 
 # This hook ensures that a connection is opened to handle any queries

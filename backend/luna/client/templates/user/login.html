@@ -1,32 +1,101 @@
-{% extends '_base.html' %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Luna Web - Acesse sua conta</title>
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
+  <style>
+    body {
+      background-color: #eee;
+    }
 
-  <header class="content-header">
-    <h1>Please login</h1>
-  </header>
+    body>.grid {
+      height: 100%;
+    }
 
-  <br>
+    .image {
+      margin-top: -100px;
+    }
 
+    .column {
+      max-width: 450px;
+    }
+  </style>
+</head>
 
-  <form class="form" role="form" method="post" action="">
+<body>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <h2 class="ui blue image header">
+        <img class="ui image circular" src="{{url_for('static', filename='images/logo.png')}}" />
+        <div class="content">
+          Acesse sua conta
+        </div>
+      </h2>
+      <form role="form" method="post" action="" class="ui large form">
+        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="username" placeholder="Nome de usuário">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" placeholder="Senha">
+            </div>
+          </div>
+          <div class="ui fluid large blue submit button">Entrar</div>
+        </div>
 
-    {{ form.csrf_token }}
-    {{ form.hidden_tag() }}
-    {# {{ wtf.form_errors(form, hiddens="only") }}#}
+        <div class="ui error message"></div>
 
+      </form>
 
-    <div class="col-lg-4 col-sm-4">
-
-      {{ form.username }}
-      {{ form.password }}
-
-      <button class="btn btn-success" type="submit">Sign In!</button>
-      <br><br>
-      <p>Need to <a href="{{ url_for('user.register') }}">Register</a>?</p>
+      <div class="ui message">
+        Novo por aqui? <a href="{{ url_for('user.register') }}">Registre-se!</a>
+      </div>
     </div>
+  </div>
 
-  </form>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script>
+    /*
+     * Iniciando os componentes
+     */
+    $('.ui.form').form({
+      fields: {
+        username: {
+          identifier: 'username',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira seu nome de usuário'
+            }
+          ]
+        },
+        password: {
+          identifier: 'password',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira sua senha'
+            },{
+              type: 'length[6]',
+              prompt: 'Sua senha deve ter no mínimo 6 caracteres'
+            }
+          ]
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
 
 
-{% endblock content %}
