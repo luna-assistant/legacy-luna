@@ -1,13 +1,24 @@
 #!/bin/bash
 
-wait_for_postgres()
-{
+wait_for_postgres() {
   until docker-compose run db psql -h db -U postgres -c '\l' >/dev/null 2>&1; do
     echo "Postgres is unavailable - sleeping"
     sleep 1
   done
 }
 
-echo "Migrating $1"
-docker-compose up -d db && wait_for_postgres \
-&& docker-compose run db psql -h db -U postgres -a -f /usr/src/app/migrations/$1
+migrate() {
+  docker-compose run db psql -h db -U postgres -a -f /usr/src/app/migrations/$1
+}
+
+docker-compose up -d db && wait_for_postgres
+
+if [ $# -eq 0 ]; then
+  for migration in `ls backend/migrations/`; do
+    migrate $migration
+  done
+else
+  echo "Migrating $1"
+  migrate $1
+fi
+

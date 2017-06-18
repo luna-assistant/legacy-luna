@@ -1,0 +1,9 @@
+#!/bin/bash
+
+./build
+
+cp -n backend/.env.example backend/.env || true
+
+docker-compose run backend pipenv run python generate_key.py
+
+./migrate
