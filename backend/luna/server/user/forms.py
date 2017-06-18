@@ -7,26 +7,33 @@ from wtforms.validators import DataRequired, Length, EqualTo
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', [DataRequired()])
-    password = PasswordField('Password', [DataRequired()])
+    username = StringField('Nome de Usuário', [DataRequired()])
+    password = PasswordField('Senha', [DataRequired()])
 
 
 class RegisterForm(FlaskForm):
+    module = StringField(
+        'Identificador do Módulo',
+        validators=[
+            DataRequired(),
+            Length(min=6)
+        ]
+    )
     username = StringField(
-        'Username',
+        'Nome do Usuário',
         validators=[
             DataRequired(),
             Length(min=6, max=40)
         ]
     )
     password = PasswordField(
-        'Password',
+        'Senha',
         validators=[DataRequired(), Length(min=6, max=25)]
     )
     confirm = PasswordField(
-        'Confirm password',
+        'Confirmação',
         validators=[
             DataRequired(),
-            EqualTo('password', message='Passwords must match.')
+            EqualTo('password', message='A confirmação deve ser igual à senha informada.')
         ]
     )

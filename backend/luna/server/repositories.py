@@ -23,8 +23,6 @@ class UserRepository(object):
         ).decode('utf-8')
         values['created_at'] = datetime.datetime.now()
         
-        print(values['password'], 221)
-        
         query = 'INSERT INTO users ('+', '.join(self.__columns__[1:])+') VALUES (%s, %s, %s, %s, %s) RETURNING id'
         tvalues = [values.get(c, None) for c in self.__columns__[1:]]
         

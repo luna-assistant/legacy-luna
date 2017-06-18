@@ -5,6 +5,7 @@
 #### imports ####
 #################
 
+from flask_login import login_required
 from flask import render_template, Blueprint
 
 
@@ -19,12 +20,8 @@ main_blueprint = Blueprint('main', __name__,)
 #### routes ####
 ################
 
-
 @main_blueprint.route('/')
-def home():
-    return render_template('main/home.html')
+@login_required
+def dashboard():
+    return render_template('main/dashboard.html')
 
-
-@main_blueprint.route("/about/")
-def about():
-    return render_template("main/about.html")

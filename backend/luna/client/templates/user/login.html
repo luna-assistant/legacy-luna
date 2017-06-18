@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Luna Web - Acesse sua conta</title>
+  <title>Luna Web</title>
   <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
   <style>
@@ -32,45 +32,92 @@
       <h2 class="ui blue image header">
         <img class="ui image circular" src="{{url_for('static', filename='images/logo.png')}}" />
         <div class="content">
-          Acesse sua conta
+          Luna
         </div>
       </h2>
-      <form role="form" method="post" action="" class="ui large form">
-        {{ form.csrf_token }}
-        {{ form.hidden_tag() }}
-        <div class="ui stacked segment">
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="user icon"></i>
-              <input type="text" name="username" placeholder="Nome de usuário">
-            </div>
+        
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="ui {{ category }} message">
+        <i class="close icon"></i>
+        {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      
+      <div class="ui top attached pointing two item menu">
+        <a class="item active" data-tab="login">Acessar</a>
+        <a class="item" data-tab="register">Registrar-se</a>
+      </div>
+      
+      <form role="form" data-tab="login" method="post" action="" class="ui large login form bottom attached active tab segment">
+        {{ login_form.hidden_tag() }}
+        
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            {{ login_form.username(placeholder=login_form.username.label.text) }}
           </div>
-          <div class="field">
-            <div class="ui left icon input">
-              <i class="lock icon"></i>
-              <input type="password" name="password" placeholder="Senha">
-            </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            {{ login_form.password(placeholder=login_form.password.label.text) }}
           </div>
-          <div class="ui fluid large blue submit button">Entrar</div>
+        </div>
+        <div class="ui fluid large blue submit button">Entrar</div>
+        
+        <div class="ui error message">
         </div>
 
-        <div class="ui error message"></div>
+      </form>
+        
+      <form role="form" data-tab="register" method="post" action="{{url_for('user.register')}}" class="ui large register form bottom attached tab segment">
+        {{ register_form.hidden_tag() }}
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="barcode icon"></i>
+            {{ register_form.module(placeholder=register_form.module.label.text) }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            {{ register_form.username(placeholder=register_form.username.label.text) }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            {{ register_form.password(placeholder=register_form.password.label.text) }}
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            {{ register_form.confirm(placeholder=register_form.confirm.label.text) }}
+          </div>
+        </div>
+        <div class="ui fluid large blue submit button">Cadastrar</div>
+        
+        <div class="ui error message">
+        </div>
 
       </form>
-
+      
       <div class="ui message">
-        Novo por aqui? <a href="{{ url_for('user.register') }}">Registre-se!</a>
+        Algum problema? <a href="#">Entre em contato!</a>
       </div>
     </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+  <script src="{{url_for('static', filename='main.js')}}" type="text/javascript"></script>
   <script>
-    /*
-     * Iniciando os componentes
-     */
-    $('.ui.form').form({
+    $('.ui.login.form').form({
       fields: {
         username: {
           identifier: 'username',
@@ -93,6 +140,51 @@
         }
       }
     });
+    
+    $('.ui.register.form').form({
+      fields: {
+        module: {
+          identifier: 'module',
+          rules: [{
+            type: 'empty',
+            prompt: 'Por favor, identifique seu módulo'
+          },{
+            type: 'length[6]',
+            prompt: 'Identificadores de módulos tem no mínimo 6 caracteres'
+          }]
+        },
+        username: {
+          identifier: 'username',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira seu nome de usuário'
+            }
+          ]
+        },
+        password: {
+          identifier: 'password',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira sua senha'
+            },
+            {
+              type: 'length[6]',
+              prompt: 'Sua senha deve ter no mínimo 6 caracteres'
+            }
+          ]
+        },
+        confirm: {
+          identifier: 'confirm',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira a confirmação da senha'
+            }
+          ]
+        }
+      }
+    });
+    
+    $('.ui.menu .item').tab();
   </script>
 </body>
 

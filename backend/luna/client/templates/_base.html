@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title>Luna{% block title %}{% endblock %}</title>
+    <title>Luna Web{% block title %}{% endblock %}</title>
     <!-- meta -->
     <meta name="description" content="Sua assistente pessoal.">
     <meta name="author" content="Luna Org.">
@@ -25,17 +25,12 @@
         <!-- messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <br>
-        <div class="row">
-          <div class="col-md-12">
-            {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">
-              <a class="close" title="Close" href="#" data-dismiss="alert">&times;</a>
-             {{message}}
-            </div>
-            {% endfor %}
-          </div>
+        {% for category, message in messages %}
+        <div class="ui {{ category }} message">
+          <i class="close icon"></i>
+          {{message}}
         </div>
+        {% endfor %}
         {% endif %}
         {% endwith %}
 
