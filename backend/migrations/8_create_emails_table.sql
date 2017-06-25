@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS emails (
+  id SERIAL PRIMARY KEY,
+  person_id INTEGER NOT NULL REFERENCES people(id),
+  email VARCHAR(255) NOT NULL,
+);

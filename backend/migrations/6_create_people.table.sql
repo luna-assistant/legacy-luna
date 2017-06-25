@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS people (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  cpf VARCHAR(11) UNIQUE NOT NULL,
+  facebook VARCHAR(100),
+  twitter VARCHAR(100),
+  birth TIMESTAMP NOT NULL,
+  address VARCHAR NULL,
+  complement VARCHAR NULL,
+  postal_code VARCHAR(8) NULL,
+  neighborhood VARCHAR NULL,
+  city_id INTEGER NULL REFERENCES cities(id),
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL,
+  deleted_at TIMESTAMP NULL
+);
