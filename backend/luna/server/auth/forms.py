@@ -7,7 +7,12 @@ from wtforms.validators import DataRequired, Length, EqualTo
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Nome de Usuário', [DataRequired()])
+    username = StringField(
+        'Nome de Usuário', [
+            DataRequired(),
+            Length(min=6, max=40)
+        ]
+    )
     password = PasswordField('Senha', [DataRequired()])
 
 
@@ -20,7 +25,7 @@ class RegisterForm(FlaskForm):
         ]
     )
     username = StringField(
-        'Nome do Usuário',
+        'Nome de Usuário',
         validators=[
             DataRequired(),
             Length(min=6, max=40)
@@ -34,6 +39,7 @@ class RegisterForm(FlaskForm):
         'Confirmação',
         validators=[
             DataRequired(),
-            EqualTo('password', message='A confirmação deve ser igual à senha informada.')
+            EqualTo(
+                'password', message='A confirmação deve ser igual à senha informada.')
         ]
     )

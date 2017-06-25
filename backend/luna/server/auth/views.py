@@ -1,4 +1,4 @@
-# luna/server/user/views.py
+# luna/server/auth/views.py
 
 
 #################
@@ -12,20 +12,20 @@ from flask_login import login_user, logout_user, login_required
 from luna.server import bcrypt
 from luna.server.models import User
 from luna.server.repositories import UserRepository
-from luna.server.user.forms import LoginForm, RegisterForm
+from luna.server.auth.forms import LoginForm, RegisterForm
 
 ################
 #### config ####
 ################
 
-user_blueprint = Blueprint('user', __name__,)
+auth_blueprint = Blueprint('auth', __name__,)
 
 
 ################
 #### routes ####
 ################
 
-@user_blueprint.route('/register', methods=['POST'])
+@auth_blueprint.route('/cadastro', methods=['POST'])
 def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
@@ -39,10 +39,10 @@ def register():
 
         flash('Você foi cadastrado com sucesso!', 'success')
         return redirect(url_for("main.dashboard"))
-    return render_template('user/login.html', login_form=LoginForm(), register_form=form)
+    return render_template('auth/login.html', login_form=LoginForm(), register_form=form)
 
 
-@user_blueprint.route('/login', methods=['GET', 'POST'])
+@auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
@@ -55,13 +55,13 @@ def login():
             return redirect(url_for('main.dashboard'))
         else:
             flash('Suas credenciais não foram reconhecidas.', 'error')
-            return render_template('user/login.html', login_form=form, register_form=RegisterForm())
-    return render_template('user/login.html', login_form=form, register_form=RegisterForm())
+            return render_template('auth/login.html', login_form=form, register_form=RegisterForm())
+    return render_template('auth/login.html', login_form=form, register_form=RegisterForm())
 
 
-@user_blueprint.route('/logout')
+@auth_blueprint.route('/sair')
 @login_required
 def logout():
     logout_user()
     flash('Você foi desconectado. Até mais!', 'success')
-    return redirect(url_for('user.login'))
+    return redirect(url_for('auth.login'))

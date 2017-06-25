@@ -70,10 +70,13 @@ def _db_close(exc):
 ### blueprints ####
 ###################
 
-from luna.server.user.views import user_blueprint
+from luna.server.auth.views import auth_blueprint
 from luna.server.main.views import main_blueprint
-app.register_blueprint(user_blueprint)
+from luna.server.profile.views import profile_blueprint
+
+app.register_blueprint(auth_blueprint)
 app.register_blueprint(main_blueprint)
+app.register_blueprint(profile_blueprint)
 
 
 ###################
@@ -82,7 +85,7 @@ app.register_blueprint(main_blueprint)
 
 from luna.server.repositories import UserRepository
 
-login_manager.login_view = "user.login"
+login_manager.login_view = "auth.login"
 login_manager.login_message_category = 'danger'
 
 

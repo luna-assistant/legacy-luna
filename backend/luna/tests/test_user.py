@@ -76,7 +76,7 @@ class TestUserBlueprint(BaseTestCase):
                 email='ad@min.com', password='admin_user'
             ), follow_redirects=True)
             user = User.query.filter_by(email='ad@min.com').first()
-            self.assertIsInstance(user.registered_on, datetime.datetime)
+            self.assertIsInstance(auth.registered_on, datetime.datetime)
 
     def test_check_password(self):
         # Ensure given password is correct after unhashing.

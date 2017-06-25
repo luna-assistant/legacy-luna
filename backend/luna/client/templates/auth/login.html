@@ -74,7 +74,7 @@
 
       </form>
         
-      <form role="form" data-tab="register" method="post" action="{{url_for('user.register')}}" class="ui large register form bottom attached tab segment">
+      <form role="form" data-tab="register" method="post" action="{{url_for('auth.register')}}" class="ui large register form bottom attached tab segment">
         {{ register_form.hidden_tag() }}
         <div class="field">
           <div class="ui left icon input">
@@ -124,6 +124,12 @@
           rules: [{
               type: 'empty',
               prompt: 'Por favor, insira seu nome de usuário'
+            },{
+              type: 'minLength[6]',
+              prompt: 'Seu nome de usuário deve ter no mínimo 6 caracteres'
+            },{
+              type: 'maxLength[40]',
+              prompt: 'Seu nome de usuário deve ter no máximo 40 caracteres'
             }
           ]
         },
@@ -158,8 +164,13 @@
           rules: [{
               type: 'empty',
               prompt: 'Por favor, insira seu nome de usuário'
-            }
-          ]
+            },{
+              type: 'minLength[6]',
+              prompt: 'Seu nome de usuário deve ter no mínimo 6 caracteres'
+            },{
+              type: 'maxLength[40]',
+              prompt: 'Seu nome de usuário deve ter no máximo 40 caracteres'
+            }]
         },
         password: {
           identifier: 'password',
