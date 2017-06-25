@@ -91,7 +91,7 @@ login_manager.login_message_category = 'danger'
 
 @login_manager.user_loader
 def load_user(username):
-    return next(UserRepository().findByField('username', username), None)
+    return UserRepository().findByUsername(username)
 
 
 ########################

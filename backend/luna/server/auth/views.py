@@ -46,8 +46,7 @@ def register():
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        user = next(UserRepository().findByField(
-            'username', form.username.data), None)
+        user = UserRepository().findByUsername(form.username.data)
         if user and bcrypt.check_password_hash(
                 user.password, request.form['password']):
             login_user(user)

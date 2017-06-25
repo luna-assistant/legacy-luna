@@ -19,8 +19,8 @@ COV = coverage.coverage(
 COV.start()
 
 from luna.server import app
-from luna.server.models import User
-from luna.server.repositories import UserRepository
+from luna.server.models import User, Person
+from luna.server.repositories import UserRepository, PersonRepository
 
 
 manager = Manager(app)
@@ -83,20 +83,28 @@ def create_admin():
 @manager.command
 def create_data():
     """Creates sample data."""
-    userRepository = UserRepository()
+    # import datetime
+    # 
+    # userRepo = UserRepository()
+    personRepo = PersonRepository()
+    # 
+    # carol = User(username='carolina', password='mudar@123')
+    # carol = userRepo.create(carol)
+    # 
+    # carolPerson = Person(name='Carolina da Silva', cpf='18434621924', birth=datetime.datetime(1993, 3, 2))
+    # carolPerson = personRepo.create(carolPerson)
+    # carolPerson.address = 'Av. Senador Cunha, 122'
+    # carolPerson.complement = 'Bloco H Ap. 201'
+    # carolPerson.postal_code = '59000000'
+    # carolPerson.neighborhood = 'Vinheiros'
+    # carolPerson = personRepo.update(carolPerson.id, carolPerson)
     
-    felipe = next(userRepository.findByField('username', 'pontes'))
-    
-    if felipe:
-        felipe.username = 'felipemfp'
-        felipe.password = 'mudar@123'
-        userRepository.update(felipe.id, felipe, update_password=True)
-    
-    # felipe = User(username='felipemfp', password='senha')
-    # felipe = userRepository.create(felipe)
-    
-    # felipe.username = 'pontes'
-    # felipe = userRepository.update(felipe.id, felipe)    
+    carolPerson = personRepo.findByCpf('18434621924')
+    if carolPerson:
+        carolPerson = dict(carolPerson)
+        carolPerson['emails'] = ['carolinasilva@gmail.com', 'carolsilva@outlook.com']
+        carolPerson['contacts'] = [dict(ddd='84', num='998665596')]
+        carolPerson = personRepo.update(carolPerson['id'], carolPerson)
 
 
 if __name__ == '__main__':
