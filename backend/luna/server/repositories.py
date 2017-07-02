@@ -2,16 +2,108 @@ import datetime
 from luna.server import app, db, bcrypt, models
 
 
-class UserRepository(object):
+class BaseRepository(object):
 
-    columns = [
-        'id',
-        'username',
-        'password',
-        'created_at',
-        'updated_at',
-        'deleted_at'
-    ]
+    primary_key = 'id'
+    use_soft_delete = False
+
+    @property
+    def model(self):
+        return models.Model
+
+    def create(self, values):
+        if isinstance(values, self.model):
+            values = dict(values)
+
+        values['created_at'] = datetime.datetime.now()
+
+        query = '''
+        INSERT INTO {} ({})
+        VALUES ({})
+        RETURNING {}
+        '''.format(self.table,
+                   ', '.join(self.model.columns[1:]),
+                   ', '.join(['%s' for c in self.model.columns[1:]]),
+                   self.primary_key)
+
+        cursor = db.execute_sql(
+            query,
+            [values.get(c, None) for c in self.model.columns[1:]]
+        )
+
+        return self.find(cursor.fetchone()[0])
+
+    def update(self, pk, values):
+        if isinstance(values, self.model):
+            values = dict(values)
+
+        values['updated_at'] = datetime.datetime.now()
+
+        query = '''
+        UPDATE {}
+        SET {}
+        WHERE {} = %s
+        '''.format(self.table,
+                   ', '.join(['{} = %s'.format(c)
+                              for c in self.model.columns[1:]]),
+                   self.primary_key)
+
+        db.execute_sql(
+            query,
+            (*[values.get(c, None) for c in self.model.columns[1:]], pk)
+        )
+
+        return self.find(pk, True)
+
+    def delete(self, pk):
+        query = '''
+        DELETE FROM {}
+        WHERE {} = %s
+        '''.format(self.table, self.primary_key)
+
+        db.execute_sql(query, (pk,))
+
+    def soft_delete(self, pk):
+        obj = self.find(pk, True)
+        obj.deleted_at = datetime.datetime.now()
+        self.update(pk, obj)
+
+    def find(self, pk, with_trash=False):
+        query = '''
+        SELECT {}
+        FROM {}
+        WHERE {} = %s {}
+        LIMIT 1
+        '''.format(', '.format(self.model.columns),
+                   self.table,
+                   self.primary_key,
+                   'AND deleted_at IS NULL' if self.use_soft_delete and with_trash else '')
+
+        cursor = db.execute_sql(query, (pk,))
+        if cursor.rowcount == 0:
+            return None
+        return self.model(**dict(zip(self.model.columns, cursor.fetchone())))
+
+    def all(self, with_trash=False):
+        query = '''
+        SELECT {}
+        FROM {}
+        '''.format(', '.join(self.model.columns), self.table)
+
+        if self.use_soft_delete and with_trash:
+            query += ' WHERE deleted_at IS NULL'
+
+        cursor = db.execute_sql(query)
+        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+
+
+class UserRepository(BaseRepository):
+
+    table = 'users'
+
+    @property
+    def model(self):
+        return models.User
 
     def create(self, values):
         if isinstance(values, models.User):
@@ -20,59 +112,19 @@ class UserRepository(object):
         values['password'] = bcrypt.generate_password_hash(
             values['password'], app.config.get('BCRYPT_LOG_ROUNDS')
         ).decode('utf-8')
-        values['created_at'] = datetime.datetime.now()
 
-        query = '''
-        INSERT INTO users ({})
-        VALUES ({})
-        RETURNING id
-        '''.format(', '.join(self.columns[1:]),
-                   ', '.join(['%s' for c in self.columns[1:]]))
+        return super(UserRepository, self).create(values)
 
-        cursor = db.execute_sql(
-            query,
-            [values.get(c, None) for c in self.columns[1:]]
-        )
-
-        return self.find(cursor.fetchone()[0])
-
-    def update(self, id, values, update_password=False):
+    def update(self, pk, values, update_password=False):
         if isinstance(values, models.User):
             values = dict(values)
-
-        values['updated_at'] = datetime.datetime.now()
 
         if update_password:
             values['password'] = bcrypt.generate_password_hash(
                 values['password'], app.config.get('BCRYPT_LOG_ROUNDS')
             ).decode('utf-8')
 
-        query = '''
-        UPDATE users
-        SET {}
-        WHERE id = %s
-        '''.format(', '.join(['{} = %s'.format(c) for c in self.columns[1:]]))
-
-        db.execute_sql(
-            query,
-            (*[values.get(c, None) for c in self.columns[1:]], id,)
-        )
-
-        return self.find(id)
-
-    def delete(self, id):
-        db.execute_sql('DELETE FROM users WHERE id = %s', (id,))
-
-    def find(self, id):
-        query = '''
-        SELECT {}
-        FROM users
-        WHERE id = %s
-        LIMIT 1
-        '''.format(', '.join(self.columns))
-
-        cursor = db.execute_sql(query, (id,))
-        return models.User(**dict(zip(self.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
+        return super(UserRepository, self).update(pk, values)
 
     def findByUsername(self, username):
         query = '''
@@ -80,71 +132,37 @@ class UserRepository(object):
         FROM users
         WHERE username = %s
         LIMIT 1
-        '''.format(', '.join(self.columns))
-        
+        '''.format(', '.join(self.model.columns))
+
         cursor = db.execute_sql(query, (username,))
-        return models.User(**dict(zip(self.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
-
-    def all(self):
-        query = '''
-        SELECT {}
-        FROM users
-        '''.format(', '.join(self.columns))
-
-        cursor = db.execute_sql(query)
-        return (models.User(**dict(zip(self.columns, record))) for record in cursor)
+        return models.User(**dict(zip(self.model.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
 
 
-class PersonRepository(object):
+class PersonRepository(BaseRepository):
 
-    columns = [
-        'id',
-        'name',
-        'cpf',
-        'facebook',
-        'twitter',
-        'birth',
-        'address',
-        'complement',
-        'postal_code',
-        'neighborhood',
-        'city_id',
-        'created_at',
-        'updated_at',
-        'deleted_at'
-    ]
+    table = 'people'
+    use_soft_delete = True
+
+    def __init__(self):
+        self.emailRepo = EmailRepository()
+        self.contactRepo = ContactRepository()
+
+    @property
+    def model(self):
+        return models.Person
 
     def create(self, values):
-        if isinstance(values, models.Person):
-            values = dict(values)
-
-        values['created_at'] = datetime.datetime.now()
-
-        query = '''
-        INSERT INTO people ({})
-        VALUES ({})
-        RETURNING id
-        '''.format(', '.join(self.columns[1:]),
-                   ', '.join(['%s' for c in self.columns[1:]]))
-
-        cursor = db.execute_sql(
-            query,
-            [values.get(c, None) for c in self.columns[1:]]
-        )
-
-        person = self.find(cursor.fetchone()[0], True)
+        person = super(PersonRepository, self).create(values)
 
         if 'emails' in values:
-            emailRepo = EmailRepository()
-            emailRepo.deleteByPerson(person.id)
+            self.emailRepo.deleteByPerson(person.id)
             for value in values['emails']:
-                emailRepo.create(dict(person_id=person.id, email=value))
+                self.emailRepo.create(dict(person_id=person.id, email=value))
 
         if 'contacts' in values:
-            contactRepo = ContactRepository()
-            contactRepo.deleteByPerson(person.id)
+            self.contactRepo.deleteByPerson(person.id)
             for value in values['contacts']:
-                contactRepo.create(dict(
+                self.contactRepo.create(dict(
                     person_id=person.id,
                     ddd=value['ddd'],
                     num=value['num']
@@ -152,56 +170,24 @@ class PersonRepository(object):
 
         return person
 
-    def update(self, id, values):
-        if isinstance(values, models.Person):
-            values = dict(values)
-
-        values['updated_at'] = datetime.datetime.now()
-
-        query = '''
-        UPDATE people
-        SET {}
-        WHERE id = %s
-        '''.format(', '.join(['{} = %s'.format(c) for c in self.columns[1:]]))
-
-        db.execute_sql(
-            query,
-            (*[values.get(c, None) for c in self.columns[1:]], id)
-        )
+    def update(self, pk, values):
+        person = super(PersonRepository, self).update(pk, values)
 
         if 'emails' in values:
-            emailRepo = EmailRepository()
-            emailRepo.deleteByPerson(id)
+            self.emailRepo.deleteByPerson(person.id)
             for value in values['emails']:
-                emailRepo.create(dict(person_id=id, email=value))
+                self.emailRepo.create(dict(person_id=person.id, email=value))
 
         if 'contacts' in values:
-            contactRepo = ContactRepository()
-            contactRepo.deleteByPerson(id)
+            self.contactRepo.deleteByPerson(person.id)
             for value in values['contacts']:
-                contactRepo.create(dict(
-                    person_id=id,
+                self.contactRepo.create(dict(
+                    person_id=person.id,
                     ddd=value['ddd'],
                     num=value['num']
                 ))
 
-        return self.find(id, True)
-
-    def delete(self, id):
-        person = self.find(id, True)
-        person.deleted_at = datetime.datetime.now()
-        self.update(id, person)
-
-    def find(self, id, with_trash=False):
-        query = '''
-        SELECT {}
-        FROM people
-        WHERE id = %s {}
-        LIMIT 1
-        '''.format(', '.join(self.columns),
-                   'AND deleted_at IS NULL' if not with_trash else '')
-        cursor = db.execute_sql(query, (id,))
-        return models.Person(**dict(zip(self.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
+        return person
 
     def findByCpf(self, cpf, with_trash=False):
         query = '''
@@ -209,31 +195,21 @@ class PersonRepository(object):
         FROM people
         WHERE cpf = %s {}
         LIMIT 1
-        '''.format(', '.join(self.columns),
+        '''.format(', '.join(self.model.columns),
                    'AND deleted_at IS NULL' if not with_trash else '')
+
         cursor = db.execute_sql(query, (cpf,))
-        return models.Person(**dict(zip(self.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
-
-    def all(self, with_trash=False):
-        query = '''
-        SELECT {}
-        FROM people
-        {}
-        '''.format(', '.join(self.columns),
-                   'WHERE deleted_at IS NULL' if not with_trash else '')
-        cursor = db.execute_sql(query)
-        return (models.Person(**dict(zip(self.columns, r))) for r in cursor)
+        if cursor.rowcount == 0:
+            return None
+        return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
 
 
-class EmailRepository(object):
+class EmailRepository(BaseRepository):
+    table = 'emails'
 
-    def create(self, values):
-        query = '''
-        INSERT INTO emails (person_id, email)
-        VALUES (%s, %s)
-        '''
-        db.execute_sql(query, (values['person_id'],
-                               values['email']))
+    @property
+    def model(self):
+        return models.Email
 
     def deleteByPerson(self, person_id):
         query = '''
@@ -252,18 +228,12 @@ class EmailRepository(object):
         return (r[0] for r in cursor)
 
 
-class ContactRepository(object):
+class ContactRepository(BaseRepository):
+    table = 'contacts'
 
-    def create(self, values):
-        query = '''
-        INSERT INTO contacts (person_id, ddd, num)
-        VALUES (%s, %s, %s)
-        '''
-        db.execute_sql(query, (
-            values['person_id'],
-            values['ddd'],
-            values['num']
-        ))
+    @property
+    def model(self):
+        return models.Contact
 
     def deleteByPerson(self, person_id):
         query = '''
@@ -280,3 +250,11 @@ class ContactRepository(object):
         '''
         cursor = db.execute_sql(query, (person_id,))
         return (dict(ddd=r[0], num=r[1]) for r in cursor)
+
+
+class CityRepository(BaseRepository):
+    table = 'cities'
+
+    @property
+    def model(self):
+        return models.City

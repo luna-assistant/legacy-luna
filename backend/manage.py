@@ -85,9 +85,9 @@ def create_data():
     """Creates sample data."""
     # import datetime
     # 
-    userRepo = UserRepository()
-    usuario = userRepo.findByUsername('felipempf')
-    print(usuario)
+    # userRepo = UserRepository()
+    # usuario = userRepo.findByUsername('felipempf')
+    # print(usuario)
     # personRepo = PersonRepository()
     # 
     # carol = User(username='carolina', password='mudar@123')
