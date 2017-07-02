@@ -47,9 +47,10 @@
       {% endif %}
       {% endwith %}
       
-      <div class="ui top attached pointing two item menu">
+      <div class="ui top attached pointing three item menu">
         <a class="item active" data-tab="login">Acessar</a>
         <a class="item" data-tab="register">Registrar-se</a>
+        <a class="item" data-tab="new_password">Alterar a senha</a>
       </div>
       
       <form role="form" data-tab="login" method="post" action="" class="ui large login form bottom attached active tab segment">
@@ -106,7 +107,26 @@
         </div>
 
       </form>
-      
+
+      <form role="form" data-tab="new_password" method="post" action="" class="ui large new_password form bottom attached tab segment">
+        {{ login_form.hidden_tag() }}
+        
+        <p>Uma senha temporária será enviada para seu email</p>
+
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="at icon"></i>
+            {{ new_password_form.email(placeholder=new_password_form.email.label.text) }}
+          </div>
+        </div>
+        
+        <div class="ui fluid large blue submit button">Enviar</div>
+        
+        <div class="ui error message">
+        </div>
+
+      </form>
+
       <div class="ui message">
         Algum problema? <a href="#">Entre em contato!</a>
       </div>
@@ -189,6 +209,22 @@
           rules: [{
               type: 'empty',
               prompt: 'Por favor, insira a confirmação da senha'
+            }
+          ]
+        }
+      }
+    });
+
+    $('.ui.new_password.form').form({
+      fields: {
+        email: {
+          identifier: 'email',
+          rules: [{
+              type: 'empty',
+              prompt: 'Por favor, insira um email válido'
+            },{
+              type: 'minLength[10]',
+              prompt: 'Seu nome de email deve ter no mínimo 10 caracteres'
             }
           ]
         }
