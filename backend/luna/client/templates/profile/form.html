@@ -1,0 +1,67 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<h2 class="ui header">
+  Perfil
+  <div class="sub header">Aqui você pode alterar suas informações</div>
+</h2>
+
+
+<form class="ui form" method="post">
+  
+  {{ form.hidden_tag() }}
+  
+  <h4 class="ui dividing header">Informações Pessoais</h4>
+  <div class="field">
+    {{ form.name.label }}
+    {{ form.name(placeholder=form.name.label.text) }}
+  </div>
+  <div class="field">
+    {{ form.cpf.label }}
+    {{ form.cpf(placeholder=form.cpf.label.text) }}
+  </div>
+  <div class="field">
+    {{ form.email.label }}
+    {{ form.email(placeholder=form.email.label.text) }}
+  </div>
+  <div class="field">
+    {{ form.birth.label }}
+    {{ form.birth(placeholder=form.birth.label.text) }}
+  </div>
+  
+  
+  <h4 class="ui dividing header">Redes Sociais</h4>  
+  <div class="field">
+    {{ form.facebook.label }}
+    {{ form.facebook(placeholder=form.facebook.label.text) }}
+  </div>
+  <div class="field">
+    {{ form.twitter.label }}
+    {{ form.twitter(placeholder=form.twitter.label.text) }}
+  </div>
+  
+  <h4 class="ui dividing header">Endereço</h4>
+  <div class="field">
+  <div class="field">
+    {{ form.postal_code.label }}
+    {{ form.postal_code(placeholder=form.postal_code.label.text) }}
+  </div>
+    {{ form.address.label }}
+    {{ form.address(placeholder=form.address.label.text) }}
+  </div>
+  <div class="field">
+    {{ form.complement.label }}
+    {{ form.complement(placeholder=form.complement.label.text) }}
+  </div>
+  <div class="field">
+    {{ form.neighborhood.label }}
+    {{ form.neighborhood(placeholder=form.neighborhood.label.text) }}
+  </div>
+  
+  {# <button class="ui green button"><a href="profile.html" style="color: white">Salvar</a></button>#}
+  <button type="submit" class="ui button">Salvar</button>
+  
+</form>
+
+{% endblock %}

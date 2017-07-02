@@ -55,7 +55,7 @@ class UserRepository(object):
 
         db.execute_sql(
             query,
-            (*[values.get(c, None) for c in self.__columns__[1:]], id,)
+            (*[values.get(c, None) for c in self.columns[1:]], id,)
         )
 
         return self.find(id)
@@ -69,10 +69,10 @@ class UserRepository(object):
         FROM users
         WHERE id = %s
         LIMIT 1
-        '''.format(', '.format(self.columns))
+        '''.format(', '.join(self.columns))
 
         cursor = db.execute_sql(query, (id,))
-        return models.User(**dict(zip(self.__columns__, cursor.fetchone()))) if cursor.rowcount > 0 else None
+        return models.User(**dict(zip(self.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
 
     def findByUsername(self, username):
         query = '''
@@ -80,19 +80,19 @@ class UserRepository(object):
         FROM users
         WHERE username = %s
         LIMIT 1
-        '''.format(', '.format(self.columns))
-
+        '''.format(', '.join(self.columns))
+        
         cursor = db.execute_sql(query, (username,))
-        return models.User(**dict(zip(self.__columns__, cursor.fetchone()))) if cursor.rowcount > 0 else None
+        return models.User(**dict(zip(self.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
 
     def all(self):
         query = '''
         SELECT {}
         FROM users
-        '''.format(', '.format(self.columns))
+        '''.format(', '.join(self.columns))
 
         cursor = db.execute_sql(query)
-        return (models.User(**dict(zip(self.__columns__, record))) for record in cursor)
+        return (models.User(**dict(zip(self.columns, record))) for record in cursor)
 
 
 class PersonRepository(object):

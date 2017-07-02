@@ -85,8 +85,10 @@ def create_data():
     """Creates sample data."""
     # import datetime
     # 
-    # userRepo = UserRepository()
-    personRepo = PersonRepository()
+    userRepo = UserRepository()
+    usuario = userRepo.findByUsername('felipempf')
+    print(usuario)
+    # personRepo = PersonRepository()
     # 
     # carol = User(username='carolina', password='mudar@123')
     # carol = userRepo.create(carol)
@@ -99,12 +101,12 @@ def create_data():
     # carolPerson.neighborhood = 'Vinheiros'
     # carolPerson = personRepo.update(carolPerson.id, carolPerson)
     
-    carolPerson = personRepo.findByCpf('18434621924')
-    if carolPerson:
-        carolPerson = dict(carolPerson)
-        carolPerson['emails'] = ['carolinasilva@gmail.com', 'carolsilva@outlook.com']
-        carolPerson['contacts'] = [dict(ddd='84', num='998665596')]
-        carolPerson = personRepo.update(carolPerson['id'], carolPerson)
+    # carolPerson = personRepo.findByCpf('18434621924')
+    # if carolPerson:
+    #     carolPerson = dict(carolPerson)
+    #     carolPerson['emails'] = ['carolinasilva@gmail.com', 'carolsilva@outlook.com']
+    #     carolPerson['contacts'] = [dict(ddd='84', num='998665596')]
+    #     carolPerson = personRepo.update(carolPerson['id'], carolPerson)
 
 
 if __name__ == '__main__':

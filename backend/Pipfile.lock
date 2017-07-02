@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "24b0e3bffcd45b19e129377df9a065205fbe80607547ded1a349890e6e0c3add"
+            "sha256": "1b008e99078b4ee8b9ae0a3af7356680eecc1ff2b28d25b92b44a689e88bfe05"
         },
         "requires": {},
         "sources": [
@@ -12,8 +12,14 @@
         ]
     },
     "default": {
+        "arrow": {
+            "version": "==0.10.0"
+        },
         "bcrypt": {
             "version": "==3.1.3"
+        },
+        "brazilnum": {
+            "version": "==0.8.8"
         },
         "cffi": {
             "version": "==1.10.0"
@@ -56,6 +62,9 @@
         },
         "pycparser": {
             "version": "==2.17"
+        },
+        "python-dateutil": {
+            "version": "==2.6.0"
         },
         "python-decouple": {
             "version": "==3.0"
