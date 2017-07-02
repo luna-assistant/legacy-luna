@@ -15,8 +15,10 @@ docker-compose up -d db && wait_for_postgres
 
 if [ $# -eq 0 ]; then
   for migration in `ls backend/migrations/`; do
-    migrate $migration
+      cat backend/migrations/$migration >> backend/migrations/migrate.sql
   done
+  migrate migrate.sql
+  rm backend/migrations/migrate.sql
 else
   echo "Migrating $1"
   migrate $1
