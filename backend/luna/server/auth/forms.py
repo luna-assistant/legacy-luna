@@ -3,7 +3,8 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms.fields.html5 import EmailField
+from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 
 class LoginForm(FlaskForm):
@@ -14,6 +15,16 @@ class LoginForm(FlaskForm):
         ]
     )
     password = PasswordField('Senha', [DataRequired()])
+
+
+class NewPasswordForm(FlaskForm):
+    email = EmailField(
+        'Email do Usuário',
+        validators=[
+            DataRequired(),
+            Length(min=10)
+        ]
+    )
 
 
 class RegisterForm(FlaskForm):
@@ -43,3 +54,4 @@ class RegisterForm(FlaskForm):
                 'password', message='A confirmação deve ser igual à senha informada.')
         ]
     )
+    

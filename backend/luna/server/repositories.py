@@ -223,7 +223,7 @@ class EmailRepository(BaseRepository):
         cursor = db.execute_sql(query, (person_id,))
         return (r[0] for r in cursor)
 
-
+    
 class ContactRepository(BaseRepository):
     
     @property
