@@ -11,5 +11,5 @@ profile_blueprint = Blueprint('profile', __name__,)
 def profile():
     form = PersonForm(request.form)
     if form.validate_on_submit():
-        pass
+        return render_template('profile/form.html', form=form)
     return render_template('profile/form.html', form=form)

@@ -21,10 +21,10 @@ class BaseRepository(object):
         INSERT INTO {} ({})
         VALUES ({})
         RETURNING {}
-        '''.format(self.table,
+        '''.format(self.model.table,
                    ', '.join(self.model.columns[1:]),
                    ', '.join(['%s' for c in self.model.columns[1:]]),
-                   self.primary_key)
+                   self.model.primary_key)
 
         cursor = db.execute_sql(
             query,
@@ -43,10 +43,10 @@ class BaseRepository(object):
         UPDATE {}
         SET {}
         WHERE {} = %s
-        '''.format(self.table,
+        '''.format(self.model.table,
                    ', '.join(['{} = %s'.format(c)
                               for c in self.model.columns[1:]]),
-                   self.primary_key)
+                   self.model.primary_key)
 
         db.execute_sql(
             query,
@@ -59,7 +59,7 @@ class BaseRepository(object):
         query = '''
         DELETE FROM {}
         WHERE {} = %s
-        '''.format(self.table, self.primary_key)
+        '''.format(self.model.table, self.model.primary_key)
 
         db.execute_sql(query, (pk,))
 
@@ -74,10 +74,10 @@ class BaseRepository(object):
         FROM {}
         WHERE {} = %s {}
         LIMIT 1
-        '''.format(', '.format(self.model.columns),
-                   self.table,
-                   self.primary_key,
-                   'AND deleted_at IS NULL' if self.use_soft_delete and with_trash else '')
+        '''.format(', '.join(self.model.columns),
+                   self.model.table,
+                   self.model.primary_key,
+                   'AND deleted_at IS NULL' if self.use_soft_delete and not with_trash else '')
 
         cursor = db.execute_sql(query, (pk,))
         if cursor.rowcount == 0:
@@ -88,9 +88,9 @@ class BaseRepository(object):
         query = '''
         SELECT {}
         FROM {}
-        '''.format(', '.join(self.model.columns), self.table)
+        '''.format(', '.join(self.model.columns), self.model.table)
 
-        if self.use_soft_delete and with_trash:
+        if self.use_soft_delete and not with_trash:
             query += ' WHERE deleted_at IS NULL'
 
         cursor = db.execute_sql(query)
@@ -98,8 +98,6 @@ class BaseRepository(object):
 
 
 class UserRepository(BaseRepository):
-
-    table = 'users'
 
     @property
     def model(self):
@@ -129,10 +127,10 @@ class UserRepository(BaseRepository):
     def findByUsername(self, username):
         query = '''
         SELECT {}
-        FROM users
+        FROM {}
         WHERE username = %s
         LIMIT 1
-        '''.format(', '.join(self.model.columns))
+        '''.format(', '.join(self.model.columns), self.model.table)
 
         cursor = db.execute_sql(query, (username,))
         return models.User(**dict(zip(self.model.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
@@ -140,7 +138,6 @@ class UserRepository(BaseRepository):
 
 class PersonRepository(BaseRepository):
 
-    table = 'people'
     use_soft_delete = True
 
     def __init__(self):
@@ -192,10 +189,11 @@ class PersonRepository(BaseRepository):
     def findByCpf(self, cpf, with_trash=False):
         query = '''
         SELECT {}
-        FROM people
+        FROM {}
         WHERE cpf = %s {}
         LIMIT 1
         '''.format(', '.join(self.model.columns),
+                   self.model.table,
                    'AND deleted_at IS NULL' if not with_trash else '')
 
         cursor = db.execute_sql(query, (cpf,))
@@ -205,55 +203,51 @@ class PersonRepository(BaseRepository):
 
 
 class EmailRepository(BaseRepository):
-    table = 'emails'
-
     @property
     def model(self):
         return models.Email
 
     def deleteByPerson(self, person_id):
         query = '''
-        DELETE FROM emails
+        DELETE FROM {}
         WHERE person_id = %s
-        '''
+        '''.format(self.model.table)
         db.execute_sql(query, (person_id,))
 
     def allByPerson(self, person_id):
         query = '''
         SELECT email
-        FROM emails
+        FROM {}
         WHERE person_id = %s
-        '''
+        '''.format(self.model.table)
         cursor = db.execute_sql(query, (person_id,))
         return (r[0] for r in cursor)
 
 
 class ContactRepository(BaseRepository):
-    table = 'contacts'
-
+    
     @property
     def model(self):
         return models.Contact
 
     def deleteByPerson(self, person_id):
         query = '''
-        DELETE FROM contacts
+        DELETE FROM {}
         WHERE person_id = %s
-        '''
+        '''.format(self.model.table)
         db.execute_sql(query, (person_id,))
 
     def allByPerson(self, person_id):
         query = '''
         SELECT ddd, num
-        FROM contacts
+        FROM {}
         WHERE person_id = %s
-        '''
+        '''.format(self.model.table)
         cursor = db.execute_sql(query, (person_id,))
         return (dict(ddd=r[0], num=r[1]) for r in cursor)
 
 
 class CityRepository(BaseRepository):
-    table = 'cities'
 
     @property
     def model(self):

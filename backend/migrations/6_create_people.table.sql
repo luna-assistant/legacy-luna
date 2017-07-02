@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS people (
   complement VARCHAR NULL,
   postal_code VARCHAR(8) NULL,
   neighborhood VARCHAR NULL,
+  user_id INTEGER NULL REFERENCES users(id),
   city_id INTEGER NULL REFERENCES cities(id),
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL,

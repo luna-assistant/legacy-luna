@@ -5,6 +5,7 @@ from luna.server.repositories import EmailRepository, ContactRepository
 
 class Model(object):
 
+    primary_key = 'id'
     columns = []
 
     def __init__(self, **kwargs):
@@ -17,6 +18,8 @@ class Model(object):
 
 
 class User(Model):
+
+    table = 'users'
 
     columns = [
         'id',
@@ -45,6 +48,8 @@ class User(Model):
 
 class Person(Model):
 
+    table = 'people'
+
     columns = [
         'id',
         'name',
@@ -56,6 +61,7 @@ class Person(Model):
         'complement',
         'postal_code',
         'neighborhood',
+        'user_id',
         'city_id',
         'created_at',
         'updated_at',
@@ -73,6 +79,8 @@ class Person(Model):
 
 
 class Email(Model):
+    
+    table = 'emails'
 
     columns = [
         'id',
@@ -86,6 +94,8 @@ class Email(Model):
 
 class Contact(Model):
 
+    table = 'contacts'
+
     columns = [
         'id',
         'person_id',
@@ -98,6 +108,8 @@ class Contact(Model):
 
 
 class City(Model):
+
+    table = 'cities'
 
     columns = [
         'id',
