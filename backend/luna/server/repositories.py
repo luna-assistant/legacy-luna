@@ -267,3 +267,21 @@ class CityRepository(BaseRepository):
     @property
     def model(self):
         return models.City
+    
+    
+    def allByFederativeUnit(self, federative_unit_id):
+        query = '''
+        SELECT {}
+        FROM {}
+        WHERE federative_unit_id = %s
+        '''.format(', '.join(self.model.columns), self.model.table)
+        
+        cursor = db.execute_sql(query, (federative_unit_id,))
+        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+
+
+class FederativeUnitRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.FederativeUnit

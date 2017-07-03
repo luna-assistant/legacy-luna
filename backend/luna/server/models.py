@@ -107,6 +107,21 @@ class Contact(Model):
         return '<Contact ({}) {}>'.format(self.ddd, self.num)
 
 
+class FederativeUnit(Model):
+
+    table = 'federative_units'
+
+    columns = [
+        'id',
+        'country_id',
+        'name',
+        'abbr'
+    ]
+
+    def __repr__(self):
+        return '<FederativeUnit {}>'.format(self.name)
+
+
 class City(Model):
 
     table = 'cities'
