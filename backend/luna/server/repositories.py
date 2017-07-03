@@ -186,6 +186,21 @@ class PersonRepository(BaseRepository):
 
         return person
 
+    def findByUserId(self, user_id, with_trash=False):
+        query = '''
+        SELECT {}
+        FROM {}
+        WHERE user_id = %s {}
+        LIMIT 1
+        '''.format(', '.join(self.model.columns),
+                   self.model.table,
+                   'AND deleted_at IS NULL' if not with_trash else '')
+
+        cursor = db.execute_sql(query, (user_id,))
+        if cursor.rowcount == 0:
+            return None
+        return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
+    
     def findByCpf(self, cpf, with_trash=False):
         query = '''
         SELECT {}

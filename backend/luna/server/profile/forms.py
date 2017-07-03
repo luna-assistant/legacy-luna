@@ -31,6 +31,6 @@ class PersonForm(FlaskForm):
         Length(max=9)
     ])
     neighborhood = StringField('Bairro')
-    city_id = StringField('Munícipio')  # TODO: ChoiceField
+    # city_id = StringField('Munícipio')  # TODO: ChoiceField
     
 

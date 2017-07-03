@@ -56,13 +56,13 @@
       <form role="form" data-tab="login" method="post" action="" class="ui large login form bottom attached active tab segment">
         {{ login_form.hidden_tag() }}
         
-        <div class="field">
+        <div class="field {{'error' if login_form.username.errors else ''}}">
           <div class="ui left icon input">
             <i class="user icon"></i>
             {{ login_form.username(placeholder=login_form.username.label.text) }}
           </div>
         </div>
-        <div class="field">
+        <div class="field {{'error' if login_form.password.errors else ''}}">
           <div class="ui left icon input">
             <i class="lock icon"></i>
             {{ login_form.password(placeholder=login_form.password.label.text) }}
@@ -77,25 +77,25 @@
         
       <form role="form" data-tab="register" method="post" action="{{url_for('auth.register')}}" class="ui large register form bottom attached tab segment">
         {{ register_form.hidden_tag() }}
-        <div class="field">
+        <div class="field {{'error' if register_form.module.errors else ''}}">
           <div class="ui left icon input">
             <i class="barcode icon"></i>
             {{ register_form.module(placeholder=register_form.module.label.text) }}
           </div>
         </div>
-        <div class="field">
+        <div class="field {{'error' if register_form.username.errors else ''}}">
           <div class="ui left icon input">
             <i class="user icon"></i>
             {{ register_form.username(placeholder=register_form.username.label.text) }}
           </div>
         </div>
-        <div class="field">
+        <div class="field {{'error' if register_form.password.errors else ''}}">
           <div class="ui left icon input">
             <i class="lock icon"></i>
             {{ register_form.password(placeholder=register_form.password.label.text) }}
           </div>
         </div>
-        <div class="field">
+        <div class="field {{'error' if register_form.confirm.errors else ''}}">
           <div class="ui left icon input">
             <i class="lock icon"></i>
             {{ register_form.confirm(placeholder=register_form.confirm.label.text) }}
@@ -113,7 +113,7 @@
         
         <p>Uma senha temporária será enviada para seu email</p>
 
-        <div class="field">
+        <div class="field {{ 'error' if new_password_form.email.errors else '' }}">
           <div class="ui left icon input">
             <i class="at icon"></i>
             {{ new_password_form.email(placeholder=new_password_form.email.label.text) }}
