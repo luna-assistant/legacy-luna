@@ -1,34 +1,17 @@
-from flask_wtf import FlaskForm
-from wtforms import StringField, DateField
-from wtforms.validators import DataRequired, Length, Email
-from luna.server.validators import CPF
+from luna.server.profile.forms import PersonForm
+from wtforms import BooleanField, StringField, PasswordField
+from wtforms.validators import DataRequired, Length, EqualTo
 
 
-class AssociatedForm(FlaskForm):
-    name = StringField('Nome', [
-        DataRequired(),
-        Length(max=100)
-    ])
-    cpf = StringField('CPF', [
-        DataRequired(),
-        Length(max=14),
-        CPF()
-    ])
-    email = StringField('Email', [
-        DataRequired(),
-        Email()
-    ])
-    birth = DateField('Data de Nascimento', format='%d/%m/%Y', validators=[
-        DataRequired()
-    ])
-
-    facebook = StringField('Facebook')  # TODO: Facebook API
-    twitter = StringField('Twitter')  # TODO: Twitter API
-
-    address = StringField('Endereço')
-    complement = StringField('Complemento')
-    postal_code = StringField('CEP', [
-        Length(max=9)
-    ])
-    neighborhood = StringField('Bairro')
-    city_id = StringField('Munícipio')  # TODO: ChoiceField
+class AssociatedForm(PersonForm):
+    create_user = BooleanField('Criar Usuário', [DataRequired()])
+    username = StringField('Nome de Usuário', [Length(min=6, max=40)])
+    password = PasswordField('Senha', [Length(min=6, max=40)])
+    confirm = PasswordField(
+        'Confirmação',
+        validators=[
+            DataRequired(),
+            EqualTo(
+                'password', message='A confirmação deve ser igual à senha informada.')
+        ]
+    )
