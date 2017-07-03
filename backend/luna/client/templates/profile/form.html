@@ -8,58 +8,57 @@
 </h2>
 
 
-<form class="ui form" method="post">
+<form class="ui form {{ 'error' if form.errors else '' }}" method="post">
   
   {{ form.hidden_tag() }}
   
   <h4 class="ui dividing header">Informações Pessoais</h4>
-  <div class="field">
+  <div class="field required {{ 'error' if form.name.errors else '' }}">
     {{ form.name.label }}
     {{ form.name(placeholder=form.name.label.text) }}
   </div>
-  <div class="field">
+  <div class="field required {{ 'error' if form.cpf.errors else '' }}">
     {{ form.cpf.label }}
-    {{ form.cpf(placeholder=form.cpf.label.text) }}
+    {{ form.cpf(placeholder=form.cpf.label.text, data_mask='000.000.000-00') }}
   </div>
-  <div class="field">
+  <div class="field required {{ 'error' if form.email.errors else '' }}">
     {{ form.email.label }}
     {{ form.email(placeholder=form.email.label.text) }}
   </div>
-  <div class="field">
+  <div class="field required {{ 'error' if form.birth.errors else '' }}">
     {{ form.birth.label }}
-    {{ form.birth(placeholder=form.birth.label.text) }}
+    {{ form.birth(placeholder=form.birth.label.text, data_mask='00/00/0000') }}
   </div>
   
   
   <h4 class="ui dividing header">Redes Sociais</h4>  
-  <div class="field">
+  <div class="field {{ 'error' if form.facebook.errors else '' }}">
     {{ form.facebook.label }}
     {{ form.facebook(placeholder=form.facebook.label.text) }}
   </div>
-  <div class="field">
+  <div class="field {{ 'error' if form.twitter.errors else '' }}">
     {{ form.twitter.label }}
     {{ form.twitter(placeholder=form.twitter.label.text) }}
   </div>
   
   <h4 class="ui dividing header">Endereço</h4>
-  <div class="field">
-  <div class="field">
+  <div class="field {{ 'error' if form.postal_code.errors else '' }}">
     {{ form.postal_code.label }}
-    {{ form.postal_code(placeholder=form.postal_code.label.text) }}
+    {{ form.postal_code(placeholder=form.postal_code.label.text, data_mask='00000-000') }}
   </div>
+  <div class="field {{ 'error' if form.address.errors else '' }}">
     {{ form.address.label }}
     {{ form.address(placeholder=form.address.label.text) }}
   </div>
-  <div class="field">
+  <div class="field {{ 'error' if form.complement.errors else '' }}">
     {{ form.complement.label }}
     {{ form.complement(placeholder=form.complement.label.text) }}
   </div>
-  <div class="field">
+  <div class="field {{ 'error' if form.neighborhood.errors else '' }}">
     {{ form.neighborhood.label }}
     {{ form.neighborhood(placeholder=form.neighborhood.label.text) }}
   </div>
   
-  {# <button class="ui green button"><a href="profile.html" style="color: white">Salvar</a></button>#}
   <button type="submit" class="ui button">Salvar</button>
   
 </form>
