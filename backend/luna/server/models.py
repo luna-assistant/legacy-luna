@@ -1,6 +1,7 @@
 # luna/server/models.py
 
-from luna.server.repositories import EmailRepository, ContactRepository
+from luna.server.repositories import EmailRepository, ContactRepository, \
+    PeopleAssociatedRepository, PersonRepository
 
 
 class Model(object):
@@ -42,6 +43,9 @@ class User(Model):
     def get_id(self):
         return self.username
 
+    def person(self):
+        return PersonRepository().findByUserId(self.id)
+
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
@@ -69,17 +73,20 @@ class Person(Model):
     ]
 
     def emails(self):
-        return EmailRepository.allByPerson(self.id)
+        return EmailRepository().allByPerson(self.id)
 
     def contacts(self):
-        return ContactRepository.allByPerson(self.id)
+        return ContactRepository().allByPerson(self.id)
+
+    def associated(self):
+        return PeopleAssociatedRepository().allByPerson(self.id)
 
     def __repr__(self):
         return '<Person {}>'.format(self.cpf)
 
 
 class Email(Model):
-    
+
     table = 'emails'
 
     columns = [

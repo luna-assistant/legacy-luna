@@ -73,10 +73,12 @@ def _db_close(exc):
 from luna.server.auth.views import auth_blueprint
 from luna.server.main.views import main_blueprint
 from luna.server.profile.views import profile_blueprint
+from luna.server.associated.views import associated_blueprint
 
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(main_blueprint)
 app.register_blueprint(profile_blueprint)
+app.register_blueprint(associated_blueprint)
 
 
 ###################

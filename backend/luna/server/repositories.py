@@ -201,6 +201,21 @@ class PersonRepository(BaseRepository):
             return None
         return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
 
+    def findByUserId(self, user_id, with_trash=False):
+        query = '''
+        SELECT {}
+        FROM {}
+        WHERE user_id = %s {}
+        LIMIT 1
+        '''.format(', '.join(self.model.columns),
+                   self.model.table,
+                   'AND deleted_at IS NULL' if not with_trash else '')
+
+        cursor = db.execute_sql(query, (user_id,))
+        if cursor.rowcount == 0:
+            return None
+        return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
+
 
 class EmailRepository(BaseRepository):
     @property
@@ -216,16 +231,19 @@ class EmailRepository(BaseRepository):
 
     def allByPerson(self, person_id):
         query = '''
-        SELECT email
+        SELECT {}
         FROM {}
         WHERE person_id = %s
-        '''.format(self.model.table)
+        '''.format(', '.join(self.model.columns),
+                   self.model.table)
         cursor = db.execute_sql(query, (person_id,))
-        return (r[0] for r in cursor)
+        if cursor.rowcount == 0:
+            return None
+        return (models.Email(**dict(zip(self.model.columns, r))) for r in cursor)
 
-    
+
 class ContactRepository(BaseRepository):
-    
+
     @property
     def model(self):
         return models.Contact
@@ -239,12 +257,40 @@ class ContactRepository(BaseRepository):
 
     def allByPerson(self, person_id):
         query = '''
-        SELECT ddd, num
+        SELECT {}
         FROM {}
         WHERE person_id = %s
-        '''.format(self.model.table)
+        '''.format(', '.join(self.model.columns),
+                   self.model.table)
         cursor = db.execute_sql(query, (person_id,))
-        return (dict(ddd=r[0], num=r[1]) for r in cursor)
+        if cursor.rowcount == 0:
+            return None
+        return (models.Contact(**dict(zip(self.model.columns, r))) for r in cursor)
+
+
+class PeopleAssociatedRepository(BaseRepository):
+    @property
+    def model(self):
+        return models.Person
+
+    def deleteByPerson(self, person_id):
+        query = '''
+        DELETE FROM people_associated
+        WHERE person_id = %s
+        '''
+        db.execute_sql(query, (person_id,))
+
+    def allByPerson(self, person_id):
+        query = '''
+        SELECT p.*
+        FROM people p
+        INNER JOIN people_associated pa on pa.associated_id = p.id
+        WHERE pa.person_id = %s
+        '''
+        cursor = db.execute_sql(query, (person_id,))
+        if cursor.rowcount == 0:
+            return None
+        return (models.Person(**dict(zip(self.model.columns, r))) for r in cursor)
 
 
 class CityRepository(BaseRepository):
