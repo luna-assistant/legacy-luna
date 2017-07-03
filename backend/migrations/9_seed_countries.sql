@@ -1,4 +1,5 @@
-INSERT INTO `countries` (`ID`, `NOME`, `ABBR`) VALUES
+INSERT INTO countries (id, name, abbr) VALUES
+
 (1, 'Brasil', 'BR'),
 (2, 'Afeganistão', 'AF'),
 (3, 'Albânia, Republica da', 'AL'),
@@ -239,21 +240,19 @@ INSERT INTO `countries` (`ID`, `NOME`, `ABBR`) VALUES
 (239, 'Zimbabue', 'ZW'),
 (240, 'Guernsey, Ilha do Canal (Inclui Alderney e Sark)', 'GG'),
 (241, 'Jersey, Ilha do Canal', 'JE'),
-(242, 'Canarias, Ilhas', NULL),
+-- (242, 'Canarias, Ilhas', 'CAN'),
 (243, 'Man, Ilha de', 'IM'),
-(244, 'Johnston, Ilhas', NULL),
-(245, 'Madeira, Ilha da', NULL),
+-- (244, 'Johnston, Ilhas', NULL),
+-- (245, 'Madeira, Ilha da', NULL),
 (246, 'Montenegro', 'ME'),
 (247, 'Republika Srbija', 'RS'),
 (248, 'Sudao do Sul', 'SS'),
-(249, 'Zona do Canal do Panamá', NULL),
-(250, 'Wake, Ilha', NULL),
-(251, 'Lebuan, Ilhas', NULL),
+-- (249, 'Zona do Canal do Panamá', NULL),
+-- (250, 'Wake, Ilha', NULL),
+-- (251, 'Lebuan, Ilhas', NULL),
 (252, 'Palestina', 'PS'),
 (253, 'Ilhas de Aland', 'AX'),
 (254, 'Coletividade de São Bartolomeu', 'BL'),
 (255, 'Curaçao', 'CW'),
 (256, 'Ilha de São Martinho (França)', 'MF'),
 (257, 'São Martinho (Países Baixos)', 'SX');
-
-
