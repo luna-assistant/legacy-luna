@@ -257,4 +257,7 @@ INSERT INTO countries (id, name, abbr) VALUES
 (256, 'Ilha de São Martinho (França)', 'MF'),
 (257, 'São Martinho (Países Baixos)', 'SX')
 
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE 
+SET 
+  name = EXCLUDED.name, 
+  abbr = EXCLUDED.abbr;
