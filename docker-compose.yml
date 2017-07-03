@@ -1,21 +1,26 @@
-version: '2'
+version:        '2'
 
 services:
   db:
-    image: postgres:alpine
+    image:      postgres:alpine
     volumes:
       - ./pgdata:/var/lib/postgresql/data
       - ./backend/migrations:/usr/src/app/migrations
     ports:
       - 5432:5432
-  # broker:
-  #   image: jllopis/mosquitto
-  #   depends_on:
-  #     - db
+  broker:
+    image:      jllopis/mosquitto
+    volumes:
+      - ./mosquitto_data:/var/lib/mosquitto
+    ports:
+      - 1883:1883
+      - 9883:9883
+    depends_on:
+      - db
   backend:
     build:
-      context: ./backend
-    command: pipenv run python manage.py runserver -h 0.0.0.0 -p 8000
+      context:  ./backend
+    command:    pipenv run python manage.py runserver -h 0.0.0.0 -p 8000
     volumes:
       - ./backend:/usr/src/app
     ports:
