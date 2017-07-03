@@ -255,4 +255,6 @@ INSERT INTO countries (id, name, abbr) VALUES
 (254, 'Coletividade de São Bartolomeu', 'BL'),
 (255, 'Curaçao', 'CW'),
 (256, 'Ilha de São Martinho (França)', 'MF'),
-(257, 'São Martinho (Países Baixos)', 'SX');
+(257, 'São Martinho (Países Baixos)', 'SX')
+
+ON CONFLICT (id) DO NOTHING;

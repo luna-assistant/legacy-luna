@@ -26,4 +26,6 @@ INSERT INTO federative_units (id, country_id, name, abbr) VALUES
 (24, 1, 'Santa Catarina', 'SC'),
 (25, 1, 'Sergipe', 'SE'),
 (26, 1, 'São Paulo', 'SP'),
-(27, 1, 'Tocantins', 'TO');
+(27, 1, 'Tocantins', 'TO')
+
+ON CONFLICT (id) DO NOTHING;
