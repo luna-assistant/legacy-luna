@@ -8,10 +8,13 @@ services:
       - ./backend/migrations:/usr/src/app/migrations
     ports:
       - 5432:5432
-  # broker:
-  #   image: jllopis/mosquitto
-  #   depends_on:
-  #     - db
+  broker:
+    image: jllopis/mosquitto
+    volumes:
+      - ./mosquitto_data:/var/lib/mosquitto
+    ports:
+      - 1883:1883
+      - 9883:9883
   backend:
     build:
       context: ./backend

@@ -1,10 +1,10 @@
 import datetime
 from luna.server import app, db, bcrypt, models
+from luna.server.helpers import QueryBuilder
 
 
 class BaseRepository(object):
 
-    primary_key = 'id'
     use_soft_delete = False
 
     @property
@@ -17,14 +17,10 @@ class BaseRepository(object):
 
         values['created_at'] = datetime.datetime.now()
 
-        query = '''
-        INSERT INTO {} ({})
-        VALUES ({})
-        RETURNING {}
-        '''.format(self.model.table,
-                   ', '.join(self.model.columns[1:]),
-                   ', '.join(['%s' for c in self.model.columns[1:]]),
-                   self.model.primary_key)
+        query = QueryBuilder(self.model.table, self.model.columns[1:])\
+            .insert()\
+            .returning([self.model.primary_key])\
+            .sql()
 
         cursor = db.execute_sql(
             query,
@@ -39,14 +35,10 @@ class BaseRepository(object):
 
         values['updated_at'] = datetime.datetime.now()
 
-        query = '''
-        UPDATE {}
-        SET {}
-        WHERE {} = %s
-        '''.format(self.model.table,
-                   ', '.join(['{} = %s'.format(c)
-                              for c in self.model.columns[1:]]),
-                   self.model.primary_key)
+        query = QueryBuilder(self.model.table, self.model.columns[1:])\
+            .update()\
+            .where(self.model.primary_key)\
+            .sql()
 
         db.execute_sql(
             query,
@@ -56,10 +48,10 @@ class BaseRepository(object):
         return self.find(pk, True)
 
     def delete(self, pk):
-        query = '''
-        DELETE FROM {}
-        WHERE {} = %s
-        '''.format(self.model.table, self.model.primary_key)
+        query = QueryBuilder(self.model.table)\
+            .delete()\
+            .where(self.model.primary_key)\
+            .sql()
 
         db.execute_sql(query, (pk,))
 
@@ -69,15 +61,14 @@ class BaseRepository(object):
         self.update(pk, obj)
 
     def find(self, pk, with_trash=False):
-        query = '''
-        SELECT {}
-        FROM {}
-        WHERE {} = %s {}
-        LIMIT 1
-        '''.format(', '.join(self.model.columns),
-                   self.model.table,
-                   self.model.primary_key,
-                   'AND deleted_at IS NULL' if self.use_soft_delete and not with_trash else '')
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where(self.model.primary_key)\
+            .limit(1)
+
+        if self.use_soft_delete and not with_trash:
+            query = query.where('deleted_at', 'IS', 'NULL')
+
+        query = query.sql()
 
         cursor = db.execute_sql(query, (pk,))
         if cursor.rowcount == 0:
@@ -85,13 +76,12 @@ class BaseRepository(object):
         return self.model(**dict(zip(self.model.columns, cursor.fetchone())))
 
     def all(self, with_trash=False):
-        query = '''
-        SELECT {}
-        FROM {}
-        '''.format(', '.join(self.model.columns), self.model.table)
+        query = QueryBuilder(self.model.table, self.model.columns)
 
         if self.use_soft_delete and not with_trash:
-            query += ' WHERE deleted_at IS NULL'
+            query = query.where('deleted_at', 'IS', 'NULL')
+
+        query = query.sql()
 
         cursor = db.execute_sql(query)
         return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
@@ -125,13 +115,10 @@ class UserRepository(BaseRepository):
         return super(UserRepository, self).update(pk, values)
 
     def findByUsername(self, username):
-        query = '''
-        SELECT {}
-        FROM {}
-        WHERE username = %s
-        LIMIT 1
-        '''.format(', '.join(self.model.columns), self.model.table)
-
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('username')\
+            .limit(1)\
+            .sql()
         cursor = db.execute_sql(query, (username,))
         return models.User(**dict(zip(self.model.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
 
@@ -187,14 +174,14 @@ class PersonRepository(BaseRepository):
         return person
 
     def findByUserId(self, user_id, with_trash=False):
-        query = '''
-        SELECT {}
-        FROM {}
-        WHERE user_id = %s {}
-        LIMIT 1
-        '''.format(', '.join(self.model.columns),
-                   self.model.table,
-                   'AND deleted_at IS NULL' if not with_trash else '')
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('user_id')\
+            .limit(1)
+
+        if not with_trash:
+            query = query.where('deleted_at', 'IS', 'NULL')
+
+        query = query.sql()
 
         cursor = db.execute_sql(query, (user_id,))
         if cursor.rowcount == 0:
@@ -202,19 +189,21 @@ class PersonRepository(BaseRepository):
         return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
 
     def findByCpf(self, cpf, with_trash=False):
-        query = '''
-        SELECT {}
-        FROM {}
-        WHERE cpf = %s {}
-        LIMIT 1
-        '''.format(', '.join(self.model.columns),
-                   self.model.table,
-                   'AND deleted_at IS NULL' if not with_trash else '')
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('cpf')\
+            .limit(1)
+
+        if not with_trash:
+            query = query.where('deleted_at', 'IS', 'NULL')
+
+        query = query.sql()
 
         cursor = db.execute_sql(query, (cpf,))
         if cursor.rowcount == 0:
             return None
-        return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
+        return models.Person(**dict(zip(
+            self.model.columns, cursor.fetchone()
+        )))
 
     def findByUserId(self, user_id, with_trash=False):
         query = '''
@@ -233,24 +222,22 @@ class PersonRepository(BaseRepository):
 
 
 class EmailRepository(BaseRepository):
+
     @property
     def model(self):
         return models.Email
 
     def deleteByPerson(self, person_id):
-        query = '''
-        DELETE FROM {}
-        WHERE person_id = %s
-        '''.format(self.model.table)
+        query = QueryBuilder(self.model.table)\
+            .delete()\
+            .where('person_id')\
+            .sql()
         db.execute_sql(query, (person_id,))
 
     def allByPerson(self, person_id):
-        query = '''
-        SELECT {}
-        FROM {}
-        WHERE person_id = %s
-        '''.format(', '.join(self.model.columns),
-                   self.model.table)
+        query = QueryBuilder(self.model.table, ['email'])\
+            .where('person_id')\
+            .sql()
         cursor = db.execute_sql(query, (person_id,))
         if cursor.rowcount == 0:
             return None
@@ -264,19 +251,16 @@ class ContactRepository(BaseRepository):
         return models.Contact
 
     def deleteByPerson(self, person_id):
-        query = '''
-        DELETE FROM {}
-        WHERE person_id = %s
-        '''.format(self.model.table)
+        query = QueryBuilder(self.model.table)\
+            .delete()\
+            .where('person_id')\
+            .sql()
         db.execute_sql(query, (person_id,))
 
     def allByPerson(self, person_id):
-        query = '''
-        SELECT {}
-        FROM {}
-        WHERE person_id = %s
-        '''.format(', '.join(self.model.columns),
-                   self.model.table)
+        query = QueryBuilder(self.model.table, ['ddd', 'num'])\
+            .where('person_id')\
+            .sql()
         cursor = db.execute_sql(query, (person_id,))
         if cursor.rowcount == 0:
             return None
@@ -289,10 +273,7 @@ class PeopleAssociatedRepository(BaseRepository):
         return models.PersonAssociated
 
     def deleteByPerson(self, person_id):
-        query = '''
-        DELETE FROM people_associated
-        WHERE person_id = %s
-        '''
+        query = QueryBuilder(self.model.table).delete().where('person_id').sql()
         db.execute_sql(query, (person_id,))
 
     def allByPerson(self, person_id):
@@ -311,3 +292,17 @@ class CityRepository(BaseRepository):
     @property
     def model(self):
         return models.City
+
+    def allByFederativeUnit(self, federative_unit_id):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('federative_unit_id')\
+            .sql()
+        cursor = db.execute_sql(query, (federative_unit_id,))
+        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+
+
+class FederativeUnitRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.FederativeUnit

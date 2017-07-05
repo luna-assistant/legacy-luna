@@ -28,4 +28,8 @@ INSERT INTO federative_units (id, country_id, name, abbr) VALUES
 (26, 1, 'São Paulo', 'SP'),
 (27, 1, 'Tocantins', 'TO')
 
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (id) DO UPDATE 
+SET 
+  country_id = EXCLUDED.country_id,
+  name = EXCLUDED.name, 
+  abbr = EXCLUDED.abbr;

@@ -3,19 +3,19 @@ url = "https://pypi.python.org/simple"
 verify_ssl = true
 
 [dev-packages]
-Flask-DebugToolbar = "*"
 Flask-Testing = "*"
+Flask-DebugToolbar = "*"
 
 [packages]
 coverage = "*"
-Flask-Bcrypt = "*"
-Flask-Login = "*"
-Flask-Script = "*"
 peewee = "*"
-Flask-WTF = "*"
 python-decouple = "*"
 psycopg2 = "*"
-Flask = "*"
 arrow = "*"
 brazilnum = "*"
 gunicorn = "*"
+Flask-WTF = "*"
+Flask-Bcrypt = "*"
+Flask-Login = "*"
+Flask-Script = "*"
+Flask = "*"
