@@ -200,7 +200,7 @@ class PersonRepository(BaseRepository):
         if cursor.rowcount == 0:
             return None
         return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
-    
+
     def findByCpf(self, cpf, with_trash=False):
         query = '''
         SELECT {}
@@ -286,7 +286,7 @@ class ContactRepository(BaseRepository):
 class PeopleAssociatedRepository(BaseRepository):
     @property
     def model(self):
-        return models.Person
+        return models.PersonAssociated
 
     def deleteByPerson(self, person_id):
         query = '''
@@ -303,9 +303,7 @@ class PeopleAssociatedRepository(BaseRepository):
         WHERE pa.person_id = %s
         '''
         cursor = db.execute_sql(query, (person_id,))
-        if cursor.rowcount == 0:
-            return None
-        return (models.Person(**dict(zip(self.model.columns, r))) for r in cursor)
+        return (models.Person(**dict(zip(models.Person.columns, r))) for r in cursor)
 
 
 class CityRepository(BaseRepository):

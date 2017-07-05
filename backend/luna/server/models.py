@@ -126,3 +126,17 @@ class City(Model):
 
     def __repr__(self):
         return '<City {}>'.format(self.name)
+
+
+class PersonAssociated(Model):
+
+    table = 'people_associated'
+
+    columns = [
+        'id',
+        'person_id',
+        'associated_id'
+    ]
+
+    def __repr__(self):
+        return '<PersonAssociated {}-{}>'.format(self.person_id, self.associated_id)

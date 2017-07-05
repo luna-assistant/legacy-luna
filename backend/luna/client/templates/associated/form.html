@@ -1,7 +1,7 @@
 {% extends "_base.html" %} {% block content %}
 
-<div class="ui right floated teal labeled icon button">
-  Cadastrar novo associado
+<div class="ui right floated teal labeled icon button add">
+  Adicionar Associado
   <i class="add icon"></i>
 </div>
 
@@ -56,18 +56,62 @@
         </tr>
       {% endif %}
 
-      <!-- <tr>
-        <td>Even</td>
-        <td>Næsheim</td>
-        <td>84-9999-1111</td>
-        <td>
-          <button class="ui green basic button" onclick="activateModalShow();">Visualizar</button>
-          <button class="ui blue basic button" onclick="activateModalEdit();">Editar</button>
-          <button class="ui red basic button" onclick="activateModalRemove();">Excluir</button>
-        </td>
-      </tr> -->
     </tbody>
   </table>
 </section>
 
+<form class="ui small form {{ 'error' if form.errors else '' }} modal add"  action="{{ url_for('associated.add')}}" method="post">
+  <i class="close icon"></i>
+  <div class="header">
+    Adicionar Associado
+  </div>
+  <div class="ui content">
+    <div class="ui error message">
+      {% for (field, errors) in form.errors.items() %}
+        {% for error in errors %}
+          <li>{{error}}</li>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    {{ form.hidden_tag() }}
+
+      <div class="field required {{ 'error' if form.name.errors else '' }}">
+        {{ form.name.label }}
+        {{ form.name(placeholder=form.name.label.text) }}
+      </div>
+      <div class="two fields">
+        <div class="field required {{ 'error' if form.cpf.errors else '' }}">
+          {{ form.cpf.label }}
+          {{ form.cpf(placeholder=form.cpf.label.text, data_mask='000.000.000-00') }}
+        </div>
+        <div class="field required {{ 'error' if form.birth.errors else '' }}">
+          {{ form.birth.label }}
+          {{ form.birth(placeholder=form.birth.label.text, data_mask='00/00/0000') }}
+        </div>
+      </div>
+      <div class="field required {{ 'error' if form.email.errors else '' }}">
+        {{ form.email.label }}
+        {{ form.email(placeholder=form.email.label.text) }}
+      </div>
+
+      <div class="ui segment">
+        <div class="ui checkbox">
+          {{ form.create_user }}
+          {{ form.create_user.label }}
+        </div>
+      </div>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Cancelar
+    </div>
+    <div class="ui green submit button">
+      Adicionar
+    </div>
+  </div>
+</form>
+
+{% endblock %}
+{% block js %}
+  <script src="{{url_for('static', filename='js/associated.js')}}" type="text/javascript"></script>
 {% endblock %}
