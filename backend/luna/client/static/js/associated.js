@@ -6,7 +6,26 @@ const iniciar = () => {
   if ($('.modal').hasClass('error'))
     $('.modal').modal('show');
   $('.button.add').click(openModalCreate);
-  
+
+  $('.button.show').click(function (){
+    let id = $(this).closest('tr[data-id]').data('id');
+
+
+    $.ajax({
+      url: '/associados/visualizar/' + id,
+      success: function(modal) {
+        $('.ajax.modals').html('');
+        $('.ajax.modals').append(modal);
+
+        $('#modalshow' + id).modal('show');
+      },
+      complete: function(){
+        console.log('foi');
+      }
+    })
+
+  });
+
 }
 
 const formCreateInit = () => {

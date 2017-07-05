@@ -44,3 +44,9 @@ def add():
 
 
     return render_template('associated/form.html', form=form)
+
+@associated_blueprint.route('/associados/visualizar/<person_id>', methods=['GET'])
+@login_required
+def show(person_id):
+    person = person_repository.find(person_id)
+    return render_template('associated/modals/show.html', person=person)

@@ -235,7 +235,7 @@ class EmailRepository(BaseRepository):
         db.execute_sql(query, (person_id,))
 
     def allByPerson(self, person_id):
-        query = QueryBuilder(self.model.table, ['email'])\
+        query = QueryBuilder(self.model.table, self.model.columns)\
             .where('person_id')\
             .sql()
         cursor = db.execute_sql(query, (person_id,))

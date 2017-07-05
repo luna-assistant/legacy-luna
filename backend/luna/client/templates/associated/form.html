@@ -23,7 +23,7 @@
     <tbody>
       {% if current_user.person().associated() %}
         {% for person in current_user.person().associated() %}
-          <tr>
+          <tr data-id="{{ person.id }}">
             <td>{{ person.name }}</td>
             <td>
               {% if person.emails() %}
@@ -44,7 +44,7 @@
               {% endif %}
             </td>
             <td>
-              <button class="ui green basic button">Visualizar</button>
+              <button class="ui green basic button show">Visualizar</button>
               <button class="ui blue basic button">Editar</button>
               <button class="ui red basic button">Excluir</button>
             </td>
@@ -110,6 +110,11 @@
     </div>
   </div>
 </form>
+
+<div class="ajax modals">
+
+</div>
+
 
 {% endblock %}
 {% block js %}
