@@ -17,6 +17,28 @@ class Model(object):
             yield (c, getattr(self, c, None))
 
 
+class Role(Model):
+
+    ADMIN = 1
+    COMMON = 2
+    ASSOCIATED = 3
+
+    table = 'roles'
+
+    columns = [
+        'id',
+        'name',
+        'display_name'
+    ]
+
+    @property
+    def users(self):
+        return []
+
+    def __repr__(self):
+        return '<Role {}>'.format(self.name)
+
+
 class User(Model):
 
     table = 'users'
@@ -45,6 +67,13 @@ class User(Model):
     @property
     def person(self):
         return PersonRepository().findByUserId(self.id)
+
+    @property
+    def roles(self):
+        return []
+
+    def has_role(self, role_id):
+        return False
 
     def __repr__(self):
         return '<User {0}>'.format(self.username)
