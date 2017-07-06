@@ -8,10 +8,10 @@ from wtforms.validators import DataRequired, Length, EqualTo, Email
 
 
 class LoginForm(FlaskForm):
-    username = StringField(
-        'Nome de Usuário', [
+    email = EmailField(
+        'Email', [
             DataRequired(),
-            Length(min=6, max=40)
+            Email()
         ]
     )
     password = PasswordField('Senha', [DataRequired()])
@@ -35,11 +35,10 @@ class RegisterForm(FlaskForm):
             Length(min=6)
         ]
     )
-    username = StringField(
-        'Nome de Usuário',
-        validators=[
+    email = EmailField(
+        'Email', [
             DataRequired(),
-            Length(min=6, max=40)
+            Email()
         ]
     )
     password = PasswordField(
@@ -54,4 +53,3 @@ class RegisterForm(FlaskForm):
                 'password', message='A confirmação deve ser igual à senha informada.')
         ]
     )
-    

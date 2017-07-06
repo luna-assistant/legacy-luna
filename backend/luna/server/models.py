@@ -1,6 +1,6 @@
 # luna/server/models.py
 
-from luna.server.repositories import EmailRepository, ContactRepository
+from luna.server.repositories import PersonRepository, EmailRepository, ContactRepository
 
 
 class Model(object):
@@ -42,6 +42,10 @@ class User(Model):
     def get_id(self):
         return self.username
 
+    @property
+    def person(self):
+        return PersonRepository().findByUserId(self.id)
+
     def __repr__(self):
         return '<User {0}>'.format(self.username)
 
@@ -68,18 +72,26 @@ class Person(Model):
         'deleted_at'
     ]
 
-    def emails(self):
-        return EmailRepository.allByPerson(self.id)
+    @property
+    def first_name(self):
+        if self.name is None:
+            return None
+        return self.name.split(' ', 1)[0]
 
+    @property
+    def emails(self):
+        return EmailRepository().allByPerson(self.id)
+
+    @property
     def contacts(self):
-        return ContactRepository.allByPerson(self.id)
+        return ContactRepository().allByPerson(self.id)
 
     def __repr__(self):
         return '<Person {}>'.format(self.cpf)
 
 
 class Email(Model):
-    
+
     table = 'emails'
 
     columns = [

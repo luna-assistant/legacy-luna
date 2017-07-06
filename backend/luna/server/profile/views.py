@@ -16,14 +16,16 @@ def profile():
     person = person_repository.findByUserId(current_user.id)
     if person is None:
         person = Person(user_id=current_user.id)
-    form = PersonForm(obj=person)
+    form = PersonForm(obj=person, email=next(person.emails, None))
     if form.validate_on_submit():
         form.populate_obj(person)
         person.cpf = clean_id(person.cpf)
         if person.postal_code:
             person.postal_code = clean_id(person.postal_code)
-        if person.id:
-            person_repository.update(person.id, person)
+        person = dict(person)
+        person['emails'] = [form.email.data]
+        if person['id'] is not None:
+            person_repository.update(person['id'], person)
         else:
             person_repository.create(person)
         flash('Perfil salvo com sucesso!', 'success')
