@@ -10,7 +10,7 @@
         <div class="ui dropdown item">
           {{ current_user.username }} <i class="dropdown icon"></i>
           <div class="menu">
-            <a href="{{ url_for('associated.associated')}}" class="item">Associados</a>
+            <a href="{{ url_for('associated.index')}}" class="item">Associados</a>
             <a href="{{ url_for('profile.profile') }}" class="item">Perfil</a>
             <a href="{{ url_for('auth.logout') }}" class="item">Sair</a>
           </div>

@@ -1,35 +1,19 @@
 
-const iniciar = () => {
+const init = () => {
 
-  formCreateInit();
+  initForm('form.modal.add');
   $('.modal').modal();
   if ($('.modal').hasClass('error'))
     $('.modal').modal('show');
+
   $('.button.add').click(openModalCreate);
-
-  $('.button.show').click(function (){
-    let id = $(this).closest('tr[data-id]').data('id');
-
-
-    $.ajax({
-      url: '/associados/visualizar/' + id,
-      success: function(modal) {
-        $('.ajax.modals').html('');
-        $('.ajax.modals').append(modal);
-
-        $('#modalshow' + id).modal('show');
-      },
-      complete: function(){
-        console.log('foi');
-      }
-    })
-
-  });
+  $('.button.show').click(function() { openModalShow(this)});
+  $('.button.edit').click(function() { openModalEdit(this)});
 
 }
 
-const formCreateInit = () => {
-  $('form.modal.add').form({
+const initForm = (selectQuery) => {
+  $(selectQuery).form({
     fields: {
       name: {
         identifier: 'name',
@@ -53,10 +37,45 @@ const formCreateInit = () => {
           prompt: 'Por favor, insira uma data válida'
       }]}}
   });
+
+  $('.checkbox').checkbox();
 }
 
 const openModalCreate = () => {
   $('.modal.add').modal('show');
 }
 
-$(iniciar());
+const openModalShow = (button) => {
+  let id = $(button).closest('tr[data-id]').data('id');
+
+  $.ajax({
+    url: '/associados/visualizar/' + id,
+    success: function(modal) {
+      $('.ajax.modals').html('');
+      $('.ajax.modals').append(modal);
+
+      $('#modalshow' + id).modal('show');
+    }
+  });
+}
+
+const openModalEdit = (button) => {
+  let id = $(button).closest('tr[data-id]').data('id');
+
+  $.ajax({
+    url: '/associados/editar/' + id,
+    success: function(modal) {
+      $('.ajax.modals').html('');
+      $('.ajax.modals').append(modal);
+
+      $('#modaledit' + id).modal('show');
+
+      $('[data-mask]').map(function(index, element){
+        $(element).mask($(element).attr('data-mask'));
+      });
+      initForm('form.modal.edit');
+    }
+  });
+}
+
+$(init());

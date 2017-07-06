@@ -14,7 +14,7 @@ person_associated_repository = PeopleAssociatedRepository()
 
 @associated_blueprint.route('/associados', methods=['GET', 'POST'])
 @login_required
-def associated():
+def index():
     form = AssociatedForm()
     return render_template('associated/form.html',form=form)
 
@@ -23,7 +23,7 @@ def associated():
 @login_required
 def add():
     if request.method == 'GET':
-        return redirect(url_for('associated.associated'))
+        return redirect(url_for('associated.index'))
 
     form = AssociatedForm()
 
@@ -50,3 +50,28 @@ def add():
 def show(person_id):
     person = person_repository.find(person_id)
     return render_template('associated/modals/show.html', person=person)
+
+@associated_blueprint.route('/associados/editar/<person_id>', methods=['GET', 'POST'])
+@login_required
+def edit(person_id):
+
+    person = person_repository.find(person_id)
+    form = AssociatedForm(obj=person)
+    form.email.data = next(person.emails()).email
+    if request.method == 'GET':
+        return render_template('associated/modals/edit.html', form=form, person_id=person_id)
+
+    if form.validate_on_submit():
+        form.populate_obj(person)
+        person.cpf = clean_id(person.cpf)
+
+        person = dict(person)
+        person['emails'] = [form.email.data]
+        person = person_repository.update(person_id, person)
+
+        flash('Associado atualizado com sucesso!', 'success')
+    else:
+        print(form.errors)
+        return render_template('associated/form.html',form=form, person_id=person_id)
+
+    return redirect(url_for('associated.index'))
