@@ -28,14 +28,19 @@ def add():
     form = AssociatedForm()
 
     if form.validate_on_submit():
-
+                
         person = Person()
 
         form.populate_obj(person)
         person.cpf = clean_id(person.cpf)
+        phone = clean_id(form.contacts.data)
 
         person = dict(person)
         person['emails'] = [form.email.data]
+        person['contacts'] = [{
+            'ddd': phone[0:2],
+            'num': phone[2:]
+        }]
 
         person = person_repository.create(person)
         person_associated_repository.create(dict(person_id=current_user.person().id, associated_id=person.id))
@@ -57,16 +62,26 @@ def edit(person_id):
 
     person = person_repository.find(person_id)
     form = AssociatedForm(obj=person)
-    form.email.data = next(person.emails()).email
+
     if request.method == 'GET':
+        form.email.data = next(person.emails()).email
+        contact = next(person.contacts()) if person.contacts() != None else ''
+        form.contacts.data = contact.ddd + contact.num if contact else ''
         return render_template('associated/modals/edit.html', form=form, person_id=person_id)
 
     if form.validate_on_submit():
         form.populate_obj(person)
+
         person.cpf = clean_id(person.cpf)
+        phone = clean_id(form.contacts.data)
 
         person = dict(person)
         person['emails'] = [form.email.data]
+        person['contacts'] = [{
+            'ddd': phone[0:2],
+            'num': phone[2:]
+        }]
+
         person = person_repository.update(person_id, person)
 
         flash('Associado atualizado com sucesso!', 'success')

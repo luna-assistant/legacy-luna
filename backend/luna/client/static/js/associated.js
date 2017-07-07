@@ -35,7 +35,18 @@ const initForm = (selectQuery) => {
           type: 'regExp',
           value: /^\d{2}\/\d{2}\/\d{4}$/,
           prompt: 'Por favor, insira uma data válida'
-      }]}}
+      }]},
+      email: {
+        identifier: 'email',
+        rules: [{
+          type: 'empty', prompt: 'Por favor, insira o Email'
+      }]},
+      contacts: {
+        identifier: 'contacts',
+        rules: [{
+          type: 'empty', prompt: 'Por favor, insira o Contato'
+      }]}
+    }
   });
 
   $('.checkbox').checkbox();
