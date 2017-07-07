@@ -64,8 +64,9 @@ def edit(person_id):
     form = AssociatedForm(obj=person)
 
     if request.method == 'GET':
-        form.email.data = next(person.emails).email
-        contact = next(person.contacts) if person.contacts != None else ''
+        email = next(person.emails, None)
+        form.email.data = email.email if email else ''
+        contact = next(person.contacts, None)
         form.contact.data = '{}{}'.format(contact.ddd, contact.num) if contact else ''
         return render_template('associated/modals/edit.html', form=form, person_id=person_id)
 

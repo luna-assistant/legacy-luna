@@ -75,12 +75,14 @@ from luna.server.main.views import main_blueprint
 from luna.server.profile.views import profile_blueprint
 from luna.server.associated.views import associated_blueprint
 from luna.server.api.views import api_blueprint
+from luna.server.admin.views import admin_blueprint
 
 app.register_blueprint(auth_blueprint)
 app.register_blueprint(main_blueprint)
 app.register_blueprint(profile_blueprint)
 app.register_blueprint(associated_blueprint)
 app.register_blueprint(api_blueprint, url_prefix='/api/v1')
+app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
 
 ###################

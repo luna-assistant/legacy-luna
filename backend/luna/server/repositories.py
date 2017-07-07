@@ -239,8 +239,6 @@ class EmailRepository(BaseRepository):
             .where('person_id')\
             .sql()
         cursor = db.execute_sql(query, (person_id,))
-        if cursor.rowcount == 0:
-            return None
         return (models.Email(**dict(zip(self.model.columns, r))) for r in cursor)
 
 
@@ -262,8 +260,6 @@ class ContactRepository(BaseRepository):
             .where('person_id')\
             .sql()
         cursor = db.execute_sql(query, (person_id,))
-        if cursor.rowcount == 0:
-            return None
         return (models.Contact(**dict(zip(self.model.columns, r))) for r in cursor)
 
 

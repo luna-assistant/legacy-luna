@@ -12,7 +12,13 @@ class QueryBuilder(object):
         self.__where = []
         self.__or_where = []
         self.__returning = []
+        self.__order_by = []
         self.__limit = None
+        self.__offset = None
+        self.__join_kind = None
+        self.__join_table = None
+        self.__join_columns = []
+        self.__join_on_conditions = []
 
     def insert(self):
         self.__kind = self.INSERT_KIND
@@ -34,6 +40,14 @@ class QueryBuilder(object):
         self.__limit = limit
         return self
 
+    def offset(self, offset):
+        self.__offset = offset
+        return self
+
+    def order_by(self, column, direction='ASC'):
+        self.__order_by.append((column, direction))
+        return self
+
     def where(self, column, condition='=', value='%s'):
         self.__where.append((column, condition, value))
         return self
@@ -45,7 +59,17 @@ class QueryBuilder(object):
     def returning(self, columns):
         self.__returning = list(columns)
         return self
-
+    
+    def join(self, table, columns=[], kind='INNER'):
+        self.__join_table = table
+        self.__join_kind = kind
+        self.__join_columns = ['{}.{}'.format(table, c) for c in columns]
+        return self
+    
+    def on(self, column, condition='=', value='%s'):
+        self.__join_on_conditions.append((column, condition, value))
+        return self
+    
     def sql(self):
         if self.__kind == self.INSERT_KIND:
             query = self.sql_insert()
@@ -107,17 +131,37 @@ class QueryBuilder(object):
         SELECT {}
         FROM {}
         '''.format(
-            ', '.join(self.__columns),
+            ', '.join(self.__columns + self.__join_columns),
             self.__table
         )
+        
+        if self.__join_table:
+            query += '''
+            {} JOIN {}
+            ON ({})
+            '''.format(
+                self.__join_kind,
+                self.__join_table,
+                ' AND '.join(['{} {} {}'.format(*o) for o in self.__join_on_conditions])
+            )
 
         if self.__where:
             query = self.sql_inject_wheres(query)
+
+        if self.__order_by:
+            query += '''
+            ORDER BY {}
+            '''.format(', '.join(['{} {}'.format(*o) for o in self.__order_by]))
 
         if self.__limit is not None:
             query += '''
             LIMIT {}
             '''.format(self.__limit)
+
+        if self.__offset is not None:
+            query += '''
+            OFFSET {}
+            '''.format(self.__offset)
 
         return query
 

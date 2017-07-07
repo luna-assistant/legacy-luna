@@ -35,7 +35,7 @@
           Luna
         </div>
       </h2>
-        
+
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
       {% for category, message in messages %}
@@ -46,20 +46,20 @@
       {% endfor %}
       {% endif %}
       {% endwith %}
-      
+
       <div class="ui top attached pointing three item menu">
         <a class="item active" data-tab="login">Acessar</a>
         <a class="item" data-tab="register">Registrar-se</a>
         <a class="item" data-tab="new_password">Alterar a senha</a>
       </div>
-      
+
       <form role="form" data-tab="login" method="post" action="" class="ui large login form bottom attached active tab segment">
         {{ login_form.hidden_tag() }}
-        
-        <div class="field {{'error' if login_form.username.errors else ''}}">
+
+        <div class="field {{'error' if login_form.email.errors else ''}}">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            {{ login_form.username(placeholder=login_form.username.label.text) }}
+            {{ login_form.email(placeholder=login_form.email.label.text) }}
           </div>
         </div>
         <div class="field {{'error' if login_form.password.errors else ''}}">
@@ -69,12 +69,12 @@
           </div>
         </div>
         <div class="ui fluid large blue submit button">Entrar</div>
-        
+
         <div class="ui error message">
         </div>
 
       </form>
-        
+
       <form role="form" data-tab="register" method="post" action="{{url_for('auth.register')}}" class="ui large register form bottom attached tab segment">
         {{ register_form.hidden_tag() }}
         <div class="field {{'error' if register_form.module.errors else ''}}">
@@ -83,10 +83,10 @@
             {{ register_form.module(placeholder=register_form.module.label.text) }}
           </div>
         </div>
-        <div class="field {{'error' if register_form.username.errors else ''}}">
+        <div class="field {{'error' if register_form.email.errors else ''}}">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            {{ register_form.username(placeholder=register_form.username.label.text) }}
+            {{ register_form.email(placeholder=register_form.email.label.text) }}
           </div>
         </div>
         <div class="field {{'error' if register_form.password.errors else ''}}">
@@ -102,7 +102,7 @@
           </div>
         </div>
         <div class="ui fluid large blue submit button">Cadastrar</div>
-        
+
         <div class="ui error message">
         </div>
 
@@ -110,7 +110,7 @@
 
       <form role="form" data-tab="new_password" method="post" action="" class="ui large new_password form bottom attached tab segment">
         {{ login_form.hidden_tag() }}
-        
+
         <p>Uma senha temporária será enviada para seu email</p>
 
         <div class="field {{ 'error' if new_password_form.email.errors else '' }}">
@@ -119,9 +119,9 @@
             {{ new_password_form.email(placeholder=new_password_form.email.label.text) }}
           </div>
         </div>
-        
+
         <div class="ui fluid large blue submit button">Enviar</div>
-        
+
         <div class="ui error message">
         </div>
 
@@ -139,19 +139,15 @@
   <script>
     $('.ui.login.form').form({
       fields: {
-        username: {
-          identifier: 'username',
+        email: {
+          identifier: 'email',
           rules: [{
               type: 'empty',
-              prompt: 'Por favor, insira seu nome de usuário'
+              prompt: 'Por favor, insira seu email'
             },{
-              type: 'minLength[6]',
-              prompt: 'Seu nome de usuário deve ter no mínimo 6 caracteres'
-            },{
-              type: 'maxLength[40]',
-              prompt: 'Seu nome de usuário deve ter no máximo 40 caracteres'
-            }
-          ]
+              type: 'email',
+              prompt: 'O email informado não é válido'
+            }]
         },
         password: {
           identifier: 'password',
@@ -166,7 +162,7 @@
         }
       }
     });
-    
+
     $('.ui.register.form').form({
       fields: {
         module: {
@@ -179,17 +175,14 @@
             prompt: 'Identificadores de módulos tem no mínimo 6 caracteres'
           }]
         },
-        username: {
-          identifier: 'username',
+        email: {
+          identifier: 'email',
           rules: [{
               type: 'empty',
-              prompt: 'Por favor, insira seu nome de usuário'
+              prompt: 'Por favor, insira seu email'
             },{
-              type: 'minLength[6]',
-              prompt: 'Seu nome de usuário deve ter no mínimo 6 caracteres'
-            },{
-              type: 'maxLength[40]',
-              prompt: 'Seu nome de usuário deve ter no máximo 40 caracteres'
+              type: 'email',
+              prompt: 'O email informado não é válido'
             }]
         },
         password: {
@@ -230,11 +223,9 @@
         }
       }
     });
-    
+
     $('.ui.menu .item').tab();
   </script>
 </body>
 
 </html>
-
-

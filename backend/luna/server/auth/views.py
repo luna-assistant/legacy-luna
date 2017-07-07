@@ -30,7 +30,7 @@ def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():
         user = User(
-            username=form.username.data,
+            username=form.email.data,
             password=form.password.data
         )
 
@@ -38,7 +38,7 @@ def register():
         login_user(user)
 
         flash('Você foi cadastrado com sucesso!', 'success')
-        return redirect(url_for("main.dashboard"))
+        return redirect(url_for('profile.profile'))
     return render_template('auth/login.html', login_form=LoginForm(), register_form=form, new_password_form=NewPasswordForm())
 
 
@@ -46,11 +46,13 @@ def register():
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        user = UserRepository().findByUsername(form.username.data)
+        user = UserRepository().findByUsername(form.email.data)
         if user and bcrypt.check_password_hash(
                 user.password, request.form['password']):
             login_user(user)
             flash('Suas credenciais foram autenticadas com sucesso!', 'success')
+            if user.person is None:
+                return redirect(url_for('profile.profile'))
             return redirect(url_for('main.dashboard'))
         else:
             flash('Suas credenciais não foram reconhecidas.', 'error')

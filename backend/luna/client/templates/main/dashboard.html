@@ -4,7 +4,7 @@
 
 <h2 class="ui header">
   Dashboard
-  <div class="sub header">Tudo certo, <span class="">{{ current_user.username }}</span>?</div>
+  <div class="sub header">Tudo certo, <span class="">{{ current_user.person.first_name or current_user.username }}</span>?</div>
 </h2>
 
 <section class="room">
