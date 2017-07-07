@@ -1,0 +1,47 @@
+<form id="modaledit{{person_id}}" class="ui small form {{ 'error' if form.errors else '' }} modal edit"  action="{{ url_for('associated.edit', person_id=person_id)}}" method="post">
+  <i class="close icon"></i>
+  <div class="header">
+    Editar Associado
+  </div>
+  <div class="ui content">
+    <div class="ui error message">
+      {% for (field, errors) in form.errors.items() %}
+        {% for error in errors %}
+          <li>{{error}}</li>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    {{ form.hidden_tag() }}
+
+      <div class="field required {{ 'error' if form.name.errors else '' }}">
+        {{ form.name.label }}
+        {{ form.name(placeholder=form.name.label.text) }}
+      </div>
+      <div class="two fields">
+        <div class="field required {{ 'error' if form.cpf.errors else '' }}">
+          {{ form.cpf.label }}
+          {{ form.cpf(placeholder=form.cpf.label.text, data_mask='000.000.000-00') }}
+        </div>
+        <div class="field required {{ 'error' if form.birth.errors else '' }}">
+          {{ form.birth.label }}
+          {{ form.birth(placeholder=form.birth.label.text, data_mask='00/00/0000') }}
+        </div>
+      </div>
+      <div class="field required {{ 'error' if form.email.errors else '' }}">
+        {{ form.email.label }}
+        {{ form.email(placeholder=form.email.label.text) }}
+      </div>
+      <div class="field required {{ 'error' if form.contact.errors else '' }}">
+        {{ form.contact.label }}
+        {{ form.contact(placeholder=form.contact.label.text, data_mask='(00) 000000000') }}
+      </div>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Cancelar
+    </div>
+    <div class="ui green submit button">
+      Editar
+    </div>
+  </div>
+</form>

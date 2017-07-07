@@ -1,0 +1,19 @@
+<form id="modaldelete{{person_id}}" class="ui small form modal delete"  action="{{ url_for('associated.delete', associated_id=person_id)}}" method="post">
+  <i class="close icon"></i>
+  <div class="header">
+    Tem certeza que deseja excluir esse associado?
+  </div>
+  <div class="ui content">
+    <b>Essa operação não poderá ser desfeita.</b>
+    <br>
+    Deseja excluir <b>{{ person.name }}</b>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Cancelar
+    </div>
+    <div class="ui green submit button">
+      Excluir
+    </div>
+  </div>
+</form>

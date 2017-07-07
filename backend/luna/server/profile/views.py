@@ -16,7 +16,7 @@ def profile():
     person = person_repository.findByUserId(current_user.id)
     if person is None:
         person = Person(user_id=current_user.id)
-    form = PersonForm(obj=person, email=next(person.emails, None))
+    form = PersonForm(obj=person, email=next((email.email for email in person.emails), None))
     if form.validate_on_submit():
         form.populate_obj(person)
         person.cpf = clean_id(person.cpf)

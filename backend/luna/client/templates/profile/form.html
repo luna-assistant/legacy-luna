@@ -9,9 +9,9 @@
 
 
 <form class="ui form {{ 'error' if form.errors else '' }}" method="post">
-  
+
   {{ form.hidden_tag() }}
-  
+
   <h4 class="ui dividing header">Informações Pessoais</h4>
   <div class="field required {{ 'error' if form.name.errors else '' }}">
     {{ form.name.label }}
@@ -29,9 +29,9 @@
     {{ form.birth.label }}
     {{ form.birth(placeholder=form.birth.label.text, data_mask='00/00/0000') }}
   </div>
-  
-  
-  <h4 class="ui dividing header">Redes Sociais</h4>  
+
+
+  <h4 class="ui dividing header">Redes Sociais</h4>
   <div class="field {{ 'error' if form.facebook.errors else '' }}">
     {{ form.facebook.label }}
     {{ form.facebook(placeholder=form.facebook.label.text) }}
@@ -40,7 +40,7 @@
     {{ form.twitter.label }}
     {{ form.twitter(placeholder=form.twitter.label.text) }}
   </div>
-  
+
   <h4 class="ui dividing header">Endereço</h4>
   <div class="field {{ 'error' if form.postal_code.errors else '' }}">
     {{ form.postal_code.label }}
@@ -58,9 +58,9 @@
     {{ form.neighborhood.label }}
     {{ form.neighborhood(placeholder=form.neighborhood.label.text) }}
   </div>
-  
+
   <button type="submit" class="ui button">Salvar</button>
-  
+
 </form>
 
 {% endblock %}
