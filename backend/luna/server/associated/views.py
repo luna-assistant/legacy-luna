@@ -28,7 +28,7 @@ def add():
     form = AssociatedForm()
 
     if form.validate_on_submit():
-                
+
         person = Person()
 
         form.populate_obj(person)
@@ -88,5 +88,25 @@ def edit(person_id):
     else:
         print(form.errors)
         return render_template('associated/form.html',form=form, person_id=person_id)
+
+    return redirect(url_for('associated.index'))
+
+@associated_blueprint.route('/associados/excluir/<associated_id>', methods=['GET', 'POST'])
+@login_required
+def delete(associated_id):
+
+    person_id = current_user.person().id
+    person = person_repository.find(associated_id)
+
+    if request.method == 'GET':
+        return render_template('associated/modals/delete.html', person=person, person_id=associated_id)
+
+    if request.method == 'POST':
+        person_associated_repository.deleteAssociation(person_id, associated_id)
+
+        if not person.user_id:
+            person_repository.delete(associated_id)
+
+        flash('Associado removido com sucesso!', 'success')
 
     return redirect(url_for('associated.index'))

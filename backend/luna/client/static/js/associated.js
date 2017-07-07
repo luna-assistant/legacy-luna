@@ -9,6 +9,7 @@ const init = () => {
   $('.button.add').click(openModalCreate);
   $('.button.show').click(function() { openModalShow(this)});
   $('.button.edit').click(function() { openModalEdit(this)});
+  $('.button.delete').click(function() { openModalDelete(this)});
 
 }
 
@@ -85,6 +86,22 @@ const openModalEdit = (button) => {
         $(element).mask($(element).attr('data-mask'));
       });
       initForm('form.modal.edit');
+    }
+  });
+}
+
+const openModalDelete = (button) => {
+  let id = $(button).closest('tr[data-id]').data('id');
+
+  $.ajax({
+    url: '/associados/excluir/' + id,
+    success: function(modal) {
+      $('.ajax.modals').html('');
+      $('.ajax.modals').append(modal);
+
+      $('#modaldelete' + id).modal('show');
+
+      initForm('form.modal.delete');
     }
   });
 }

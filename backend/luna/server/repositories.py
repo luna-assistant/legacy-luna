@@ -276,6 +276,10 @@ class PeopleAssociatedRepository(BaseRepository):
         query = QueryBuilder(self.model.table).delete().where('person_id').sql()
         db.execute_sql(query, (person_id,))
 
+    def deleteAssociation(self, person_id, associated_id):
+        query = QueryBuilder(self.model.table).delete().where('person_id').where('associated_id').sql()
+        db.execute_sql(query, (person_id, associated_id))
+
     def allByPerson(self, person_id):
         query = '''
         SELECT p.*
