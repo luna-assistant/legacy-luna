@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, Length, EqualTo
 
 class AssociatedForm(PersonForm):
     create_user = BooleanField('Criar Usuário')
-    contacts = StringField('Contato', [DataRequired()])
+    contact = StringField('Contato', [DataRequired()])
     # username = StringField('Nome de Usuário', [Length(min=6, max=40)])
     # password = PasswordField('Senha', [Length(min=6, max=40)])
     # confirm = PasswordField(

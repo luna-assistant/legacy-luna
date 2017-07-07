@@ -21,12 +21,12 @@
       </tr>
     </thead>
     <tbody>
-      {% for person in current_user.person().associated() %}
+      {% for person in current_user.person.associated %}
         <tr data-id="{{ person.id }}">
           <td>{{ person.name }}</td>
           <td>
-            {% if person.emails() %}
-              {% for email in person.emails() %}
+            {% if person.emails %}
+              {% for email in person.emails %}
                 {{ email.email }} <br>
               {% endfor %}
             {% else %}
@@ -34,8 +34,8 @@
             {% endif %}
           </td>
           <td>
-            {% if person.contacts() %}
-              {% for contact in person.contacts() %}
+            {% if person.contacts %}
+              {% for contact in person.contacts %}
                 ({{ contact.ddd }}) {{ contact.num }} <br />
               {% endfor %}
             {% else %}
@@ -91,9 +91,9 @@
         {{ form.email.label }}
         {{ form.email(placeholder=form.email.label.text) }}
       </div>
-      <div class="field required {{ 'error' if form.contacts.errors else '' }}">
-        {{ form.contacts.label }}
-        {{ form.contacts(placeholder=form.contacts.label.text, data_mask='(00) 000000000') }}
+      <div class="field required {{ 'error' if form.contact.errors else '' }}">
+        {{ form.contact.label }}
+        {{ form.contact(placeholder=form.contact.label.text, data_mask='(00) 000000000') }}
       </div>
       <div class="ui segment">
         <div class="ui checkbox">

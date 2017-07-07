@@ -43,6 +43,7 @@ class User(Model):
     def get_id(self):
         return self.username
 
+    @property
     def person(self):
         return PersonRepository().findByUserId(self.id)
 
@@ -72,12 +73,15 @@ class Person(Model):
         'deleted_at'
     ]
 
+    @property
     def emails(self):
         return EmailRepository().allByPerson(self.id)
 
+    @property
     def contacts(self):
         return ContactRepository().allByPerson(self.id)
 
+    @property
     def associated(self):
         return PeopleAssociatedRepository().allByPerson(self.id)
 

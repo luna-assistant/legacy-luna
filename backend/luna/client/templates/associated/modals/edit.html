@@ -31,9 +31,9 @@
         {{ form.email.label }}
         {{ form.email(placeholder=form.email.label.text) }}
       </div>
-      <div class="field required {{ 'error' if form.contacts.errors else '' }}">
-        {{ form.contacts.label }}
-        {{ form.contacts(placeholder=form.contacts.label.text, data_mask='(00) 000000000') }}
+      <div class="field required {{ 'error' if form.contact.errors else '' }}">
+        {{ form.contact.label }}
+        {{ form.contact(placeholder=form.contact.label.text, data_mask='(00) 000000000') }}
       </div>
   </div>
   <div class="actions">

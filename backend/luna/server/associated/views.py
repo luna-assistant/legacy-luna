@@ -33,7 +33,7 @@ def add():
 
         form.populate_obj(person)
         person.cpf = clean_id(person.cpf)
-        phone = clean_id(form.contacts.data)
+        phone = clean_id(form.contact.data)
 
         person = dict(person)
         person['emails'] = [form.email.data]
@@ -43,7 +43,7 @@ def add():
         }]
 
         person = person_repository.create(person)
-        person_associated_repository.create(dict(person_id=current_user.person().id, associated_id=person.id))
+        person_associated_repository.create(dict(person_id=current_user.person.id, associated_id=person.id))
 
         flash('Associado adicionado com sucesso!', 'success')
 
@@ -64,16 +64,16 @@ def edit(person_id):
     form = AssociatedForm(obj=person)
 
     if request.method == 'GET':
-        form.email.data = next(person.emails()).email
-        contact = next(person.contacts()) if person.contacts() != None else ''
-        form.contacts.data = contact.ddd + contact.num if contact else ''
+        form.email.data = next(person.emails).email
+        contact = next(person.contacts) if person.contacts != None else ''
+        form.contact.data = '{}{}'.format(contact.ddd, contact.num) if contact else ''
         return render_template('associated/modals/edit.html', form=form, person_id=person_id)
 
     if form.validate_on_submit():
         form.populate_obj(person)
 
         person.cpf = clean_id(person.cpf)
-        phone = clean_id(form.contacts.data)
+        phone = clean_id(form.contact.data)
 
         person = dict(person)
         person['emails'] = [form.email.data]
@@ -95,7 +95,7 @@ def edit(person_id):
 @login_required
 def delete(associated_id):
 
-    person_id = current_user.person().id
+    person_id = current_user.person.id
     person = person_repository.find(associated_id)
 
     if request.method == 'GET':
