@@ -10,8 +10,8 @@ from flask import render_template, Blueprint, url_for, \
 from flask_login import login_user, logout_user, login_required
 
 from luna.server import bcrypt
-from luna.server.models import User, Email
-from luna.server.repositories import UserRepository, EmailRepository
+from luna.server.models import User, Email, Role
+from luna.server.repositories import UserRepository, EmailRepository, UserHasRoleRepository
 from luna.server.auth.forms import LoginForm, RegisterForm, NewPasswordForm
 
 ################
@@ -35,6 +35,8 @@ def register():
         )
 
         user = UserRepository().create(user)
+        # UserHasRoleRepository().create(dict(user_id=user.id, role_id=Role.COMMON))
+
         login_user(user)
 
         flash('Você foi cadastrado com sucesso!', 'success')

@@ -13,7 +13,7 @@ person_repository = PersonRepository()
 @profile_blueprint.route('/perfil', methods=['GET', 'POST'])
 @login_required
 def profile():
-    person = person_repository.findByUserId(current_user.id)
+    person = person_repository.findByUser(current_user.id)
     if person is None:
         person = Person(user_id=current_user.id)
     form = PersonForm(obj=person, email=next((email.email for email in person.emails), None))

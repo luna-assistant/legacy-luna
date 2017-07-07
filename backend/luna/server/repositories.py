@@ -19,7 +19,7 @@ class BaseRepository(object):
 
         query = QueryBuilder(self.model.table, self.model.columns[1:])\
             .insert()\
-            .returning([self.model.primary_key])\
+            .returning([*self.model.primary_key] if isinstance(self.model.primary_key, tuple) else [self.model.primary_key])\
             .sql()
 
         cursor = db.execute_sql(
@@ -87,6 +87,10 @@ class BaseRepository(object):
         return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
 
 
+class ManyToManyRepository(BaseRepository):
+    pass
+
+
 class UserRepository(BaseRepository):
 
     @property
@@ -121,6 +125,15 @@ class UserRepository(BaseRepository):
             .sql()
         cursor = db.execute_sql(query, (username,))
         return models.User(**dict(zip(self.model.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
+
+    def allByRole(self, role_id):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .join('user_has_roles')\
+            .on('role_id')\
+            .sql()
+
+        cursor = db.execute_sql(query, (role_id,))
+        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
 
 
 class PersonRepository(BaseRepository):
@@ -173,7 +186,7 @@ class PersonRepository(BaseRepository):
 
         return person
 
-    def findByUserId(self, user_id, with_trash=False):
+    def findByUser(self, user_id, with_trash=False):
         query = QueryBuilder(self.model.table, self.model.columns)\
             .where('user_id')\
             .limit(1)
@@ -205,21 +218,6 @@ class PersonRepository(BaseRepository):
             self.model.columns, cursor.fetchone()
         )))
 
-    def findByUserId(self, user_id, with_trash=False):
-        query = '''
-        SELECT {}
-        FROM {}
-        WHERE user_id = %s {}
-        LIMIT 1
-        '''.format(', '.join(self.model.columns),
-                   self.model.table,
-                   'AND deleted_at IS NULL' if not with_trash else '')
-
-        cursor = db.execute_sql(query, (user_id,))
-        if cursor.rowcount == 0:
-            return None
-        return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
-
 
 class EmailRepository(BaseRepository):
 
@@ -239,7 +237,7 @@ class EmailRepository(BaseRepository):
             .where('person_id')\
             .sql()
         cursor = db.execute_sql(query, (person_id,))
-        return (models.Email(**dict(zip(self.model.columns, r))) for r in cursor)
+        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
 
 
 class ContactRepository(BaseRepository):
@@ -260,7 +258,7 @@ class ContactRepository(BaseRepository):
             .where('person_id')\
             .sql()
         cursor = db.execute_sql(query, (person_id,))
-        return (models.Contact(**dict(zip(self.model.columns, r))) for r in cursor)
+        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
 
 
 class PeopleAssociatedRepository(BaseRepository):
@@ -277,12 +275,12 @@ class PeopleAssociatedRepository(BaseRepository):
         db.execute_sql(query, (person_id, associated_id))
 
     def allByPerson(self, person_id):
-        query = '''
-        SELECT p.*
-        FROM people p
-        INNER JOIN people_associated pa on pa.associated_id = p.id
-        WHERE pa.person_id = %s
-        '''
+        query = QueryBuilder(models.Person.table, models.Person.columns)\
+            .join(self.model.table)\
+            .on('person_id')\
+            .on('associated_id', '=', 'id')\
+            .sql()
+
         cursor = db.execute_sql(query, (person_id,))
         return (models.Person(**dict(zip(models.Person.columns, r))) for r in cursor)
 
@@ -306,3 +304,27 @@ class FederativeUnitRepository(BaseRepository):
     @property
     def model(self):
         return models.FederativeUnit
+
+
+class UserHasRoleRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.UserHasRole
+
+
+class RoleRepository(ManyToManyRepository):
+
+    @property
+    def model(self):
+        return models.Role
+
+    def allByUser(self, user_id):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .join('user_has_roles')\
+            .on('role_id', '=', 'id')\
+            .on('user_id')\
+            .sql()
+
+        cursor = db.execute_sql(query, (user_id,))
+        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)

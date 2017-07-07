@@ -8,7 +8,7 @@
       <div class="right menu">
         <a href="#" class="novo-modulo item">Novo Módulo</a>
         <div class="ui dropdown item">
-          {{ current_user.username }} <i class="dropdown icon"></i>
+          {{ current_user.person.first_name or current_user.username }} <i class="dropdown icon"></i>
           <div class="menu">
             <a href="{{ url_for('associated.index')}}" class="item">Associados</a>
             <a href="{{ url_for('profile.profile') }}" class="item">Perfil</a>

@@ -1,7 +1,7 @@
 # luna/server/models.py
 
 from luna.server.repositories import EmailRepository, ContactRepository, \
-    PeopleAssociatedRepository, PersonRepository
+    PeopleAssociatedRepository, PersonRepository, UserRepository, RoleRepository
 
 
 class Model(object):
@@ -34,10 +34,24 @@ class Role(Model):
 
     @property
     def users(self):
-        return []
+        return UserRepository().allByRole(self.id)
 
     def __repr__(self):
         return '<Role {}>'.format(self.name)
+
+
+class UserHasRole(Model):
+
+    table = 'user_has_roles'
+    primary_key = ('user_id', 'role_id')
+
+    columns = [
+        'user_id',
+        'role_id'
+    ]
+
+    def __repr__(self):
+        return '<UserHasRole {}.{}>'.format(self.user_id, self.role_id)
 
 
 class User(Model):
@@ -67,14 +81,14 @@ class User(Model):
 
     @property
     def person(self):
-        return PersonRepository().findByUserId(self.id)
+        return PersonRepository().findByUser(self.id)
 
     @property
     def roles(self):
-        return []
+        return RoleRepository().allByUser(self.id)
 
     def has_role(self, role_id):
-        return False
+        return (role_id in (role.id for role in self.roles))
 
     def __repr__(self):
         return '<User {0}>'.format(self.username)

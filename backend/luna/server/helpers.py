@@ -7,7 +7,7 @@ class QueryBuilder(object):
 
     def __init__(self, table, columns=[]):
         self.__table = table
-        self.__columns = columns
+        self.__columns = ['{}.{}'.format(self.__table, c) for c in columns]
         self.__kind = self.SELECT_KIND
         self.__where = []
         self.__or_where = []
@@ -45,31 +45,35 @@ class QueryBuilder(object):
         return self
 
     def order_by(self, column, direction='ASC'):
-        self.__order_by.append((column, direction))
+        self.__order_by.append(('{}.{}'.format(self.__table, column), direction))
         return self
 
     def where(self, column, condition='=', value='%s'):
-        self.__where.append((column, condition, value))
+        self.__where.append(('{}.{}'.format(self.__table, column), condition, value))
         return self
 
     def or_where(self, column, condition='=', value='%s'):
-        self.__or_where.append((column, condition, value))
+        self.__or_where.append(('{}.{}'.format(self.__table, column), condition, value))
         return self
 
     def returning(self, columns):
-        self.__returning = list(columns)
+        self.__returning = ['{}.{}'.format(self.__table, c) for c in columns]
         return self
-    
+
     def join(self, table, columns=[], kind='INNER'):
         self.__join_table = table
         self.__join_kind = kind
         self.__join_columns = ['{}.{}'.format(table, c) for c in columns]
         return self
-    
+
     def on(self, column, condition='=', value='%s'):
-        self.__join_on_conditions.append((column, condition, value))
+        self.__join_on_conditions.append((
+            '{}.{}'.format(self.__join_table, column),
+            condition,
+            value if value == '%s' else '{}.{}'.format(self.__table, value)
+        ))
         return self
-    
+
     def sql(self):
         if self.__kind == self.INSERT_KIND:
             query = self.sql_insert()
@@ -82,7 +86,7 @@ class QueryBuilder(object):
 
         elif self.__kind == self.SELECT_KIND:
             query = self.sql_select()
-
+        print(query)
         return query
 
     def sql_insert(self):
@@ -91,7 +95,7 @@ class QueryBuilder(object):
         VALUES ({})
         '''.format(
             self.__table,
-            ', '.join(self.__columns),
+            ', '.join([c.rsplit('.', 1)[-1] for c in self.__columns]),
             ', '.join(['%s' for c in self.__columns])
         )
 
@@ -108,7 +112,7 @@ class QueryBuilder(object):
         SET {}
         '''.format(
             self.__table,
-            ', '.join(['{} = %s'.format(c) for c in self.__columns])
+            ', '.join(['{} = %s'.format(c.rsplit('.', 1)[-1]) for c in self.__columns])
         )
 
         if self.__where:
@@ -134,7 +138,7 @@ class QueryBuilder(object):
             ', '.join(self.__columns + self.__join_columns),
             self.__table
         )
-        
+
         if self.__join_table:
             query += '''
             {} JOIN {}
