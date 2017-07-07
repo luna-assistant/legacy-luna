@@ -12,6 +12,18 @@ INSERT INTO users (id, username, password) VALUES
 
 ON CONFLICT (id) DO NOTHING;
 
+INSERT INTO user_has_roles (user_id, role_id) VALUES
+
+(1, 1),
+(2, 2),
+(3, 2),
+(4, 2),
+(5, 2),
+(6, 2),
+(7, 2)
+
+ON CONFLICT (user_id, role_id) DO NOTHING;
+
 INSERT INTO people(name, cpf, birth, user_id) VALUES
 
 ('Superusuário', '76298205853', '1980-01-01', 1),
@@ -22,6 +34,6 @@ INSERT INTO people(name, cpf, birth, user_id) VALUES
 ('Dielly Viana', '46369858935', '1980-01-01', 6),
 ('Felipe Barbosa', '58372827427', '1980-01-01', 7)
 
-ON CONFLICT (id) DO NOTHING;
+ON CONFLICT (cpf) DO NOTHING;
 
 COMMIT;
