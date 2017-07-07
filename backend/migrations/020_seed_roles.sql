@@ -1,4 +1,4 @@
-INSERT INTO roles (id, name, verbose_name)
+INSERT INTO roles (id, name, display_name)
 VALUES
   (1, 'admin', 'Administrador'),
   (2, 'comum', 'Comum'),
@@ -6,4 +6,4 @@ VALUES
 ON CONFLICT (id) DO UPDATE
 SET
   name = EXCLUDED.name,
-  verbose_name = EXCLUDED.verbose_name;
+  display_name = EXCLUDED.display_name;
