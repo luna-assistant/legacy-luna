@@ -83,16 +83,45 @@ def create_admin():
 @manager.command
 def create_data():
     """Creates sample data."""
-    # import datetime
-    # 
-    # userRepo = UserRepository()
+    import datetime
+
+    userRepo = UserRepository()
+    personRepo = PersonRepository()
+
+    users = [
+        { 'username': 'admin@luna.com', 'name': 'Admin', 'cpf': '11111111111', 'contact':'84912345678' },
+        { 'username': 'chicobentojr@luna.com', 'name': 'Francisco Bento', 'cpf': '27280861253', 'contact':'84985296341' },
+        { 'username': 'dayannemorato@luna.com', 'name': 'Dayanne Morato', 'cpf': '58864170103', 'contact':'84915978426' },
+        { 'username': 'diellyviana@luna.com', 'name': 'Dielly Viana', 'cpf': '14321367719', 'contact':'84996548521' },
+        { 'username': 'felipemfp@luna.com', 'name': 'Felipe Pontes', 'cpf': '74275088824', 'contact':'84925896321' },
+        { 'username': 'felipebarbosa@luna.com', 'name': 'Felipe Barbosa', 'cpf': '28946848600', 'contact':'84912547896' },
+        { 'username': 'yuriscosta@luna.com', 'name': 'Yuri Costa', 'cpf': '25621871219', 'contact':'84912455689' },
+    ]
+
+    for user in users:
+        new_user = userRepo.findByUsername(user['username'])
+        if not new_user:
+            new_user = User(username=user['username'], password='mudar@123')
+            userRepo.create(new_user)
+
+            person = {}
+            person['name'] = user['name']
+            person['cpf'] = user['cpf']
+            person['birth'] = datetime.datetime(1993, 2, 1)
+            person['emails'] = [user['username']]
+            person['contacts'] = [{
+                'ddd': user['contact'][0:2],
+                'num': user['contact'][2:]
+            }]
+            # person = Person(person)
+            personRepo.create(person)
+
     # usuario = userRepo.findByUsername('felipempf')
-    # print(usuario)
     # personRepo = PersonRepository()
-    # 
+    #
     # carol = User(username='carolina', password='mudar@123')
     # carol = userRepo.create(carol)
-    # 
+    #
     # carolPerson = Person(name='Carolina da Silva', cpf='18434621924', birth=datetime.datetime(1993, 3, 2))
     # carolPerson = personRepo.create(carolPerson)
     # carolPerson.address = 'Av. Senador Cunha, 122'
@@ -100,7 +129,7 @@ def create_data():
     # carolPerson.postal_code = '59000000'
     # carolPerson.neighborhood = 'Vinheiros'
     # carolPerson = personRepo.update(carolPerson.id, carolPerson)
-    
+    #
     # carolPerson = personRepo.findByCpf('18434621924')
     # if carolPerson:
     #     carolPerson = dict(carolPerson)

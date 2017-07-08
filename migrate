@@ -24,3 +24,4 @@ else
   migrate $1
 fi
 
+docker-compose run backend pipenv run python manage.py create_data
