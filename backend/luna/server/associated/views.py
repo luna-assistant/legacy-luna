@@ -2,13 +2,20 @@ from flask import render_template, Blueprint, url_for, \
     redirect, flash, request
 from flask_login import login_required, current_user
 from luna.server.associated.forms import AssociatedForm
-from luna.server.models import Person, User
+from luna.server.models import Person, User, Role
 from luna.server.repositories import PersonRepository, PeopleAssociatedRepository, \
     UserRepository
 from brazilnum.util import clean_id
 
 
 associated_blueprint = Blueprint('associated', __name__,)
+
+
+@associated_blueprint.before_request
+def admin_not_welcome():
+    if current_user.is_authenticated and current_user.has_role(Role.ADMIN):
+        return redirect(url_for('admin.index'))
+
 
 person_repository = PersonRepository()
 person_associated_repository = PeopleAssociatedRepository()

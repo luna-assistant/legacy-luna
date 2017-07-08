@@ -1,0 +1,2 @@
+ALTER TABLE module_types
+ADD COLUMN IF NOT EXISTS icon VARCHAR(50);

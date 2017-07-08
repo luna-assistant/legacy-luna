@@ -3,11 +3,17 @@ from flask import render_template, Blueprint, url_for, \
 from flask_login import login_required, current_user
 from luna.server.profile.forms import PersonForm
 from luna.server.repositories import PersonRepository
-from luna.server.models import Person
+from luna.server.models import Person, Role
 from brazilnum.util import clean_id
 
 profile_blueprint = Blueprint('profile', __name__,)
 person_repository = PersonRepository()
+
+
+@profile_blueprint.before_request
+def admin_not_welcome():
+    if current_user.is_authenticated and current_user.has_role(Role.ADMIN):
+        return redirect(url_for('admin.index'))
 
 
 @profile_blueprint.route('/perfil', methods=['GET', 'POST'])

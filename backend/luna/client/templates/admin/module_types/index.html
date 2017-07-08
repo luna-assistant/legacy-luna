@@ -1,0 +1,67 @@
+{% extends "admin/_base.html" %}
+
+{% block title %} - Admin{% endblock %}
+
+{% block content %}
+
+<div class="ui main container">
+  <h2 class="ui header">
+    Tipos de Módulos
+  </h2>
+
+  <section class="room">
+    <div class="ui novo teal labeled icon button">
+      Cadastrar Tipo de Módulo
+      <i class="add icon"></i>
+    </div>
+    <table class="ui purple unstackable table">
+      <thead>
+        <tr>
+          <th class="two wide">Código</th>
+          <th class="nine wide">Nome</th>
+          <th class="five wide">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>00001</td>
+          <td>Iluminação</td>
+          <td>
+            <button class="ui visualizar green basic button">Visualizar</button>
+            <button class="ui editar blue basic button">Editar</button>
+            <button class="ui excluir red basic button">Excluir</button>
+          </td>
+        </tr>
+        <tr>
+          <td>00002</td>
+          <td>Torneira</td>
+          <td>
+            <button class="ui visualizar green basic button">Visualizar</button>
+            <button class="ui editar blue basic button">Editar</button>
+            <button class="ui excluir red basic button">Excluir</button>
+          </td>
+        </tr>
+        <tr>
+          <td>00003</td>
+          <td>Porta</td>
+          <td>
+            <button class="ui visualizar green basic button">Visualizar</button>
+            <button class="ui editar blue basic button">Editar</button>
+            <button class="ui excluir red basic button">Excluir</button>
+          </td>
+        </tr>
+        <tr>
+          <td>00004</td>
+          <td>Janela</td>
+          <td>
+            <button class="ui visualizar green basic button">Visualizar</button>
+            <button class="ui editar blue basic button">Editar</button>
+            <button class="ui excluir red basic button">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+{% endblock %}

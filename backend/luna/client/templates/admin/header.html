@@ -1,0 +1,22 @@
+<header>
+  <nav class="ui menu">
+    <div class="ui container">
+      <a href="{{ url_for('main.dashboard') }}" class="item">
+        <img class="logo" src="{{url_for('static', filename='images/logo.png')}}" />
+      </a>
+      {% if current_user.is_authenticated %}
+      <div class="right menu">
+        <a href="{{ url_for('admin.module_types') }}" class="{{ request.path.startswith(url_for('admin.module_types')) and 'active' }} item">Tipos de Módulo</a>
+        <a href="{{ url_for('admin.modules') }}" class="{{ request.path.startswith(url_for('admin.modules')) and 'active' }} item">Módulos</a>
+        <div class="ui dropdown item">
+          {{ current_user.person.first_name or current_user.username }} <i class="dropdown icon"></i>
+          <div class="menu">
+            <a href="#" class="item">Alterar Senha</a>
+            <a href="{{ url_for('auth.logout') }}" class="item">Sair</a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </nav>
+</header>

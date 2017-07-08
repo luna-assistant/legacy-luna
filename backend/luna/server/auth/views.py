@@ -57,6 +57,8 @@ def login():
                 user.password, request.form['password']):
             login_user(user)
             flash('Suas credenciais foram autenticadas com sucesso!', 'success')
+            if user.has_role(Role.ADMIN):
+                return redirect(url_for('admin.index'))
             if user.person is None:
                 return redirect(url_for('profile.profile'))
             return redirect(url_for('main.dashboard'))

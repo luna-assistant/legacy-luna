@@ -5,8 +5,9 @@
 #### imports ####
 #################
 
-from flask_login import login_required
-from flask import render_template, Blueprint
+from flask_login import login_required, current_user
+from flask import render_template, Blueprint, redirect, url_for
+from luna.server.models import Role
 
 
 ################
@@ -14,6 +15,11 @@ from flask import render_template, Blueprint
 ################
 
 main_blueprint = Blueprint('main', __name__,)
+
+@main_blueprint.before_request
+def admin_not_welcome():
+    if current_user.is_authenticated and current_user.has_role(Role.ADMIN):
+        return redirect(url_for('admin.index'))
 
 
 ################
