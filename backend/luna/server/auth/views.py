@@ -25,7 +25,7 @@ auth_blueprint = Blueprint('auth', __name__,)
 #### routes ####
 ################
 
-@auth_blueprint.route('/cadastro', methods=['POST'])
+@auth_blueprint.route('/cadastro', methods=['GET','POST'])
 def register():
     form = RegisterForm(request.form)
     if form.validate_on_submit():

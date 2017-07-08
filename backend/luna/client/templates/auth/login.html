@@ -38,12 +38,12 @@
 
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-      {% for category, message in messages %}
-      <div class="ui {{ category }} message">
-        <i class="close icon"></i>
-        {{message}}
-      </div>
-      {% endfor %}
+        {% for category, message in messages %}
+          <div class="ui {{ category }} message">
+            <i class="close icon"></i>
+            {{message}}
+          </div>
+        {% endfor %}
       {% endif %}
       {% endwith %}
 
@@ -53,7 +53,7 @@
         <a class="item" data-tab="new_password">Alterar a senha</a>
       </div>
 
-      <form role="form" data-tab="login" method="post" action="" class="ui large login form bottom attached active tab segment">
+      <form role="form" data-tab="login" method="post" action="" class="ui large login form {{ 'error' if login_form.errors else '' }} bottom attached active tab segment">
         {{ login_form.hidden_tag() }}
 
         <div class="field {{'error' if login_form.email.errors else ''}}">
@@ -71,11 +71,18 @@
         <div class="ui fluid large blue submit button">Entrar</div>
 
         <div class="ui error message">
+          <ul class="list">
+            {% for (field, errors) in login_form.errors.items() %}
+              {% for error in errors %}
+                <li>{{error}}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
         </div>
 
       </form>
 
-      <form role="form" data-tab="register" method="post" action="{{url_for('auth.register')}}" class="ui large register form bottom attached tab segment">
+      <form role="form" data-tab="register" method="post" action="{{url_for('auth.register')}}" class="ui large register form {{ 'error' if register_form.errors else '' }} bottom attached tab segment">
         {{ register_form.hidden_tag() }}
         <div class="field {{'error' if register_form.module.errors else ''}}">
           <div class="ui left icon input">
@@ -104,6 +111,13 @@
         <div class="ui fluid large blue submit button">Cadastrar</div>
 
         <div class="ui error message">
+          <ul class="list">
+            {% for (field, errors) in register_form.errors.items() %}
+              {% for error in errors %}
+                <li>{{error}}</li>
+              {% endfor %}
+            {% endfor %}
+          </ul>
         </div>
 
       </form>
@@ -207,6 +221,11 @@
         }
       }
     });
+    if (window.location.href.search('cadastro') != -1) {
+      $.tab('change tab', 'register');
+      $('[data-tab]').removeClass('active');
+      $('[data-tab=register]').addClass('active');
+    }
 
     $('.ui.new_password.form').form({
       fields: {
