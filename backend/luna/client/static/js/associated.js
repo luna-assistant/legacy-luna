@@ -3,8 +3,11 @@ const init = () => {
 
   initForm('form.modal.add');
   $('.modal').modal();
-  if ($('.modal').hasClass('error'))
+  if ($('.modal.edit').hasClass('error')) {
+    $('.modal.edit').modal('show');
+  } else if ($('.modal').hasClass('error')) {
     $('.modal').modal('show');
+  }
 
   $('.button.add').click(openModalCreate);
   $('.button.show').click(function() { openModalShow(this)});
@@ -42,8 +45,8 @@ const initForm = (selectQuery) => {
         rules: [{
           type: 'empty', prompt: 'Por favor, insira o Email'
       }]},
-      contacts: {
-        identifier: 'contacts',
+      contact: {
+        identifier: 'contact',
         rules: [{
           type: 'empty', prompt: 'Por favor, insira o Contato'
       }]}
@@ -67,6 +70,11 @@ const openModalShow = (button) => {
       $('.ajax.modals').append(modal);
 
       $('#modalshow' + id).modal('show');
+
+      $('#modalshow' + id).find('[data-mask]').map(function(index, element){
+        console.log(element);
+        $(element).mask($(element).attr('data-mask'));
+      });
     }
   });
 }

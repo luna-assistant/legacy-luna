@@ -4,7 +4,11 @@
     Visualizar Associado
   </div>
   <div class="ui content">
-    {{ person.name }}
+    <b>Nome: </b><span>{{ person.name }}</span><br>
+    <b>CPF: </b><span data-mask="000.000.000-00"></span>{{ person.cpf }}<br>
+    <b>Data de Nascimento: </b><span data-mask="00/00/0000"></span>{{ person.birth }}<br>
+    <b>Facebook: </b><a href="{{person.facebook}}" target="_blank">{{person.facebook}}</a><br>
+    <b>Twitter: </b><a href="{{person.twitter}}">{{person.twitter}}</a>
   </div>
   <div class="actions">
     <div class="ui cancel button">

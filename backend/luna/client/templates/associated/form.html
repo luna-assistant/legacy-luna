@@ -33,14 +33,16 @@
           </td>
           <td>
               {% for contact in person.contacts %}
-                ({{ contact.ddd }}) {{ contact.num }} <br />
+              <span data-mask="(00) 0 0000-0000">{{ contact.ddd }}{{ contact.num }}</span><br />
             {% else %}
               <span>Não informado</span>
             {% endfor %}
           </td>
           <td>
             <button class="ui green basic button show">Visualizar</button>
-            <button class="ui blue basic button edit">Editar</button>
+            {% if not person.user_id %}
+              <button class="ui blue basic button edit">Editar</button>
+            {% endif %}
             <button class="ui red basic button delete">Excluir</button>
           </td>
         </tr>
@@ -54,7 +56,7 @@
   </table>
 </section>
 
-<form class="ui small form {{ 'error' if form.errors else '' }} modal add"  action="{{ url_for('associated.add')}}" method="post">
+<form class="ui small form {{ 'error' if not error_edit and form.errors else '' }} modal add"  action="{{ url_for('associated.add')}}" method="post">
   <i class="close icon"></i>
   <div class="header">
     Adicionar Associado
@@ -89,7 +91,7 @@
       </div>
       <div class="field required {{ 'error' if form.contact.errors else '' }}">
         {{ form.contact.label }}
-        {{ form.contact(placeholder=form.contact.label.text, data_mask='(00) 000000000') }}
+        {{ form.contact(placeholder=form.contact.label.text, data_mask='(00) 0 0000-0000') }}
       </div>
       <div class="ui segment">
         <div class="ui checkbox">
@@ -109,7 +111,9 @@
 </form>
 
 <div class="ajax modals">
-
+  {% if error_edit %}
+    {% include 'associated/modals/edit.html' %}
+  {% endif %}
 </div>
 
 

@@ -2,8 +2,9 @@ from flask import render_template, Blueprint, url_for, \
     redirect, flash, request
 from flask_login import login_required, current_user
 from luna.server.associated.forms import AssociatedForm
-from luna.server.models import Person
-from luna.server.repositories import PersonRepository, PeopleAssociatedRepository
+from luna.server.models import Person, User
+from luna.server.repositories import PersonRepository, PeopleAssociatedRepository, \
+    UserRepository
 from brazilnum.util import clean_id
 
 
@@ -41,6 +42,17 @@ def add():
             'ddd': phone[0:2],
             'num': phone[2:]
         }]
+
+
+        if form.create_user.data:
+            user = User(
+                username=form.email.data,
+                password='mudar@123'
+            )
+
+            user = UserRepository().create(user)
+
+            person['user_id'] = user.id
 
         person = person_repository.create(person)
         person_associated_repository.create(dict(person_id=current_user.person.id, associated_id=person.id))
@@ -88,7 +100,7 @@ def edit(person_id):
         flash('Associado atualizado com sucesso!', 'success')
     else:
         print(form.errors)
-        return render_template('associated/form.html',form=form, person_id=person_id)
+        return render_template('associated/form.html',form=form, person_id=person_id, error_edit=True)
 
     return redirect(url_for('associated.index'))
 
