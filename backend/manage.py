@@ -19,8 +19,8 @@ COV = coverage.coverage(
 COV.start()
 
 from luna.server import app
-from luna.server.models import User, Person
-from luna.server.repositories import UserRepository, PersonRepository
+from luna.server.models import User, Person, Role
+from luna.server.repositories import UserRepository, PersonRepository, UserHasRoleRepository
 
 
 manager = Manager(app)
@@ -87,6 +87,7 @@ def create_data():
 
     userRepo = UserRepository()
     personRepo = PersonRepository()
+    userHasRoleRepo = UserHasRoleRepository()
 
     users = [
         { 'username': 'admin@luna.com', 'name': 'Admin', 'cpf': '11111111111', 'contact':'84912345678' },
@@ -102,7 +103,12 @@ def create_data():
         new_user = userRepo.findByUsername(user['username'])
         if not new_user:
             new_user = User(username=user['username'], password='mudar@123')
-            userRepo.create(new_user)
+            new_user = userRepo.create(new_user)
+            
+            if user['username'] == 'admin@luna.com':
+                userHasRoleRepo.create(dict(user_id=new_user.id, role_id=Role.ADMIN))
+            else:
+                userHasRoleRepo.create(dict(user_id=new_user.id, role_id=Role.COMMON))
 
             person = {}
             person['name'] = user['name']
@@ -113,6 +119,7 @@ def create_data():
                 'ddd': user['contact'][0:2],
                 'num': user['contact'][2:]
             }]
+            person['user_id'] = new_user.id
             # person = Person(person)
             personRepo.create(person)
 
