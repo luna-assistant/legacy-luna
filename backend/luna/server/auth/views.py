@@ -35,7 +35,11 @@ def register():
         )
 
         user = UserRepository().create(user)
-        # UserHasRoleRepository().create(dict(user_id=user.id, role_id=Role.COMMON))
+        
+        UserHasRoleRepository().create(dict(
+            user_id=user.id,
+            role_id=Role.COMMON
+        ))
 
         login_user(user)
 

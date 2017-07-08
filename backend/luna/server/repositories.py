@@ -19,7 +19,7 @@ class BaseRepository(object):
 
         query = QueryBuilder(self.model.table, self.model.columns[1:])\
             .insert()\
-            .returning([*self.model.primary_key] if isinstance(self.model.primary_key, tuple) else [self.model.primary_key])\
+            .returning([self.model.primary_key])\
             .sql()
 
         cursor = db.execute_sql(
@@ -87,10 +87,6 @@ class BaseRepository(object):
         return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
 
 
-class ManyToManyRepository(BaseRepository):
-    pass
-
-
 class UserRepository(BaseRepository):
 
     @property
@@ -124,11 +120,14 @@ class UserRepository(BaseRepository):
             .limit(1)\
             .sql()
         cursor = db.execute_sql(query, (username,))
-        return models.User(**dict(zip(self.model.columns, cursor.fetchone()))) if cursor.rowcount > 0 else None
+        if cursor.rowcount == 0:
+            return None
+        return models.User(**dict(zip(self.model.columns, cursor.fetchone())))
 
     def allByRole(self, role_id):
         query = QueryBuilder(self.model.table, self.model.columns)\
             .join('user_has_roles')\
+            .on('user_id', '=', 'id')\
             .on('role_id')\
             .sql()
 
@@ -199,7 +198,9 @@ class PersonRepository(BaseRepository):
         cursor = db.execute_sql(query, (user_id,))
         if cursor.rowcount == 0:
             return None
-        return models.Person(**dict(zip(self.model.columns, cursor.fetchone())))
+        return models.Person(**dict(
+            zip(self.model.columns, cursor.fetchone())
+        ))
 
     def findByCpf(self, cpf, with_trash=False):
         query = QueryBuilder(self.model.table, self.model.columns)\
@@ -262,16 +263,19 @@ class ContactRepository(BaseRepository):
 
 
 class PeopleAssociatedRepository(BaseRepository):
+
     @property
     def model(self):
         return models.PersonAssociated
 
     def deleteByPerson(self, person_id):
-        query = QueryBuilder(self.model.table).delete().where('person_id').sql()
+        query = QueryBuilder(self.model.table).delete().where(
+            'person_id').sql()
         db.execute_sql(query, (person_id,))
 
     def deleteAssociation(self, person_id, associated_id):
-        query = QueryBuilder(self.model.table).delete().where('person_id').where('associated_id').sql()
+        query = QueryBuilder(self.model.table).delete().where(
+            'person_id').where('associated_id').sql()
         db.execute_sql(query, (person_id, associated_id))
 
     def allByPerson(self, person_id):
@@ -282,7 +286,9 @@ class PeopleAssociatedRepository(BaseRepository):
             .sql()
 
         cursor = db.execute_sql(query, (person_id,))
-        return (models.Person(**dict(zip(models.Person.columns, r))) for r in cursor)
+        return (models.Person(**dict(
+            zip(models.Person.columns, r)
+        )) for r in cursor)
 
 
 class CityRepository(BaseRepository):
@@ -306,14 +312,28 @@ class FederativeUnitRepository(BaseRepository):
         return models.FederativeUnit
 
 
-class UserHasRoleRepository(BaseRepository):
+class UserHasRoleRepository():
 
-    @property
-    def model(self):
-        return models.UserHasRole
+    def create(self, values):
+        query = QueryBuilder('user_has_roles', ['user_id', 'role_id'])\
+            .insert()\
+            .returning(['user_id', 'role_id'])\
+            .sql()
+        cursor = db.execute_sql(query, (values['user_id'], values['role_id']))
+        return models.UserHasRole(**dict(
+            zip(models.UserHasRole.columns, cursor.fetchone())
+        ))
+
+    def delete(self, values):
+        query = QueryBuilder('user_has_roles')\
+            .delete()\
+            .where('user_id')\
+            .where('role_id')\
+            .sql()
+        db.execute_sql(query, (values['user_id'], values['role_id']))
 
 
-class RoleRepository(ManyToManyRepository):
+class RoleRepository(BaseRepository):
 
     @property
     def model(self):

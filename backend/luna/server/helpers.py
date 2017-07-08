@@ -86,7 +86,7 @@ class QueryBuilder(object):
 
         elif self.__kind == self.SELECT_KIND:
             query = self.sql_select()
-        print(query)
+        # print(query)
         return query
 
     def sql_insert(self):

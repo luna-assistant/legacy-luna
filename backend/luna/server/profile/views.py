@@ -16,9 +16,20 @@ def profile():
     person = person_repository.findByUser(current_user.id)
     if person is None:
         person = Person(user_id=current_user.id)
-    form = PersonForm(obj=person, email=next((email.email for email in person.emails), None))
+    form = PersonForm(obj=person, email=next(
+        (email.email for email in person.emails), current_user.username))
     if form.validate_on_submit():
-        form.populate_obj(person)
+        print('START:', dict(person))
+        if person.id is None:
+            already_person = person_repository.findByCpf(
+                clean_id(form.cpf.data))
+            if already_person:
+                form.populate_obj(already_person)
+                person = already_person
+        print('MID:', dict(person))
+        if not already_person:
+            form.populate_obj(person)
+        print('END:', dict(person))
         person.cpf = clean_id(person.cpf)
         if person.postal_code:
             person.postal_code = clean_id(person.postal_code)

@@ -1,7 +1,8 @@
 # luna/server/models.py
 
 from luna.server.repositories import EmailRepository, ContactRepository, \
-    PeopleAssociatedRepository, PersonRepository, UserRepository, RoleRepository
+    PeopleAssociatedRepository, PersonRepository, UserRepository, \
+    RoleRepository
 
 
 class Model(object):
