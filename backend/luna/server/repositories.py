@@ -71,9 +71,7 @@ class BaseRepository(object):
         query = query.sql()
 
         cursor = db.execute_sql(query, (pk,))
-        if cursor.rowcount == 0:
-            return None
-        return self.model(**dict(zip(self.model.columns, cursor.fetchone())))
+        return self.as_object(cursor)
 
     def all(self, with_trash=False):
         query = QueryBuilder(self.model.table, self.model.columns)
@@ -82,9 +80,20 @@ class BaseRepository(object):
             query = query.where('deleted_at', 'IS', 'NULL')
 
         query = query.sql()
-
         cursor = db.execute_sql(query)
-        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+        return self.as_iterator(cursor)
+
+    def as_iterator(self, cursor, model=None):
+        if model is None:
+            model = self.model
+        return (model(**dict(zip(model.columns, r))) for r in cursor)
+
+    def as_object(self, cursor, model=None):
+        if cursor.rowcount == 0:
+            return None
+        if model is None:
+            model = self.model
+        return model(**dict(zip(model.columns, cursor.fetchone())))
 
 
 class UserRepository(BaseRepository):
@@ -120,9 +129,7 @@ class UserRepository(BaseRepository):
             .limit(1)\
             .sql()
         cursor = db.execute_sql(query, (username,))
-        if cursor.rowcount == 0:
-            return None
-        return models.User(**dict(zip(self.model.columns, cursor.fetchone())))
+        return self.as_object(cursor)
 
     def allByRole(self, role_id):
         query = QueryBuilder(self.model.table, self.model.columns)\
@@ -132,7 +139,7 @@ class UserRepository(BaseRepository):
             .sql()
 
         cursor = db.execute_sql(query, (role_id,))
-        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+        return self.as_iterator(cursor)
 
 
 class PersonRepository(BaseRepository):
@@ -196,11 +203,7 @@ class PersonRepository(BaseRepository):
         query = query.sql()
 
         cursor = db.execute_sql(query, (user_id,))
-        if cursor.rowcount == 0:
-            return None
-        return models.Person(**dict(
-            zip(self.model.columns, cursor.fetchone())
-        ))
+        return self.as_object(cursor)
 
     def findByCpf(self, cpf, with_trash=False):
         query = QueryBuilder(self.model.table, self.model.columns)\
@@ -213,11 +216,7 @@ class PersonRepository(BaseRepository):
         query = query.sql()
 
         cursor = db.execute_sql(query, (cpf,))
-        if cursor.rowcount == 0:
-            return None
-        return models.Person(**dict(zip(
-            self.model.columns, cursor.fetchone()
-        )))
+        return self.as_object(cursor)
 
 
 class EmailRepository(BaseRepository):
@@ -238,7 +237,7 @@ class EmailRepository(BaseRepository):
             .where('person_id')\
             .sql()
         cursor = db.execute_sql(query, (person_id,))
-        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+        return self.as_iterator(cursor)
 
 
 class ContactRepository(BaseRepository):
@@ -259,7 +258,7 @@ class ContactRepository(BaseRepository):
             .where('person_id')\
             .sql()
         cursor = db.execute_sql(query, (person_id,))
-        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+        return self.as_iterator(cursor)
 
 
 class PeopleAssociatedRepository(BaseRepository):
@@ -286,9 +285,7 @@ class PeopleAssociatedRepository(BaseRepository):
             .sql()
 
         cursor = db.execute_sql(query, (person_id,))
-        return (models.Person(**dict(
-            zip(models.Person.columns, r)
-        )) for r in cursor)
+        return self.as_iterator(cursor, models.Person)
 
 
 class CityRepository(BaseRepository):
@@ -302,7 +299,7 @@ class CityRepository(BaseRepository):
             .where('federative_unit_id')\
             .sql()
         cursor = db.execute_sql(query, (federative_unit_id,))
-        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+        return self.as_iterator(cursor)
 
 
 class FederativeUnitRepository(BaseRepository):
@@ -347,4 +344,53 @@ class RoleRepository(BaseRepository):
             .sql()
 
         cursor = db.execute_sql(query, (user_id,))
-        return (self.model(**dict(zip(self.model.columns, r))) for r in cursor)
+        return self.as_iterator(cursor)
+
+
+class ModuleTypeRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.ModuleType
+
+
+class InformationTypeRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.InformationType
+
+
+class CommandTypeRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.CommandType
+
+
+class InformationRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.Information
+
+    def allByModuleType(self, module_type_id):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('module_type_id')\
+            .sql()
+        cursor = db.execute_sql(query, (module_type_id,))
+        return self.as_iterator(cursor)
+
+
+class CommandRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.Command
+
+    def allByModuleType(self, module_type_id):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('module_type_id')\
+            .sql()
+        cursor = db.execute_sql(query, (module_type_id,))
+        return self.as_iterator(cursor)

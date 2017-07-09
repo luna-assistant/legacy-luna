@@ -1,8 +1,6 @@
 # luna/server/models.py
 
-from luna.server.repositories import EmailRepository, ContactRepository, \
-    PeopleAssociatedRepository, PersonRepository, UserRepository, \
-    RoleRepository
+from luna.server import repositories
 
 
 class Model(object):
@@ -35,7 +33,7 @@ class Role(Model):
 
     @property
     def users(self):
-        return UserRepository().allByRole(self.id)
+        return repositories.UserRepository().allByRole(self.id)
 
     def __repr__(self):
         return '<Role {}>'.format(self.name)
@@ -82,11 +80,11 @@ class User(Model):
 
     @property
     def person(self):
-        return PersonRepository().findByUser(self.id)
+        return repositories.PersonRepository().findByUser(self.id)
 
     @property
     def roles(self):
-        return RoleRepository().allByUser(self.id)
+        return repositories.RoleRepository().allByUser(self.id)
 
     def has_role(self, role_id):
         return (role_id in (role.id for role in self.roles))
@@ -125,15 +123,15 @@ class Person(Model):
 
     @property
     def emails(self):
-        return EmailRepository().allByPerson(self.id)
+        return repositories.EmailRepository().allByPerson(self.id)
 
     @property
     def contacts(self):
-        return ContactRepository().allByPerson(self.id)
+        return repositories.ContactRepository().allByPerson(self.id)
 
     @property
     def associated(self):
-        return PeopleAssociatedRepository().allByPerson(self.id)
+        return repositories.PeopleAssociatedRepository().allByPerson(self.id)
 
     def __repr__(self):
         return '<Person {}>'.format(self.cpf)
@@ -208,4 +206,98 @@ class PersonAssociated(Model):
     ]
 
     def __repr__(self):
-        return '<PersonAssociated {}-{}>'.format(self.person_id, self.associated_id)
+        return '<PersonAssociated {}->{}>'.format(self.person_id, self.associated_id)
+
+
+class ModuleType(Model):
+
+    table = 'module_types'
+    columns = [
+        'id',
+        'name',
+        'icon',
+        'description'
+    ]
+    
+    @property
+    def informations(self):
+        return repositories.InformationRepository().allByModuleType(self.id)
+        
+    @property
+    def commands(self):
+        return repositories.CommandRepository().allByModuleType(self.id)
+
+    def __repr__(self):
+        return '<ModuleType {}>'.format(self.name)
+
+
+class InformationType(Model):
+    DIGITAL_OUT = 1
+    ANALOGIC_OUT = 2
+    DIGITAL_IN = 3
+    ANALOGIC_IN = 4
+    PARAMETER = 5
+
+    table = 'information_types'
+    columns = [
+        'id',
+        'description',
+    ]
+
+    def __repr__(self):
+        return '<InformationType {}>'.format(self.description)
+
+
+class Information(Model):
+
+    table = 'module_types'
+    columns = [
+        'id',
+        'name',
+        'identifier',
+        'description',
+        'module_type_id',
+        'information_type_id'
+    ]
+    
+    @property
+    def information_type(self):
+        return repositories.InformationTypeRepository().find(self.information_type_id)
+
+    def __repr__(self):
+        return '<Information {}>'.format(self.name)
+
+
+class CommandType(Model):
+    ACTION = 1
+    PARAMETER = 2
+    READING = 3
+
+    table = 'command_types'
+    columns = [
+        'id',
+        'description',
+    ]
+    
+    def __repr__(self):
+        return '<CommandType {}>'.format(self.description)
+
+
+class Command(Model):
+
+    table = 'module_types'
+    columns = [
+        'id',
+        'name',
+        'identifier',
+        'description',
+        'module_type_id',
+        'command_type_id'
+    ]
+    
+    @property
+    def command_type(self):
+        return repositories.CommandTypeRepository().find(self.command_type_id)
+
+    def __repr__(self):
+        return '<Command {}>'.format(self.name)
