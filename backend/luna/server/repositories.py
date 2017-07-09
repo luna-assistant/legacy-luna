@@ -101,7 +101,7 @@ class UserRepository(BaseRepository):
     @property
     def model(self):
         return models.User
-
+    
     def create(self, values):
         if isinstance(values, models.User):
             values = dict(values)

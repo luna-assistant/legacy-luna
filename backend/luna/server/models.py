@@ -116,6 +116,10 @@ class Person(Model):
     ]
 
     @property
+    def user(self):
+        return repositories.UserRepository().find(self.user_id)
+    
+    @property
     def first_name(self):
         if self.name is None:
             return None

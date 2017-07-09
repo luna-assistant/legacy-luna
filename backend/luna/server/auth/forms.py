@@ -45,7 +45,7 @@ class NewPasswordForm(FlaskForm):
     ])
     password = PasswordField(
         'Nova senha',
-       validators=[DataRequired(message='O campo Senha é obrigatório'), Length(min=6, max=25)]
+        validators=[DataRequired(message='O campo Senha é obrigatório'), Length(min=6, max=25)]
     )
     confirm = PasswordField(
         'Confirmação',

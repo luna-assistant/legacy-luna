@@ -124,7 +124,7 @@
       </form>
 
       <div class="ui message">
-        <center><a href="#" class="new_password">Entre em contato!</a></center>
+        <center><a href="#" class="new_password">Esqueci minha senha</a></center>
       </div>
 
       <div class="ui small create modal">
@@ -134,7 +134,7 @@
 
         <div class="content">
           
-          <form role="form" data-tab="new_password" method="post" action="" class="ui large new_password form bottom ">
+          <form role="form" data-tab="new_password" method="post" action="{{url_for('auth.new_password')}}" class="ui large new_password form bottom ">
             <div class="field {{ 'error' if new_password_form.cpf.errors else '' }}">
               <div class="ui left icon input">
                 <i class="credit card alternative icon"></i>

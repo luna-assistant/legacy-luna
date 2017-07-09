@@ -11,8 +11,11 @@ from flask_login import login_user, logout_user, login_required
 
 from luna.server import bcrypt
 from luna.server.models import User, Email, Role
-from luna.server.repositories import UserRepository, EmailRepository, UserHasRoleRepository
+from luna.server.repositories import PersonRepository, UserRepository, EmailRepository, UserHasRoleRepository
 from luna.server.auth.forms import LoginForm, RegisterForm, NewPasswordForm
+
+from brazilnum.util import clean_id
+
 
 ################
 #### config ####
@@ -71,10 +74,16 @@ def login():
 @auth_blueprint.route('/new_password', methods=['POST'])
 def new_password():
     form = NewPasswordForm(request.form)
-    return render_template('auth/login.html',
-                           login_form=LoginForm(),
-                           register_form=RegisterForm(),
-                           new_password_form=form)
+    if form.validate_on_submit():
+        user = PersonRepository().findByCpf(clean_id(form.cpf.data)).user
+        if user:
+            user.password = form.password.data
+            UserRepository.update(user.id, user, update_password=True)
+            flash('Sua senha foi alterada com sucesso!', 'success')
+        else:
+            flash('Sua senha não foi alterada. Por favor, tente novamente!', 'error')
+   
+    return redirect(url_for('auth.login'))
 
 
 @auth_blueprint.route('/sair')
