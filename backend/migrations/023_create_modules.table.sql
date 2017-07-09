@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS modules (
+  id SERIAL PRIMARY KEY,
+  identifier VARCHAR NOT NULL,
+  name VARCHAR(100),
+  room VARCHAR(100),
+  module_type_id INTEGER NOT NULL REFERENCES module_types(id),
+  person_id INTEGER NULL REFERENCES people(id),
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL,
+  deleted_at TIMESTAMP NULL
+);

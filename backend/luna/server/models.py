@@ -208,6 +208,32 @@ class PersonAssociated(Model):
     def __repr__(self):
         return '<PersonAssociated {}->{}>'.format(self.person_id, self.associated_id)
 
+class Module(Model):
+
+    table = 'modules'
+    columns = [
+        'id',
+        'identifier',
+        'name',
+        'room',
+        'module_type_id',
+        'person_id',
+        'is_active',
+        'created_at',
+        'updated_at',
+        'deleted_at'
+    ]
+
+    @property
+    def type(self):
+        return repositories.ModuleTypeRepository().find(self.module_type_id)
+
+    @property
+    def person(self):
+        return repositories.PersonRepository().find(self.person_id)
+
+    def __repr__(self):
+        return '<Module {}>'.format(self.name)
 
 class ModuleType(Model):
 
@@ -218,11 +244,11 @@ class ModuleType(Model):
         'icon',
         'description'
     ]
-    
+
     @property
     def informations(self):
         return repositories.InformationRepository().allByModuleType(self.id)
-        
+
     @property
     def commands(self):
         return repositories.CommandRepository().allByModuleType(self.id)
@@ -259,7 +285,7 @@ class Information(Model):
         'module_type_id',
         'information_type_id'
     ]
-    
+
     @property
     def information_type(self):
         return repositories.InformationTypeRepository().find(self.information_type_id)
@@ -278,7 +304,7 @@ class CommandType(Model):
         'id',
         'description',
     ]
-    
+
     def __repr__(self):
         return '<CommandType {}>'.format(self.description)
 
@@ -294,7 +320,7 @@ class Command(Model):
         'module_type_id',
         'command_type_id'
     ]
-    
+
     @property
     def command_type(self):
         return repositories.CommandTypeRepository().find(self.command_type_id)

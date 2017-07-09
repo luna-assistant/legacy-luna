@@ -1,0 +1,39 @@
+<form data-kind="update" data-id="{{module.id}}" class="ui form {{ 'error' if form.errors else '' }} modal" method="post" action={{url_for('admin.modules', id=module.id)}}>
+  <i class="close icon"></i>
+  <div class="header">
+    Editar Módulo
+  </div>
+  <div class="ui content">
+
+    {% if form.errors %}
+      <div class="ui error message">
+        {% for (field, errors) in form.errors.items() %}
+          {% for error in errors %}
+            <li>{{error}}</li>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {{ form.hidden_tag() }}
+
+    <div class="field required {{ 'error' if form.identifier.errors else '' }}">
+      {{ form.identifier.label }}
+      {{ form.identifier(placeholder=form.identifier.label.text) }}
+    </div>
+
+    <div class="field required select {{ 'error' if form.module_type_id.errors else '' }}">
+      {{ form.module_type_id.label }}
+      {{ form.module_type_id(placeholder=form.module_type_id.label.text, class='ui fluid dropdown') }}
+    </div>
+    
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Cancelar
+    </div>
+    <div class="ui green submit button">
+      Salvar
+    </div>
+  </div>
+</form>
