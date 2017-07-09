@@ -25,9 +25,30 @@
     {{ form.email.label }}
     {{ form.email(placeholder=form.email.label.text) }}
   </div>
+
+  <div class="field ">
+    <label for="Email2">Email</label>
+    <input id="email2" name="email2" placeholder="Email" type="text" value="">
+  </div>
+
+  <div class="field ">
+    <label for="Email3">Email</label>
+    <input id="email3" name="email3" placeholder="Email" type="text" value="">
+  </div>
+
   <div class="field required {{ 'error' if form.birth.errors else '' }}">
     {{ form.birth.label }}
     {{ form.birth(placeholder=form.birth.label.text, data_mask='00/00/0000') }}
+  </div>
+
+  <div class="field ">
+    <label for="Celular">Celular *</label>
+    <input id="phone" name="phone" placeholder="Celular" type="text" value="">
+  </div>
+
+  <div class="field ">
+    <label for="Celular2">Celular</label>
+    <input id="phone2" name="phone2" placeholder="Celular " type="text" value="">
   </div>
 
 
@@ -46,6 +67,18 @@
     {{ form.postal_code.label }}
     {{ form.postal_code(placeholder=form.postal_code.label.text, data_mask='00000-000') }}
   </div>
+
+  <div class="field ">
+    <label for="Cidade">Cidade</label>
+    <input id="city" name="city" placeholder="Cidade" type="text" value="">
+  </div>
+
+  <div class="field ">
+    <label for="UF">Estado</label>
+    <input id="uf" name="uf" placeholder="Estado" type="text" value="">
+  </div>
+
+
   <div class="field {{ 'error' if form.address.errors else '' }}">
     {{ form.address.label }}
     {{ form.address(placeholder=form.address.label.text) }}
@@ -59,6 +92,8 @@
     {{ form.neighborhood(placeholder=form.neighborhood.label.text) }}
   </div>
 
+  
+  
   <button type="submit" class="ui button">Salvar</button>
 
 </form>
