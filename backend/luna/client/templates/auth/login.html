@@ -47,10 +47,9 @@
       {% endif %}
       {% endwith %}
 
-      <div class="ui top attached pointing three item menu">
+      <div class="ui top attached pointing two item menu">
         <a class="item active" data-tab="login">Acessar</a>
         <a class="item" data-tab="register">Registrar-se</a>
-        <a class="item" data-tab="new_password">Alterar a senha</a>
       </div>
 
       <form role="form" data-tab="login" method="post" action="" class="ui large login form {{ 'error' if login_form.errors else '' }} bottom attached active tab segment">
@@ -69,6 +68,10 @@
           </div>
         </div>
         <div class="ui fluid large blue submit button">Entrar</div>
+
+        <br>
+
+        <a href="#" class="new_password">Alterar a senha</a>
 
         <div class="ui error message">
           <ul class="list">
@@ -122,28 +125,37 @@
 
       </form>
 
-      <form role="form" data-tab="new_password" method="post" action="" class="ui large new_password form bottom attached tab segment">
-        {{ login_form.hidden_tag() }}
+      <div class="ui small create modal">
+        <i class="close icon"></i>
+        
+        <div class="header"></div>
 
-        <p>Uma senha temporária será enviada para seu email</p>
+        <div class="content">
 
-        <div class="field {{ 'error' if new_password_form.email.errors else '' }}">
-          <div class="ui left icon input">
-            <i class="at icon"></i>
-            {{ new_password_form.email(placeholder=new_password_form.email.label.text) }}
-          </div>
+          <form role="form" data-tab="new_password" method="post" action="" class="ui large new_password form bottom ">
+            <div class="field {{ 'error' if new_password_form.email.errors else '' }}">
+              <div class="ui left icon input">
+                <i class="at icon"></i>
+                  {{ new_password_form.email(placeholder=new_password_form.email.label.text) }}
+              </div>
+            </div>
+
+            <div class="actions">
+                <center><div class="ui blue submit button">Enviar</div></center>
+            </div>
+
+            <div class="ui error message"></div>
+
+          </form>
+
         </div>
 
-        <div class="ui fluid large blue submit button">Enviar</div>
-
-        <div class="ui error message">
-        </div>
-
-      </form>
+      </div>
 
       <div class="ui message">
-        Algum problema? <a href="#">Entre em contato!</a>
+        <center>Algum problema? <a href="#">Entre em contato!</a></center>
       </div>
+
     </div>
   </div>
 
@@ -243,6 +255,14 @@
       }
     });
 
+    $('a.new_password').click(function() {
+      $('.create.modal').find('.header').text("Uma senha temporária será enviada para seu email");
+      $('.create.modal').modal('show');
+
+    });
+
+
+    $('.ui.modal').modal();
     $('.ui.menu .item').tab();
   </script>
 </body>
