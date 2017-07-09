@@ -250,7 +250,7 @@ class InformationType(Model):
 
 class Information(Model):
 
-    table = 'module_types'
+    table = 'informations'
     columns = [
         'id',
         'name',
@@ -285,7 +285,7 @@ class CommandType(Model):
 
 class Command(Model):
 
-    table = 'module_types'
+    table = 'commands'
     columns = [
         'id',
         'name',

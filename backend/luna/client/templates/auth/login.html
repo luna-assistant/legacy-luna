@@ -178,6 +178,8 @@
   <script src="{{url_for('static', filename='main.js')}}" type="text/javascript"></script>
   <script>
     $('.ui.login.form').form({
+      inline: true,
+      on: 'blur',
       fields: {
         email: {
           identifier: 'email',
@@ -204,6 +206,8 @@
     });
 
     $('.ui.register.form').form({
+      inline: true,
+      on: 'blur',
       fields: {
         module: {
           identifier: 'module',
@@ -242,6 +246,9 @@
           rules: [{
               type: 'empty',
               prompt: 'Por favor, insira a confirmação da senha'
+            },{
+              type: 'match[password]',
+              prompt: 'A confirmação deve ser igual a senha informada'
             }
           ]
         }

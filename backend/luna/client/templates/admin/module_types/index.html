@@ -9,7 +9,7 @@
     Tipos de Módulos
   </h2>
 
-  <section class="room">
+  <section>
     <div class="ui novo teal labeled icon button">
       Cadastrar Tipo de Módulo
       <i class="add icon"></i>
@@ -23,45 +23,254 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>00001</td>
-          <td>Iluminação</td>
+        {% for module_type in module_types %}
+        <tr data-id="{{module_type.id}}">
+          <td>{{module_type.id}}</td>
+          <td title="{{module_type.description}}">{{module_type.name}}</td>
           <td>
             <button class="ui visualizar green basic button">Visualizar</button>
             <button class="ui editar blue basic button">Editar</button>
-            <button class="ui excluir red basic button">Excluir</button>
+            {# <button class="ui excluir red basic button">Excluir</button>#}
           </td>
         </tr>
+        {% else %}
         <tr>
-          <td>00002</td>
-          <td>Torneira</td>
-          <td>
-            <button class="ui visualizar green basic button">Visualizar</button>
-            <button class="ui editar blue basic button">Editar</button>
-            <button class="ui excluir red basic button">Excluir</button>
+          <td colspan="3">
+            Nenhum módulo cadastrado ainda.
           </td>
         </tr>
-        <tr>
-          <td>00003</td>
-          <td>Porta</td>
-          <td>
-            <button class="ui visualizar green basic button">Visualizar</button>
-            <button class="ui editar blue basic button">Editar</button>
-            <button class="ui excluir red basic button">Excluir</button>
-          </td>
-        </tr>
-        <tr>
-          <td>00004</td>
-          <td>Janela</td>
-          <td>
-            <button class="ui visualizar green basic button">Visualizar</button>
-            <button class="ui editar blue basic button">Editar</button>
-            <button class="ui excluir red basic button">Excluir</button>
-          </td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </section>
 </div>
 
+<form data-kind="create" class="ui form {{ 'error' if form.errors else '' }} modal" method="post">
+  <i class="close icon"></i>
+  <div class="header">
+    Adicionar Tipo de Módulo
+  </div>
+  <div class="ui content">
+    
+    {% if form.errors %}
+    <div class="ui error message">
+      {% for (field, errors) in form.errors.items() %}
+        {% for error in errors %}
+          <li>{{error}}</li>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  
+    {{ form.hidden_tag() }}
+    
+    <div class="fields">
+      <div class="twelve wide field required {{ 'error' if form.name.errors else '' }}">
+        {{ form.name.label }}
+        {{ form.name(placeholder=form.name.label.text) }}
+      </div>
+      <div class="four wide field required {{ 'error' if form.icon.errors else '' }}">
+        {{ form.icon.label }}
+        {{ form.icon(placeholder=form.icon.label.text) }}
+      </div>
+    </div>
+    <div class="field {{ 'error' if form.description.errors else '' }}">
+      {{ form.description.label }}
+      {{ form.description(placeholder=form.description.label.text) }}
+    </div>
+    
+    <section id="informations">
+       <h4 class="ui dividing header">Informações</h4>
+       {% for i in form.informations %}
+          <div class="fields">
+            {{ i.form.hidden_tag() }}
+            <div class="two wide field required {{ 'error' if i.form.identifier.errors else '' }}">
+              {{ i.form.identifier(placeholder=i.form.identifier.label.text, data_mask="0#") }}
+            </div>
+            <div class="four wide field required {{ 'error' if i.form.name.errors else '' }}">
+              {{ i.form.name(placeholder=i.form.name.label.text) }}
+            </div>
+            <div class="five wide field {{ 'error' if i.form.description.errors else '' }}">
+              {{ i.form.description(placeholder=i.form.description.label.text) }}
+            </div>
+            <div class="four wide field required select {{ 'error' if i.form.information_type_id.errors else '' }}">
+              {{ i.form.information_type_id(placeholder=i.form.information_type_id.label.text, class='ui fluid dropdown') }}
+            </div>
+            <div class="one wide">
+              <div class="ui icon {{ 'plus' if loop.first else 'trash' }} button">
+                <i class="{{ 'plus' if loop.first else 'trash' }} icon"></i>
+              </div>
+            </div>            
+          </div>
+       {% endfor %}
+    </section>
+    
+    <section id="commands">
+       <h4 class="ui dividing header">Comandos</h4>
+       {% for i in form.commands %}
+          <div class="fields">
+            {{ i.form.hidden_tag() }}
+            <div class="two wide field required {{ 'error' if i.form.identifier.errors else '' }}">
+              {{ i.form.identifier(placeholder=i.form.identifier.label.text, data_mask="0#") }}
+            </div>
+            <div class="four wide field required {{ 'error' if i.form.name.errors else '' }}">
+              {{ i.form.name(placeholder=i.form.name.label.text) }}
+            </div>
+            <div class="five wide field {{ 'error' if i.form.description.errors else '' }}">
+              {{ i.form.description(placeholder=i.form.description.label.text) }}
+            </div>
+            <div class="four wide field required select {{ 'error' if i.form.command_type_id.errors else '' }}">
+              {{ i.form.command_type_id(placeholder=i.form.command_type_id.label.text, class='ui fluid dropdown') }}
+            </div>
+            <div class="one wide">
+              <div class="ui icon {{ 'plus' if loop.first else 'trash' }} button">
+                <i class="{{ 'plus' if loop.first else 'trash' }} icon"></i>
+              </div>
+            </div>            
+          </div>
+       {% endfor %}
+    </section>
+    
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Cancelar
+    </div>
+    <div class="ui green submit button">
+      Adicionar
+    </div>
+  </div>
+</form>
+
+<div class="ajax">
+  {% if edit_form %}
+    {% with form = edit_form %}
+      {% include 'admin/module_types/edit.html' %}
+    {% endwith %}
+  {% endif %}
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+  function iniciar() {
+    $('table button.visualizar').click(function() {
+      let $this = $(this);
+      let id = $this.closest('tr').data('id');
+      $.ajax({
+        url: location.pathname + id,
+        success: function(modal) {
+          $('.modal[data-kind=show][data-id='+id+']').remove();
+          $('div.ajax').html('').append(modal);
+          $('.modal[data-kind=show][data-id='+id+']').modal('show');
+        }
+      });
+    });
+    
+    $('table button.editar').click(function() {
+      let $this = $(this);
+      let id = $this.closest('tr').data('id');
+      $.ajax({
+        url: location.pathname + id,
+        success: function(modal) {
+          $('.modal[data-kind=update][data-id='+id+']').remove();
+          $('div.ajax').html('').append(modal);
+          iniciarForm('.form[data-kind=update]');
+          iniciarLinhaControles();
+          $('.modal[data-kind=update][data-id='+id+']').modal('show');
+        }
+      });
+    });
+    
+    $('.novo.button').click(function () {
+      $('.modal[data-kind=create]').modal('show');
+    });
+    
+    iniciarLinhaControles();
+    
+    if ($('.modal[data-kind=create]').hasClass('error')) {
+      $('.modal[data-kind=create]').modal('show');
+    }
+    
+    if ($('.modal[data-kind=update]').hasClass('error')) {
+      $('.modal[data-kind=update]').modal('show');
+      iniciarForm('.form[data-kind=update]');
+    }
+    
+    iniciarForm('.form[data-kind=create]');
+  }
+  
+  function iniciarForm(selector) {
+    $(selector).form({
+      fields: {
+        name: {
+          rules: [{
+            type: 'empty',
+            prompt: 'Informe o nome'
+          }]
+        },
+        icon: {
+          rules: [{
+            type: 'empty',
+            prompt: 'Informe o ícone'
+          }]
+        },
+      },
+      inline: true
+    });
+  }
+  
+  function iniciarLinhaControles() {
+    $('section .plus.button').off('click').click(function() {
+      adicionarLinha($(this));
+      $(this).closest('.modal').modal('refresh');
+    });
+    
+    $('section .trash.button').off('click').click(function() {
+      removerLinha($(this));
+      $(this).closest('.modal').modal('refresh');
+    });
+  }
+  
+  function renomearLinhas($section) {
+    let name = $section.attr('id');
+    $section.find('.fields').map(function (i) {
+      let $fields = $(this);
+      $fields.find('[name^=' + name + ']').map(function() {
+        let id = $(this).attr('id');
+        let name = $(this).attr('name');
+        $(this).attr('id', id.replace(/\d+/g, i));
+        $(this).attr('name', name.replace(/\d+/g, i));
+      });
+    });
+  }
+  
+  function adicionarLinha($button) {
+    let $section = $button.closest('section');
+    let $fields = $section.find('.fields').last().clone();
+    
+    let $newButton = $fields.find('.plus.button');
+    $newButton.removeClass('plus').addClass('trash');
+    $newButton.find('.icon').removeClass('plus').addClass('trash');
+    
+    let $select = $fields.find('.field.select');
+    $select.html($select.find('select'));
+    
+    $section.append($fields);
+    $fields.find('select').addClass('ui fluid dropdown').dropdown();
+    
+    iniciarLinhaControles();
+    renomearLinhas($section); 
+  }
+  
+  function removerLinha($button) {
+    let $section = $button.closest('section');
+    let $fields = $button.closest('.fields').remove();
+    iniciarLinhaControles();    
+    renomearLinhas($section);
+  }
+  
+  $(iniciar);  
+</script>
 {% endblock %}
