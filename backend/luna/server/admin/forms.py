@@ -39,8 +39,9 @@ class ModuleTypeForm(FlaskForm):
     informations = FieldList(FormField(InformationForm), min_entries=1)
     commands = FieldList(FormField(CommandForm), min_entries=1)
 
+
 class ModuleForm(FlaskForm):
-    identifier = StringField('Identificador', [DataRequired(message='Identificador não pode ficar vazio.')])
+    quantity = IntegerField('Quantidade', [DataRequired(message='Quantidade não pode ficar vazio.')], default=1)
     module_type_id = SelectField('Tipo', coerce=int, choices=[(t.id, t.name) for t in module_type_repository.all()], validators=[
         DataRequired(message='Especifique o tipo, por favor.')
     ])

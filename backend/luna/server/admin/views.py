@@ -145,10 +145,10 @@ class ModuleAdmin(MethodView):
         form = ModuleForm()
         print(form.data)
         if form.validate_on_submit():
-            module = Module(**form.data)
-            module = self.module_repository.create(module)
-
-            flash('Módulo cadastrado com sucesso', 'success')
+            for x in range(form.quantity.data):
+                module = Module(**form.data)
+                self.module_repository.create(module)
+            flash('Módulo(s) cadastrado(s) com sucesso', 'success')
             return redirect(url_for('admin.modules'))
         return render_template('admin/modules/index.html',
                                modules=self.module_repository.all(),
@@ -158,7 +158,7 @@ class ModuleAdmin(MethodView):
         return redirect(url_for('admin.module_types'))
 
     def put(self, id):
-        pass
+        return redirect(url_for('admin.module_types'))
 
 
 def register_admin(view, endpoint, url, pk='id', pk_type='int'):

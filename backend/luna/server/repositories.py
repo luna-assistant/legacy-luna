@@ -1,4 +1,5 @@
 import datetime
+import time
 from luna.server import app, db, bcrypt, models, hashids
 from luna.server.helpers import QueryBuilder
 from hashids import Hashids
@@ -73,8 +74,11 @@ class BaseRepository(object):
         cursor = db.execute_sql(query, (pk,))
         return self.as_object(cursor)
 
-    def all(self, with_trash=False):
+    def all(self, with_trash=False, order_by=[('id',)]):
         query = QueryBuilder(self.model.table, self.model.columns)
+        
+        for o in order_by:
+            query = query.order_by(*o)
 
         if self.use_soft_delete and not with_trash:
             query = query.where('deleted_at', 'IS', 'NULL')
@@ -354,20 +358,12 @@ class ModuleRepository(BaseRepository):
         return models.Module
 
     def create(self, values):
-        base = datetime.datetime(2017,1,1)
-        now = datetime.datetime.now()
-        millis = (now - base).total_seconds()
-
-        values.identifier = str(millis)
+        timestamp = int(time.time())
+        values.identifier = str(timestamp)
         values.is_active = True
-
         module = super(ModuleRepository, self).create(values)
-
-        module.identifier = hashids.encode(module.id, module.module_type_id, int(millis))
-
-        module = super(ModuleRepository, self).update(module.id, module)
-
-        return module
+        module.identifier = hashids.encode(module.id, module.module_type_id, timestamp)
+        return self.update(module.id, module)
 
     def findByIdentifier(self, identifier, with_trash=False):
         query = QueryBuilder(self.model.table, self.model.columns)\

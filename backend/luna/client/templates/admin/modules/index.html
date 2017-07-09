@@ -69,9 +69,9 @@
 
     {{ form.hidden_tag() }}
 
-    <div class="field required {{ 'error' if form.identifier.errors else '' }}">
-      {{ form.identifier.label }}
-      {{ form.identifier(placeholder=form.identifier.label.text) }}
+    <div class="field required {{ 'error' if form.quantity.errors else '' }}">
+      {{ form.quantity.label }}
+      {{ form.quantity(placeholder=form.quantity.label.text, data_mask="0#") }}
     </div>
 
     <div class="field required select {{ 'error' if form.module_type_id.errors else '' }}">
