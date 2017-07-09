@@ -1,0 +1,96 @@
+<form data-kind="update" data-id="{{module_type.id}}" class="ui form {{ 'error' if form.errors else '' }} modal" method="post" action={{url_for('admin.module_types', id=module_type.id)}}>
+  <i class="close icon"></i>
+  <div class="header">
+    Editar Tipo de Módulo
+  </div>
+  <div class="ui content">
+    
+    {% if form.errors %}
+    <div class="ui error message">
+      {% for (field, errors) in form.errors.items() %}
+        {% for error in errors %}
+          <li>{{error}}</li>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  
+    {{ form.hidden_tag() }}
+    
+    <div class="fields">
+      <div class="twelve wide field required {{ 'error' if form.name.errors else '' }}">
+        {{ form.name.label }}
+        {{ form.name(placeholder=form.name.label.text) }}
+      </div>
+      <div class="four wide field required {{ 'error' if form.icon.errors else '' }}">
+        {{ form.icon.label }}
+        {{ form.icon(placeholder=form.icon.label.text) }}
+      </div>
+    </div>
+    <div class="field {{ 'error' if form.description.errors else '' }}">
+      {{ form.description.label }}
+      {{ form.description(placeholder=form.description.label.text) }}
+    </div>
+    
+    <section id="informations">
+       <h4 class="ui dividing header">Informações</h4>
+       {% for i in form.informations %}
+          <div class="fields">
+            {{ i.form.hidden_tag() }}
+            <div class="two wide field required {{ 'error' if i.form.identifier.errors else '' }}">
+              {{ i.form.identifier(placeholder=i.form.identifier.label.text, data_mask="0#") }}
+            </div>
+            <div class="four wide field required {{ 'error' if i.form.name.errors else '' }}">
+              {{ i.form.name(placeholder=i.form.name.label.text) }}
+            </div>
+            <div class="five wide field {{ 'error' if i.form.description.errors else '' }}">
+              {{ i.form.description(placeholder=i.form.description.label.text) }}
+            </div>
+            <div class="four wide field required select {{ 'error' if i.form.information_type_id.errors else '' }}">
+              {{ i.form.information_type_id(placeholder=i.form.information_type_id.label.text, class='ui fluid dropdown') }}
+            </div>
+            <div class="one wide">
+              <div class="ui icon {{ 'plus' if loop.first else 'trash' }} button">
+                <i class="{{ 'plus' if loop.first else 'trash' }} icon"></i>
+              </div>
+            </div>            
+          </div>
+       {% endfor %}
+    </section>
+    
+    <section id="commands">
+       <h4 class="ui dividing header">Comandos</h4>
+       {% for i in form.commands %}
+          <div class="fields">
+            {{ i.form.hidden_tag() }}
+            <div class="two wide field required {{ 'error' if i.form.identifier.errors else '' }}">
+              {{ i.form.identifier(placeholder=i.form.identifier.label.text, data_mask="0#") }}
+            </div>
+            <div class="four wide field required {{ 'error' if i.form.name.errors else '' }}">
+              {{ i.form.name(placeholder=i.form.name.label.text) }}
+            </div>
+            <div class="five wide field {{ 'error' if i.form.description.errors else '' }}">
+              {{ i.form.description(placeholder=i.form.description.label.text) }}
+            </div>
+            <div class="four wide field required select {{ 'error' if i.form.command_type_id.errors else '' }}">
+              {{ i.form.command_type_id(placeholder=i.form.command_type_id.label.text, class='ui fluid dropdown') }}
+            </div>
+            <div class="one wide">
+              <div class="ui icon {{ 'plus' if loop.first else 'trash' }} button">
+                <i class="{{ 'plus' if loop.first else 'trash' }} icon"></i>
+              </div>
+            </div>            
+          </div>
+       {% endfor %}
+    </section>
+    
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Cancelar
+    </div>
+    <div class="ui green submit button">
+      Salvar
+    </div>
+  </div>
+</form>

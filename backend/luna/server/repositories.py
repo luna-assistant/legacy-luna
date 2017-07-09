@@ -380,6 +380,13 @@ class InformationRepository(BaseRepository):
             .sql()
         cursor = db.execute_sql(query, (module_type_id,))
         return self.as_iterator(cursor)
+    
+    def deleteByModuleType(self, module_type_id):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .delete()\
+            .where('module_type_id')\
+            .sql()
+        db.execute_sql(query, (module_type_id,))
 
 
 class CommandRepository(BaseRepository):
@@ -394,3 +401,10 @@ class CommandRepository(BaseRepository):
             .sql()
         cursor = db.execute_sql(query, (module_type_id,))
         return self.as_iterator(cursor)
+    
+    def deleteByModuleType(self, module_type_id):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .delete()\
+            .where('module_type_id')\
+            .sql()
+        db.execute_sql(query, (module_type_id,))

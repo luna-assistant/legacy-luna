@@ -1,0 +1,74 @@
+<div data-kind="show" data-id="{{module_type.id}}" class="ui small modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Visualizar Tipo de Módulo
+  </div>
+  <div class="ui content">
+    <h2 class="ui header">
+      <i class="{{module_type.icon}} icon"></i>
+      <div class="content">
+        {{module_type.name}}
+        <div class="sub header">{{module_type.description}}</div>
+      </div>
+    </h2>
+    
+    <h4>Informações</h4>
+    <table class="ui table">
+      <thead>
+          <tr>
+            <th class="two wide">Identificador</th>
+            <th>Nome</th>
+            <th>Tipo</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for information in module_type.informations %}
+          <tr>
+            <td>{{information.identifier}}</td>
+            <td title="{{information.description}}">{{information.name}}</td>
+            <td>{{information.information_type.description}}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="3">
+              Sem informações cadastradas.
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>    
+    <h4>Comandos</h4>
+    <table class="ui table">
+      <thead>
+          <tr>
+            <th class="two wide">Identificador</th>
+            <th>Nome</th>
+            <th>Tipo</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for command in module_type.commands %}
+          <tr>
+            <td><pre><code>{{command.identifier}}</code></pre></td>
+            <td title="{{command.description}}">{{command.name}}</td>
+            <td>{{command.command_type.description}}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="3">
+              Sem comandos cadastrados.
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>    
+    
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Voltar
+    </div>
+  </div>
+</form>
+
+{% include 'admin/module_types/edit.html' %}

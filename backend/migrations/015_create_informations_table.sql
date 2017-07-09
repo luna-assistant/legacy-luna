@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS informations (
   identifier INTEGER NOT NULL,
   description VARCHAR,
   module_type_id INTEGER NOT NULL REFERENCES module_types(id),
-  information_type_id INTEGER NOT NULL REFERENCES information_type(id)
+  information_type_id INTEGER NOT NULL REFERENCES information_types(id)
 );

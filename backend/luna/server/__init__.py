@@ -13,6 +13,7 @@ from flask_bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 
 from peewee import PostgresqlDatabase
+from hashids import Hashids
 
 
 ################
@@ -38,6 +39,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 bcrypt = Bcrypt(app)
 toolbar = DebugToolbarExtension(app)
+hashids = Hashids(salt=app.config['SECRET_KEY'], min_length=6)
 
 
 ####################
