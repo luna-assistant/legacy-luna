@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask.views import MethodView
 from flask_login import current_user
-from luna.server.models import Role, ModuleType, Information, Command
-from luna.server.repositories import ModuleTypeRepository, \
+from luna.server.models import Role, ModuleType, Information, Command, Module
+from luna.server.repositories import ModuleRepository, ModuleTypeRepository, \
     InformationRepository, CommandRepository
 from luna.server.admin.forms import ModuleTypeForm, ModuleForm, \
     InformationForm, CommandForm
@@ -21,6 +21,26 @@ def admin_required():
 @admin_blueprint.route('/')
 def index():
     return render_template('admin/index.html')
+
+
+@admin_blueprint.route('modulo/<identifier>/status/atualizar')
+def modules_toggle_status(identifier):
+    module_repository = ModuleRepository()
+    module = module_repository.findByIdentifier(identifier)
+    if module is None:
+        flash('Módulo não encontrado', 'error')
+        return redirect(url_for('admin.modules'))
+
+    status = module.is_active
+
+    module.is_active = not status
+
+    module = module_repository.update(module.id, module)
+
+    msg = 'Ativado' if module.is_active else 'Desativado'
+    flash('Módulo {} com sucesso'.format(msg), 'success')
+
+    return redirect(url_for('admin.modules'))
 
 
 class ModuleTypeAdmin(MethodView):
@@ -99,14 +119,43 @@ class ModuleTypeAdmin(MethodView):
 
 class ModuleAdmin(MethodView):
 
-    def get(self, id):
-        return render_template('admin/index.html')
+    module_repository = ModuleRepository()
+    module_type_repository = ModuleTypeRepository()
+    information_repository = InformationRepository()
+    command_repository = CommandRepository()
 
-    def post(self):
-        pass
+    def get(self, id):
+        if id is not None:
+            module = self.module_repository.find(id)
+            if module is None:
+                flash('Módulo não encontrado', 'error')
+                return redirect(url_for('admin.modules'))
+            form = ModuleForm(obj=module)
+            return render_template('admin/modules/show.html',
+                                   module=module,
+                                   form=form)
+        return render_template('admin/modules/index.html',
+                               modules=self.module_repository.all(),
+                               form=ModuleForm())
+
+    def post(self, id):
+        if id is not None:
+            return self.put(id)
+
+        form = ModuleForm()
+        print(form.data)
+        if form.validate_on_submit():
+            module = Module(**form.data)
+            module = self.module_repository.create(module)
+
+            flash('Módulo cadastrado com sucesso', 'success')
+            return redirect(url_for('admin.modules'))
+        return render_template('admin/modules/index.html',
+                               modules=self.module_repository.all(),
+                               form=form)
 
     def delete(self, id):
-        pass
+        return redirect(url_for('admin.module_types'))
 
     def put(self, id):
         pass

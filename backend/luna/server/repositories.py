@@ -1,7 +1,7 @@
 import datetime
-from luna.server import app, db, bcrypt, models
+from luna.server import app, db, bcrypt, models, hashids
 from luna.server.helpers import QueryBuilder
-
+from hashids import Hashids
 
 class BaseRepository(object):
 
@@ -347,6 +347,42 @@ class RoleRepository(BaseRepository):
         return self.as_iterator(cursor)
 
 
+class ModuleRepository(BaseRepository):
+
+    @property
+    def model(self):
+        return models.Module
+
+    def create(self, values):
+        base = datetime.datetime(2017,1,1)
+        now = datetime.datetime.now()
+        millis = (now - base).total_seconds()
+
+        values.identifier = str(millis)
+        values.is_active = True
+
+        module = super(ModuleRepository, self).create(values)
+
+        module.identifier = hashids.encode(module.id, module.module_type_id, int(millis))
+
+        module = super(ModuleRepository, self).update(module.id, module)
+
+        return module
+
+    def findByIdentifier(self, identifier, with_trash=False):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('identifier')\
+            .limit(1)
+
+        if not with_trash:
+            query = query.where('deleted_at', 'IS', 'NULL')
+
+        query = query.sql()
+
+        cursor = db.execute_sql(query, (identifier,))
+        return self.as_object(cursor)
+
+
 class ModuleTypeRepository(BaseRepository):
 
     @property
@@ -380,7 +416,7 @@ class InformationRepository(BaseRepository):
             .sql()
         cursor = db.execute_sql(query, (module_type_id,))
         return self.as_iterator(cursor)
-    
+
     def deleteByModuleType(self, module_type_id):
         query = QueryBuilder(self.model.table, self.model.columns)\
             .delete()\
@@ -401,7 +437,7 @@ class CommandRepository(BaseRepository):
             .sql()
         cursor = db.execute_sql(query, (module_type_id,))
         return self.as_iterator(cursor)
-    
+
     def deleteByModuleType(self, module_type_id):
         query = QueryBuilder(self.model.table, self.model.columns)\
             .delete()\

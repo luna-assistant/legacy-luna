@@ -1,0 +1,36 @@
+<div data-kind="show" data-id="{{module.id}}" class="ui small modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Visualizar Módulo
+  </div>
+  <div class="ui content">
+    <h2 class="ui header">
+      <i class="{{module.type.icon}} icon"></i>
+      <div class="content">
+        {{module.type.name}}
+        <div class="sub header">{{module.type.description}}</div>
+      </div>
+    </h2>
+
+    <h4>Informações</h4>
+    <table class="ui table">
+      <thead>
+          <tr>
+            <th class="two wide">Identificador</th>
+            <th>Pessoa</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{module.identifier}}</td>
+          <td>{{module.person.name or 'Sem registro'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Voltar
+    </div>
+  </div>
+</form>
