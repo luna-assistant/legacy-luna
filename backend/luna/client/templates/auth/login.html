@@ -70,9 +70,7 @@
         <div class="ui fluid large blue submit button">Entrar</div>
 
         <br>
-
-        <a href="#" class="new_password">Alterar a senha</a>
-
+        
         <div class="ui error message">
           <ul class="list">
             {% for (field, errors) in login_form.errors.items() %}
@@ -125,18 +123,34 @@
 
       </form>
 
+      <div class="ui message">
+        <center><a href="#" class="new_password">Entre em contato!</a></center>
+      </div>
+
       <div class="ui small create modal">
         <i class="close icon"></i>
         
         <div class="header"></div>
 
         <div class="content">
-
+          
           <form role="form" data-tab="new_password" method="post" action="" class="ui large new_password form bottom ">
-            <div class="field {{ 'error' if new_password_form.email.errors else '' }}">
+            <div class="field {{ 'error' if new_password_form.cpf.errors else '' }}">
               <div class="ui left icon input">
-                <i class="at icon"></i>
-                  {{ new_password_form.email(placeholder=new_password_form.email.label.text) }}
+                <i class="credit card alternative icon"></i>
+                  {{ new_password_form.cpf(placeholder=new_password_form.cpf.label.text) }}
+              </div>
+            </div>
+            <div class="field {{'error' if new_password_form.password.errors else ''}}">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                {{ new_password_form.password(placeholder=new_password_form.password.label.text) }}
+              </div>
+            </div>
+            <div class="field {{'error' if new_password_form.confirm.errors else ''}}">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                {{ new_password_form.confirm(placeholder=new_password_form.confirm.label.text) }}
               </div>
             </div>
 
@@ -241,14 +255,15 @@
 
     $('.ui.new_password.form').form({
       fields: {
-        email: {
-          identifier: 'email',
+        password: {
+          identifier: 'password',
           rules: [{
               type: 'empty',
-              prompt: 'Por favor, insira um email válido'
-            },{
-              type: 'minLength[10]',
-              prompt: 'Seu nome de email deve ter no mínimo 10 caracteres'
+              prompt: 'Por favor, insira sua senha'
+            },
+            {
+              type: 'length[6]',
+              prompt: 'Sua senha deve ter no mínimo 6 caracteres'
             }
           ]
         }
@@ -256,8 +271,9 @@
     });
 
     $('a.new_password').click(function() {
-      $('.create.modal').find('.header').text("Uma senha temporária será enviada para seu email");
+      $('.create.modal').find('.header').text("Preencha os campos abaixo para redefinir a senha");
       $('.create.modal').modal('show');
+
 
     });
 
