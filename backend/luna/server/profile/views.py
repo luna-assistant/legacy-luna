@@ -36,5 +36,5 @@ def profile():
         else:
             person_repository.create(person)
         flash('Perfil salvo com sucesso!', 'success')
-        return redirect(url_for('profile.profile'))
+        return redirect(url_for('main.dashboard'))
     return render_template('profile/form.html', form=form)
