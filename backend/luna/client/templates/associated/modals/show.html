@@ -1,18 +1,61 @@
 <div id="modalshow{{person.id}}" class="ui small modal">
   <i class="close icon"></i>
   <div class="header">
-    Visualizar Associado
+    Dados do Associado
   </div>
-  <div class="ui content">
-    <b>Nome: </b><span>{{ person.name }}</span><br>
-    <b>CPF: </b><span data-mask="000.000.000-00"></span>{{ person.cpf }}<br>
-    <b>Data de Nascimento: </b><span data-mask="00/00/0000"></span>{{ person.birth }}<br>
-    <b>Facebook: </b><a href="{{person.facebook}}" target="_blank">{{person.facebook}}</a><br>
-    <b>Twitter: </b><a href="{{person.twitter}}">{{person.twitter}}</a>
-  </div>
+  
+
+    
+    <section class="room">
+  <table class="ui blue table">
+    
+    <tbody>
+        <tr data-id="2">
+          <td><b>Nome</b></td>
+          <td><span>{{ person.name }}</span><br></td>
+        </tr>
+    </tbody>
+
+    <tbody>
+        <tr data-id="2">
+          <td><b>CPF: </b></td>
+          <td><span data-mask="000.000.000-00"></span>{{ person.cpf }}<br></td>
+        </tr>
+    </tbody>
+
+    <tbody>
+        <tr data-id="2">
+          <td><b>Data de Nascimento: </b></td>
+          <td><span data-mask="00/00/0000"></span>{{ person.birth }}<br></td>
+        </tr>
+    </tbody>
+
+    <tbody>
+        <tr data-id="2">
+          <td><b>Facebook: </b></td>
+          <td><a href="{{person.facebook}}" target="_blank">{{person.facebook}}</a><br></td>
+        </tr>
+    </tbody>
+
+    <tbody>
+        <tr data-id="2">
+          <td><b>Twitter: </b></td>
+          <td><a href="{{person.twitter}}">{{person.twitter}}</a></td>
+        </tr>
+    </tbody>
+
+  </table>
+</section>
+    
+    
+    
+
+  
   <div class="actions">
-    <div class="ui cancel button">
+    <div class="ui blue cancel button">
       Ok
     </div>
   </div>
 </form>
+
+
