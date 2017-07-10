@@ -19,7 +19,7 @@ class CityAPI(MethodView):
     def get(self, federative_unit_id, id):
         if id is not None:
             return json.jsonify(dict(status=True, data=dict(CityRepository().find(id)), message='City returned.'))
-        return json.jsonify(dict(status=True, data=[dict(x) for x in CityRepository().allByFederativeUnit(federative_unit_id)], message='Cities returned.'))
+        return json.jsonify(dict(status=True, data=[dict(x) for x in CityRepository().allByFederativeUnit(federative_unit_id, order_by=[('name', 'asc')])], message='Cities returned.'))
 
 
 class ModuleAPI(MethodView):

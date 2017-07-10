@@ -13,44 +13,30 @@
   {{ form.hidden_tag() }}
 
   <h4 class="ui dividing header">Informações Pessoais</h4>
-  <div class="field required {{ 'error' if form.name.errors else '' }}">
-    {{ form.name.label }}
-    {{ form.name(placeholder=form.name.label.text) }}
+  <div class="fields">
+    <div class="eight wide field required {{ 'error' if form.name.errors else '' }}">
+      {{ form.name.label }}
+      {{ form.name(placeholder=form.name.label.text) }}
+    </div>
+    <div class="four wide field required {{ 'error' if form.cpf.errors else '' }}">
+      {{ form.cpf.label }}
+      {{ form.cpf(placeholder=form.cpf.label.text, data_mask='000.000.000-00') }}
+    </div>
+    <div class="four wide field required {{ 'error' if form.birth.errors else '' }}">
+      {{ form.birth.label }}
+      {{ form.birth(placeholder=form.birth.label.text, data_mask='00/00/0000') }}
+    </div>
   </div>
-  <div class="field required {{ 'error' if form.cpf.errors else '' }}">
-    {{ form.cpf.label }}
-    {{ form.cpf(placeholder=form.cpf.label.text, data_mask='000.000.000-00') }}
+  <div class="two fields">
+    <div class="field required {{ 'error' if form.email.errors else '' }}">
+      {{ form.email.label }}
+      {{ form.email(placeholder=form.email.label.text) }}
+    </div>
+    <div class="field required {{ 'error' if form.contact.errors else '' }}">
+      {{ form.contact.label }}
+      {{ form.contact(placeholder=form.contact.label.text, class='contact mask') }}
+    </div>
   </div>
-  <div class="field required {{ 'error' if form.email.errors else '' }}">
-    {{ form.email.label }}
-    {{ form.email(placeholder=form.email.label.text) }}
-  </div>
-
-  <div class="field ">
-    <label for="Email2">Email</label>
-    <input id="email2" name="email2" placeholder="Email" type="text" value="">
-  </div>
-
-  <div class="field ">
-    <label for="Email3">Email</label>
-    <input id="email3" name="email3" placeholder="Email" type="text" value="">
-  </div>
-
-  <div class="field required {{ 'error' if form.birth.errors else '' }}">
-    {{ form.birth.label }}
-    {{ form.birth(placeholder=form.birth.label.text, data_mask='00/00/0000') }}
-  </div>
-
-  <div class="field ">
-    <label for="Celular">Celular *</label>
-    <input id="phone" name="phone" placeholder="Celular" type="text" value="">
-  </div>
-
-  <div class="field ">
-    <label for="Celular2">Celular</label>
-    <input id="phone2" name="phone2" placeholder="Celular " type="text" value="">
-  </div>
-
 
   <h4 class="ui dividing header">Redes Sociais</h4>
   <div class="field {{ 'error' if form.facebook.errors else '' }}">
@@ -61,41 +47,85 @@
     {{ form.twitter.label }}
     {{ form.twitter(placeholder=form.twitter.label.text) }}
   </div>
-
+  
   <h4 class="ui dividing header">Endereço</h4>
-  <div class="field {{ 'error' if form.postal_code.errors else '' }}">
-    {{ form.postal_code.label }}
-    {{ form.postal_code(placeholder=form.postal_code.label.text, data_mask='00000-000') }}
-  </div>
-
-  <div class="field ">
-    <label for="Cidade">Cidade</label>
-    <input id="city" name="city" placeholder="Cidade" type="text" value="">
-  </div>
-
-  <div class="field ">
-    <label for="UF">Estado</label>
-    <input id="uf" name="uf" placeholder="Estado" type="text" value="">
-  </div>
-
-
-  <div class="field {{ 'error' if form.address.errors else '' }}">
-    {{ form.address.label }}
-    {{ form.address(placeholder=form.address.label.text) }}
-  </div>
+    <div class="fields">
+      <div class="four wide field {{ 'error' if form.postal_code.errors else '' }}">
+        {{ form.postal_code.label }}
+        {{ form.postal_code(placeholder=form.postal_code.label.text, data_mask='00000-000') }}
+      </div>
+      <div class="twelve wide field {{ 'error' if form.address.errors else '' }}">
+        {{ form.address.label }}
+        {{ form.address(placeholder=form.address.label.text) }}
+      </div>
+    </div>
+  
   <div class="field {{ 'error' if form.complement.errors else '' }}">
     {{ form.complement.label }}
     {{ form.complement(placeholder=form.complement.label.text) }}
   </div>
-  <div class="field {{ 'error' if form.neighborhood.errors else '' }}">
-    {{ form.neighborhood.label }}
-    {{ form.neighborhood(placeholder=form.neighborhood.label.text) }}
+  <div class="three fields">
+    <div class="field {{ 'error' if form.federative_unit_id.errors else '' }}">
+      {{ form.federative_unit_id.label }}
+      {{ form.federative_unit_id(placeholder=form.federative_unit_id.label.text, class='ui fluid dropdown') }}
+    </div>
+    <div class="field {{ 'error' if form.city_id.errors else '' }}">
+      {{ form.city_id.label }}
+      {{ form.city_id(placeholder=form.city_id.label.text, class='ui fluid dropdown') }}
+    </div>
+    <div class="field {{ 'error' if form.neighborhood.errors else '' }}">
+      {{ form.neighborhood.label }}
+      {{ form.neighborhood(placeholder=form.neighborhood.label.text) }}
+    </div>
+  </div>
+  
+  <div class="ui error message">
+    <ul class="list">
+      {% for (field, errors) in form.errors.items() %}
+        {% for error in errors %}
+          <li>{{error}}</li>
+        {% endfor %}
+      {% endfor %}
+    </ul>
   </div>
 
-  
-  
   <button type="submit" class="ui button">Salvar</button>
-
 </form>
 
+{% endblock %}
+
+{% block js %}
+<script>
+  (function() {
+    function iniciar() {
+      $('#federative_unit_id').change(function() {
+        let $citySelect = $('#city_id');
+        $.ajax({
+          url: '/api/v1/federative_units/' + $(this).val() + '/cities',
+          success: function(response) {
+            let $field = $citySelect.closest('.field')
+            let $newCitySelect = $citySelect.clone();
+
+            $citySelect.closest('.dropdown').remove();
+
+            $newCitySelect.find('option').remove();
+
+            $newCitySelect.append($('<option>').text('Munícipio'));
+
+            response.data.forEach(function(c) {
+              $newCitySelect.append($('<option>').text(c.name).attr('value', c.id));
+            });
+
+            $field.append($newCitySelect);
+            $newCitySelect.dropdown();
+
+            $citySelect = $('#city_id');
+          }
+        });
+      });
+    }
+
+    $(iniciar);
+  })();
+</script>
 {% endblock %}

@@ -309,11 +309,14 @@ class CityRepository(BaseRepository):
     def model(self):
         return models.City
 
-    def allByFederativeUnit(self, federative_unit_id):
+    def allByFederativeUnit(self, federative_unit_id, order_by=[]):
         query = QueryBuilder(self.model.table, self.model.columns)\
-            .where('federative_unit_id')\
-            .sql()
-        cursor = db.execute_sql(query, (federative_unit_id,))
+            .where('federative_unit_id')
+        
+        for o in order_by:
+            query = query.order_by(*o)
+        
+        cursor = db.execute_sql(query.sql(), (federative_unit_id,))
         return self.as_iterator(cursor)
 
 
