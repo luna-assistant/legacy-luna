@@ -11,7 +11,7 @@
         <div class="ui dropdown item">
           {{ current_user.person.first_name or current_user.username }} <i class="dropdown icon"></i>
           <div class="menu">
-            <a href="#" class="item">Alterar Senha</a>
+            <a href="#" data-target="editPasswordForm" class="item">Alterar senha</a>
             <a href="{{ url_for('auth.logout') }}" class="item">Sair</a>
           </div>
         </div>

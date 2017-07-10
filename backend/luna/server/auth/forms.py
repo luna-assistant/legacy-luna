@@ -32,6 +32,25 @@ class LoginForm(FlaskForm):
     password = PasswordField('Senha', [DataRequired(message = 'O campo Senha é obrigatório')])
 
 
+class EditPasswordForm(FlaskForm):
+    old_password = PasswordField(
+        'Senha atual',
+        validators=[DataRequired(message='O campo Senha é obrigatório'), Length(min=6)]
+    )
+    password = PasswordField(
+        'Nova senha',
+        validators=[DataRequired(message='O campo Senha é obrigatório'), Length(min=6)]
+    )
+    confirm = PasswordField(
+        'Confirmação',
+        validators=[
+            DataRequired(message='O campo de confirmação da senha é obrigatório'),
+            EqualTo(
+                'password', message='A confirmação deve ser igual à senha informada.')
+        ]
+    )
+
+
 class NewPasswordForm(FlaskForm):
     cpf = StringField('CPF', [
         DataRequired(),

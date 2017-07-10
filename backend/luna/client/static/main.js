@@ -24,4 +24,47 @@ $(document).ready(function() {
   $('.help.button').click(function() {
     $('#helpModal').modal('show');
   });
+  
+  $('[data-target=editPasswordForm]').click(function (e) {
+    $('#editPasswordForm').modal('show');
+  });
+  
+  $('#editPasswordForm').form({
+    fields: {
+      old_password: {
+        rules: [{
+            type: 'empty',
+            prompt: 'Por favor, insira sua senha'
+          },
+          {
+            type: 'length[6]',
+            prompt: 'Sua senha deve ter no mínimo 6 caracteres'
+          }
+        ]
+      },
+      password: {
+        rules: [{
+            type: 'empty',
+            prompt: 'Por favor, insira sua senha'
+          },
+          {
+            type: 'length[6]',
+            prompt: 'Sua senha deve ter no mínimo 6 caracteres'
+          }
+        ]
+      },
+      confirm: {
+        rules: [{
+            type: 'empty',
+            prompt: 'Por favor, insira a confirmação da senha'
+          },{
+            type: 'match[password]',
+            prompt: 'A confirmação deve ser igual a nova senha informada'
+          }
+        ]
+      }
+    }, 
+    inline: true,
+    on: 'blur'
+  })
 });
