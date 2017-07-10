@@ -3,13 +3,18 @@ from flask.views import MethodView
 from flask_login import current_user
 from luna.server.models import Role, ModuleType, Information, Command, Module
 from luna.server.repositories import ModuleRepository, ModuleTypeRepository, \
-    InformationRepository, CommandRepository
+    InformationRepository, CommandRepository, UserRepository, \
+    PersonRepository, PeopleAssociatedRepository
 from luna.server.admin.forms import ModuleTypeForm, ModuleForm, \
     InformationForm, CommandForm
 
 
 admin_blueprint = Blueprint('admin', __name__)
 
+module_repository = ModuleRepository()
+user_repository = UserRepository()
+person_repository = PersonRepository()
+people_associated_repository = PeopleAssociatedRepository()
 
 @admin_blueprint.before_request
 def admin_required():
@@ -20,12 +25,25 @@ def admin_required():
 
 @admin_blueprint.route('/')
 def index():
-    return render_template('admin/index.html')
+
+    modules_total = sum(1 for x in module_repository.all())
+    modules_registered = sum(1 for x in module_repository.allRegistered())
+    users = sum(1 for x in user_repository.all())
+    people = sum(1 for x in person_repository.all())
+    associates = sum(1 for x in people_associated_repository.all())
+    statistics = {
+        'modules_total': modules_total,
+        'modules_registered': modules_registered,
+        'users': users,
+        'people': people,
+        'associates': associates
+    }
+
+    return render_template('admin/index.html', statistics=statistics)
 
 
 @admin_blueprint.route('modulo/<identifier>/status/atualizar')
 def modules_toggle_status(identifier):
-    module_repository = ModuleRepository()
     module = module_repository.findByIdentifier(identifier)
     if module is None:
         flash('Módulo não encontrado', 'error')

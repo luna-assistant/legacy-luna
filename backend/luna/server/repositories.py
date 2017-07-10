@@ -76,7 +76,7 @@ class BaseRepository(object):
 
     def all(self, with_trash=False, order_by=[('id',)]):
         query = QueryBuilder(self.model.table, self.model.columns)
-        
+
         for o in order_by:
             query = query.order_by(*o)
 
@@ -105,7 +105,7 @@ class UserRepository(BaseRepository):
     @property
     def model(self):
         return models.User
-    
+
     def create(self, values):
         if isinstance(values, models.User):
             values = dict(values)
@@ -312,10 +312,10 @@ class CityRepository(BaseRepository):
     def allByFederativeUnit(self, federative_unit_id, order_by=[]):
         query = QueryBuilder(self.model.table, self.model.columns)\
             .where('federative_unit_id')
-        
+
         for o in order_by:
             query = query.order_by(*o)
-        
+
         cursor = db.execute_sql(query.sql(), (federative_unit_id,))
         return self.as_iterator(cursor)
 
@@ -391,14 +391,21 @@ class ModuleRepository(BaseRepository):
 
         cursor = db.execute_sql(query, (identifier,))
         return self.as_object(cursor)
-    
+
     def allByPerson(self, person_id):
         query = QueryBuilder(self.model.table, self.model.columns)\
             .where('person_id')\
             .sql()
-        
+
         return self.as_iterator(db.execute_sql(query, (person_id,)))
-            
+
+    def allRegistered(self):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('person_id','IS NOT', 'NULL')\
+            .sql()
+        cursor = db.execute_sql(query)
+        return self.as_iterator(cursor)
+
 
 class ModuleTypeRepository(BaseRepository):
 

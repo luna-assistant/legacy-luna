@@ -3,5 +3,35 @@
 {% block title %} - Admin{% endblock %}
 
 {% block content %}
-<h1>ADMIN</h1>
+
+<h2 class="ui header">Administrativo</h2>
+
+<section class="room">
+  <h3 class="ui sub dividing header">Estatísticas</h3>
+  <div class="ui basic segment">
+    <div class="ui statistics">
+      <div class="statistic">
+        <div class="value">{{ statistics.modules_total }}</div>
+        <div class="label">Módulos</div>
+      </div>
+      <div class="statistic">
+        <div class="value">{{ statistics.modules_registered }}</div>
+        <div class="label">Módulos Registrados</div>
+      </div>
+      <div class="statistic">
+        <div class="value">{{ statistics.users }}</div>
+        <div class="label">Usuários</div>
+      </div>
+      <div class="statistic">
+        <div class="value">{{ statistics.people }}</div>
+        <div class="label">Pessoas</div>
+      </div>
+      <div class="statistic">
+        <div class="value">{{ statistics.associates }}</div>
+        <div class="label">Associados</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
