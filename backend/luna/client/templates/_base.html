@@ -21,6 +21,12 @@
 
     <main>
       <div class="ui container">
+        
+        {% if current_user and current_user.person and not current_user.person.associated_to %}
+        <button class="ui big red help button">
+          Pedido de Socorro
+        </button>
+        {% endif %}
 
         <!-- messages -->
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -56,7 +62,7 @@
       <div class="header">
         Pedido de Ajuda
       </div>
-      <div class="ui content">
+      <div class="content">
         <h2 class="ui header">
           <i class="warning sign icon"></i>
           <div class="content">
@@ -70,6 +76,28 @@
         </div>
       </div>
     </div>
+    {% else %}
+    <form id="helpModal" method="post" action="{{url_for('main.help')}}" class="ui small modal">
+      <div class="header">
+        Pedido de Ajuda
+      </div>
+      <div class="content">
+        <div class="ui form">
+          <div class="field">
+            <label for="message">Mensagem</label>
+            <textarea id="message" name="message" rows="2" placeholder="Oi, Bruno está precisando de sua ajuda!"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="reset" class="ui cancel button">
+          Cancelar
+        </button>
+        <button type="submit" class="ui green submit button">
+          Enviar <span class="countdown">(5)</span>
+        </button>
+      </div>
+    </form>
     {% endif %}
 
     <!-- scripts -->
@@ -83,7 +111,49 @@
     $(function() {
       Push.Permission.request();
       
+      let current_user = '{{ current_user.username }}';
       let client = new Paho.MQTT.Client(location.hostname, 9883, 'luna_web_' + Number(new Date()));
+      let timeoutHelp = null;
+      
+      $('form#helpModal').modal({
+        onShow: function() {
+          countdownLater();
+          $('form#helpModal #message').off('keydown').keydown(function(){
+            $('form#helpModal button[type=submit] span.countdown').text('');
+            clearTimeout(timeoutHelp);
+          });
+        },
+        onDeny: function() {
+          $('form#helpModal button[type=submit] span.countdown').text('('+ 5 +')');
+          clearTimeout(timeoutHelp);
+          $('form#helpModal #message').off('keydown');
+        }
+      });
+      
+      function countdown() {
+        let $form = $('form#helpModal');
+        let $countdown = $form.find('button[type=submit] span.countdown');
+        let n = Number($countdown.text().replace(/\D/g, '')) - 1;
+        if (n <= 0) {
+          $form.submit();
+        } else {
+          $countdown.text('('+ n +')');        
+          countdownLater();
+        }        
+      }
+      
+      function countdownLater() {
+        clearTimeout(timeoutHelp);
+        timeoutHelp = setTimeout(function() {
+          countdown();
+        }, 1000);
+      }
+      
+      $('form#helpModal').submit(function() {
+        message = new Paho.MQTT.Message($('form#helpModal #message').val() || 'Este é uma pedido de ajuda padrão.');
+        message.destinationName = 'u/' + current_user;
+        client.send(message);
+      });
       
       {% if current_user and current_user.person and current_user.person.associated_to %}
       let associado = '{{ current_user.person.associated_to.user.username }}';

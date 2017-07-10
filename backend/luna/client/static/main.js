@@ -20,4 +20,8 @@ $(document).ready(function() {
     };
 
   $('.contact.mask').mask(ninthDigit, ninthDigitOptions);
+  
+  $('.help.button').click(function() {
+    $('#helpModal').modal('show');
+  });
 });
