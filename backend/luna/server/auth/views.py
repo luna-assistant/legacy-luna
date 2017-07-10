@@ -78,11 +78,11 @@ def new_password():
         user = PersonRepository().findByCpf(clean_id(form.cpf.data)).user
         if user:
             user.password = form.password.data
-            UserRepository.update(user.id, user, update_password=True)
+            UserRepository().update(user.id, user, update_password=True)
             flash('Sua senha foi alterada com sucesso!', 'success')
         else:
             flash('Sua senha não foi alterada. Por favor, tente novamente!', 'error')
-   
+
     return redirect(url_for('auth.login'))
 
 

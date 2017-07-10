@@ -12,6 +12,7 @@ from brazilnum.util import clean_id
 from flask_login import current_user
 
 def unique_username(message='O campo informado já existe'):
+
     def _unique_username(form, field):
         user = UserRepository().findByUsername(field.data)
         if user:
@@ -19,12 +20,7 @@ def unique_username(message='O campo informado já existe'):
 
     return _unique_username
 
-def unique_cpf(message='O campo informado já existe'):
-    def _unique_cpf(form, field):
-        person = PersonRepository().findByCpf(clean_id(field.data))
-        if person and person.user_id != current_user.id:
-            raise ValidationError(message)
-    return _unique_cpf
+
 
 class LoginForm(FlaskForm):
     email = EmailField(
@@ -40,8 +36,7 @@ class NewPasswordForm(FlaskForm):
     cpf = StringField('CPF', [
         DataRequired(),
         Length(max=14),
-        CPF(),
-        unique_cpf()
+        CPF()
     ])
     password = PasswordField(
         'Nova senha',

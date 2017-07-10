@@ -135,6 +135,7 @@
         <div class="content">
           
           <form role="form" data-tab="new_password" method="post" action="{{url_for('auth.new_password')}}" class="ui large new_password form bottom ">
+            {{ new_password_form.hidden_tag() }}
             <div class="field {{ 'error' if new_password_form.cpf.errors else '' }}">
               <div class="ui left icon input">
                 <i class="credit card alternative icon"></i>
@@ -153,7 +154,7 @@
                 {{ new_password_form.confirm(placeholder=new_password_form.confirm.label.text) }}
               </div>
             </div>
-
+            
             <div class="actions">
                 <center><div class="ui blue submit button">Enviar</div></center>
             </div>
