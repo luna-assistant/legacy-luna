@@ -7,136 +7,92 @@
   <div class="sub header">Tudo certo, <span class="">{{ current_user.person.first_name or current_user.username }}</span>?</div>
 </h2>
 
+{% for room, modules in modules_by_room.items() %}
 <section class="room">
   <h3 class="ui sub dividing header">
-    Cozinha
+    {{room}}
   </h3>
+  
   <div class="ui basic segment">
     <div class="ui cards">
-
-      <div class="card">
+      {% for module in modules %}
+      <div class="card" data-identifier="{{module.identifier}}">
         <div class="content">
           <span class="right floated">
-            <i class="big yellow lightbulb icon"></i>
+            <i class="big {{module.type.icon}} icon"></i>
           </span>
-          <div class="header">Iluminação</div>
+          <div class="header">{{module.name}}</div>
           <div class="meta">
-            Ligado há 30min
+            Carregando...
           </div>
         </div>
         <div class="extra content">
-          <a href="#" class="right floated gerenciar-modulo"><i class="edit icon"></i> Editar</a>
-          <div class="ui toggle checkbox">
-            <input type="checkbox" checked>
-            <label>Ligado</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="content">
-          <span class="right floated">
-            <i class="big grey tint icon"></i>
-          </span>
-          <div class="header">Torneira</div>
-          <div class="meta">
-            Fechada desde ontem
-          </div>
-        </div>
-        <div class="extra content">
-          <a href="#" class="right floated gerenciar-modulo"><i class="edit icon"></i> Editar</a>
+          <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
           <div class="ui toggle checkbox">
             <input type="checkbox">
-            <label>Fechada</label>
+            <label>Carregando...</label>
           </div>
         </div>
       </div>
-
-
+      {% endfor %}
     </div>
   </div>
 </section>
+{% endfor %}
 
-<section class="room">
-  <h3 class="ui sub dividing header">
-    Quarto
-  </h3>
-  <div class="ui basic segment">
-    <div class="ui cards">
+{% endblock %}
 
-      <div class="card">
-        <div class="content">
-          <span class="right floated">
-            <i class="big grey lightbulb icon"></i>
-          </span>
-          <div class="header">Iluminação</div>
-          <div class="meta">
-            Desligada há 5min
-          </div>
-        </div>
-        <div class="extra content">
-          <a href="#" class="right floated gerenciar-modulo"><i class="edit icon"></i> Editar</a>
-          <div class="ui toggle checkbox">
-            <input type="checkbox">
-            <label>Desligada</label>
-          </div>
-        </div>
-      </div>
+{% block js %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+  <script>
+    (function() {
+      function iniciar() {
+        $('.ui.checkbox').checkbox();
+      
+        let client = new Paho.MQTT.Client(location.hostname, 9883, '' + Number(new Date()));
+        
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
 
+        client.connect({onSuccess:onConnect});
+        
+        function onConnect() {
+          let identifiers = $('[data-identifier]').map(function() {
+            return $(this).data('identifier');
+          }).get();
+          
+          identifiers.forEach(function(identifier) {
+            client.subscribe('m/' + identifier);
+            client.subscribe('m/' + identifier + '/+');
+          });
+        }
 
-    </div>
-  </div>
-</section>
+        function onConnectionLost(responseObject) {
+          setTimeout(function() {
+            client.connect({onSuccess:onConnect})
+          }, 5000);
+        }
 
-<section class="room">
-  <h3 class="ui sub dividing header">
-    Garagem
-  </h3>
-  <div class="ui basic segment">
-    <div class="ui cards">
-
-      <div class="card">
-        <div class="content">
-          <span class="right floated">
-            <i class="big grey lightbulb icon"></i>
-          </span>
-          <div class="header">Iluminação</div>
-          <div class="meta">
-            Desligada há 3h
-          </div>
-        </div>
-        <div class="extra content">
-          <a href="#" class="right floated gerenciar-modulo"><i class="edit icon"></i> Editar</a>
-          <div class="ui toggle checkbox">
-            <input type="checkbox">
-            <label>Desligada</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="content">
-          <span class="right floated">
-            <i class="big red lock icon"></i>
-          </span>
-          <div class="header">Porta</div>
-          <div class="meta">
-            Trancada há 5h
-          </div>
-        </div>
-        <div class="extra content">
-          <a href="#" class="right floated gerenciar-modulo"><i class="edit icon"></i> Editar</a>
-          <div class="ui toggle checkbox">
-
-            <input type="checkbox" checked>
-
-            <label>Trancada</label>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
+        function onMessageArrived(message) {
+          let topic = message.destinationName;
+          let topicValues = topic.split('/');
+          let payload = message.payloadString;
+          
+          if (topicValues.length === 2) {
+            // nada por enquanto
+          } else if (topicValues.length === 3) {
+            let identifier = topicValues[1];
+            payload = Number(payload);
+            if (Number(topicValues[2]) == 1) {
+              let $card = $('[data-identifier='+identifier+']');
+              $card.find('.meta, .checkbox label').text(payload > 0 ? 'Ativado' : 'Desativado');
+              $card.find('.checkbox').checkbox(payload > 0 ? 'check' : 'uncheck');
+            }
+          }
+        }
+      }
+      
+      $(iniciar);
+    })();
+  </script>
 {% endblock %}

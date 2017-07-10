@@ -137,6 +137,10 @@ class Person(Model):
     def associated(self):
         return repositories.PeopleAssociatedRepository().allByPerson(self.id)
 
+    @property
+    def associated_to(self):
+        return repositories.PeopleAssociatedRepository().findByAssociated(self.id)
+
     def __repr__(self):
         return '<Person {}>'.format(self.cpf)
 
@@ -212,6 +216,7 @@ class PersonAssociated(Model):
     def __repr__(self):
         return '<PersonAssociated {}->{}>'.format(self.person_id, self.associated_id)
 
+
 class Module(Model):
 
     table = 'modules'
@@ -238,6 +243,7 @@ class Module(Model):
 
     def __repr__(self):
         return '<Module {}>'.format(self.name)
+
 
 class ModuleType(Model):
 

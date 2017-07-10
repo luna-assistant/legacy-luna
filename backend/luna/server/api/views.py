@@ -27,7 +27,7 @@ class ModuleAPI(MethodView):
     def get(self, identifier):
         if identifier is not None:
             return json.jsonify(dict(
-                status=True, 
+                status=True,
                 data=dict(ModuleRepository().findByIdentifier(identifier)),
                 message='Module returned.'
             ))

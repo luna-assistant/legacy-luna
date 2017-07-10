@@ -281,6 +281,17 @@ class PeopleAssociatedRepository(BaseRepository):
             'person_id').where('associated_id').sql()
         db.execute_sql(query, (person_id, associated_id))
 
+    def findByAssociated(self, person_id):
+        query = QueryBuilder(models.Person.table, models.Person.columns)\
+            .join(self.model.table)\
+            .on('person_id', '=', 'id')\
+            .on('associated_id')\
+            .limit(1)\
+            .sql()
+
+        cursor = db.execute_sql(query, (person_id,))
+        return self.as_object(cursor, models.Person)
+
     def allByPerson(self, person_id):
         query = QueryBuilder(models.Person.table, models.Person.columns)\
             .join(self.model.table)\
@@ -377,7 +388,14 @@ class ModuleRepository(BaseRepository):
 
         cursor = db.execute_sql(query, (identifier,))
         return self.as_object(cursor)
-
+    
+    def allByPerson(self, person_id):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('person_id')\
+            .sql()
+        
+        return self.as_iterator(db.execute_sql(query, (person_id,)))
+            
 
 class ModuleTypeRepository(BaseRepository):
 
