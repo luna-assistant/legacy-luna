@@ -117,6 +117,8 @@ class Person(Model):
 
     @property
     def user(self):
+        if self.user_id is None:
+            return None
         return repositories.UserRepository().find(self.user_id)
     
     @property
@@ -140,6 +142,12 @@ class Person(Model):
     @property
     def associated_to(self):
         return repositories.PeopleAssociatedRepository().findByAssociated(self.id)
+    
+    @property
+    def city(self):
+        if self.city_id is None:
+            return None
+        return repositories.CityRepository().find(self.city_id)
 
     def __repr__(self):
         return '<Person {}>'.format(self.cpf)

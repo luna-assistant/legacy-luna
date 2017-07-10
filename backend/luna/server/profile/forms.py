@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField
-from wtforms.validators import DataRequired, Length, Email, ValidationError
+from wtforms import StringField, DateField, SelectField
+from wtforms.validators import DataRequired, Length, Email, ValidationError, Optional
 from luna.server.validators import CPF
-from luna.server.repositories import PersonRepository
+from luna.server.repositories import PersonRepository, FederativeUnitRepository
 from brazilnum.util import clean_id
 from flask_login import current_user
 
@@ -30,6 +30,9 @@ class PersonForm(FlaskForm):
         DataRequired(),
         Email()
     ])
+    contact = StringField('Contato', [
+        DataRequired(),
+    ])
     birth = DateField('Data de Nascimento', format='%d/%m/%Y', validators=[
         DataRequired()
     ])
@@ -43,6 +46,5 @@ class PersonForm(FlaskForm):
         Length(max=9)
     ])
     neighborhood = StringField('Bairro')
-    # city_id = StringField('Munícipio')  # TODO: ChoiceField
-    
-
+    federative_unit_id = SelectField('UF', choices=[('', 'UF')] + [(str(uf.id), uf.name) for uf in FederativeUnitRepository().all(order_by=[('name',)])], validators=[Optional()])
+    city_id = SelectField('Munícipio', choices=[('', 'Munícipio')], validators=[Optional()])
