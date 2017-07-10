@@ -21,7 +21,7 @@
 
     <main>
       <div class="ui container">
-        
+
         {% if current_user and current_user.person and not current_user.person.associated_to %}
         <button class="ui big red help button">
           Pedido de Socorro
@@ -78,6 +78,7 @@
     </div>
     {% else %}
     <form id="helpModal" method="post" action="{{url_for('main.help')}}" class="ui small modal">
+       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
       <div class="header">
         Pedido de Ajuda
       </div>
@@ -99,7 +100,7 @@
       </div>
     </form>
     {% endif %}
-    
+
     {% include 'auth/edit_password.html' %}
 
     <!-- scripts -->
@@ -112,11 +113,11 @@
     <script>
     $(function() {
       Push.Permission.request();
-      
+
       let current_user = '{{ current_user.username }}';
       let client = new Paho.MQTT.Client(location.hostname, 9883, 'luna_web_' + Number(new Date()));
       let timeoutHelp = null;
-      
+
       $('form#helpModal').modal({
         onShow: function() {
           countdownLater();
@@ -131,7 +132,7 @@
           $('form#helpModal #message').off('keydown');
         }
       });
-      
+
       function countdown() {
         let $form = $('form#helpModal');
         let $countdown = $form.find('button[type=submit] span.countdown');
@@ -139,30 +140,30 @@
         if (n <= 0) {
           $form.submit();
         } else {
-          $countdown.text('('+ n +')');        
+          $countdown.text('('+ n +')');
           countdownLater();
-        }        
+        }
       }
-      
+
       function countdownLater() {
         clearTimeout(timeoutHelp);
         timeoutHelp = setTimeout(function() {
           countdown();
         }, 1000);
       }
-      
+
       $('form#helpModal').submit(function() {
         message = new Paho.MQTT.Message($('form#helpModal #message').val() || 'Este é uma pedido de ajuda padrão.');
         message.destinationName = 'u/' + current_user;
         client.send(message);
       });
-      
+
       {% if current_user and current_user.person and current_user.person.associated_to %}
       let associado = '{{ current_user.person.associated_to.user.username }}';
       {% else %}
       let associado = undefined;
       {% endif %}
-      
+
       $('[data-identifier] .checkbox').click(function () {
         let status = $(this).checkbox('is checked');
         let $card = $(this).closest('[data-identifier]');
@@ -176,21 +177,21 @@
           $card.find('.module.icon').removeClass('blue');
         }
       });
-      
+
       client.onConnectionLost = onConnectionLost;
       client.onMessageArrived = onMessageArrived;
 
       client.connect({onSuccess:onConnect});
-      
+
       function onConnect() {
         if (associado !== undefined) {
           client.subscribe('u/' + associado);
         }
-        
+
         let identifiers = $('[data-identifier]').map(function() {
           return $(this).data('identifier');
         }).get();
-        
+
         identifiers.forEach(function(identifier) {
           client.subscribe('m/' + identifier);
           client.subscribe('m/' + identifier + '/+/+');
@@ -202,7 +203,7 @@
           client.connect({onSuccess:onConnect})
         }, 5000);
       }
-      
+
       function showModal(title, message) {
         let $modal = $('#pedidoAjuda');
         $modal.find('.header .content').contents().first().replaceWith(message);
@@ -213,7 +214,7 @@
         let topic = message.destinationName;
         let topicValues = topic.split('/');
         let payload = message.payloadString;
-        
+
         if (topicValues.length === 2) {
           if (associado !== undefined && topicValues[0] === 'u' && topicValues[1] === associado) {
             showModal('Pedido de Ajuda', payload);
@@ -223,7 +224,7 @@
                 requireInteraction: true,
                 onClick: function () {
                     window.focus();
-                    this.close();                   
+                    this.close();
                 }
             });
           } else {
@@ -249,6 +250,6 @@
     });
     </script>
     {% block js %}{% endblock %}
-    
+
   </body>
 </html>
