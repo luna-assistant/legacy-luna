@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS modules (
   room VARCHAR(100),
   module_type_id INTEGER NOT NULL REFERENCES module_types(id),
   person_id INTEGER NULL REFERENCES people(id),
-  is_active BOOLEAN DEFAULT TRUE,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NULL,
   deleted_at TIMESTAMP NULL

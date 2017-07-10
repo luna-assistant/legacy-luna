@@ -18,7 +18,8 @@
       <thead>
         <tr>
           <th class="two wide">Código</th>
-          <th class="nine wide">Nome</th>
+          <th class="seven wide">Nome</th>
+          <th class="two wide">Situação</th>
           <th class="five wide">Ações</th>
         </tr>
       </thead>
@@ -27,6 +28,7 @@
         <tr data-id="{{module_type.id}}">
           <td>{{module_type.id}}</td>
           <td title="{{module_type.description}}">{{module_type.name}}</td>
+          <td>{{'Ativo' if module_type.is_active else 'Inativo'}}</td>
           <td>
             <button class="ui visualizar green basic button">Visualizar</button>
             <button class="ui editar blue basic button">Editar</button>
@@ -131,6 +133,13 @@
        {% endfor %}
     </section>
     
+    <div class="ui segment">
+      <div class="ui checkbox">
+        {{ form.is_active }}
+        {{ form.is_active.label }}
+      </div>
+    </div>
+    
   </div>
   <div class="actions">
     <div class="ui cancel button">
@@ -202,6 +211,8 @@
   }
   
   function iniciarForm(selector) {
+    $(selector + ' .ui.checkbox').checkbox();
+    
     $(selector).form({
       fields: {
         name: {

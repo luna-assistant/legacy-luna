@@ -260,7 +260,8 @@ class ModuleType(Model):
         'id',
         'name',
         'icon',
-        'description'
+        'description',
+        'is_active'
     ]
 
     @property

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, IntegerField, TextAreaField, SelectField, FieldList, FormField
+from wtforms import StringField, DateField, IntegerField, TextAreaField, SelectField, FieldList, FormField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, ValidationError
 from luna.server.validators import CPF
 from luna.server.repositories import PersonRepository, InformationTypeRepository, CommandTypeRepository ,\
@@ -38,6 +38,7 @@ class ModuleTypeForm(FlaskForm):
     icon = StringField('Ícone', [DataRequired(message='Especifique um ícone, por favor.')])
     informations = FieldList(FormField(InformationForm), min_entries=1)
     commands = FieldList(FormField(CommandForm), min_entries=1)
+    is_active = BooleanField('Já está disponível?', default=True)
 
 
 class ModuleForm(FlaskForm):
