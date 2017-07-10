@@ -51,13 +51,132 @@
     <br><br>
 
     {% include 'footer.html' %}
+    {% if current_user and current_user.person and current_user.person.associated_to %}
+    <div id="pedidoAjuda" class="ui small modal">
+      <div class="header">
+        Pedido de Ajuda
+      </div>
+      <div class="ui content">
+        <h2 class="ui header">
+          <i class="warning sign icon"></i>
+          <div class="content">
+            <div class="sub header">{{current_user.person.associated_to.name}} precisa de sua ajuda.</div>
+          </div>
+        </h2>
+      </div>
+      <div class="actions">
+        <div class="ui cancel button">
+          OK
+        </div>
+      </div>
+    </div>
+    {% endif %}
 
     <!-- scripts -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+    <script src="https://unpkg.com/push.js@1.0.3/bin/push.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
     <script src="{{url_for('static', filename='main.js')}}" type="text/javascript"></script>
-    {% block js %}{% endblock %}
+    <script>
+    $(function() {
+      Push.Permission.request();
+      
+      let client = new Paho.MQTT.Client(location.hostname, 9883, 'luna_web_' + Number(new Date()));
+      
+      {% if current_user and current_user.person and current_user.person.associated_to %}
+      let associado = '{{ current_user.person.associated_to.user.username }}';
+      {% else %}
+      let associado = undefined;
+      {% endif %}
+      
+      $('[data-identifier] .checkbox').click(function () {
+        let status = $(this).checkbox('is checked');
+        let $card = $(this).closest('[data-identifier]');
+        message = new Paho.MQTT.Message('1');
+        message.destinationName = 'm/' + $card.data('identifier') + '/' + (status ? 101 : 102);
+        client.send(message);
+        $card.find('.meta').text(status ? 'Ativado' : 'Desativado');
+        if (status) {
+          $card.find('.module.icon').addClass('blue');
+        } else {
+          $card.find('.module.icon').removeClass('blue');
+        }
+      });
+      
+      client.onConnectionLost = onConnectionLost;
+      client.onMessageArrived = onMessageArrived;
 
+      client.connect({onSuccess:onConnect});
+      
+      function onConnect() {
+        if (associado !== undefined) {
+          client.subscribe('u/' + associado);
+        }
+        
+        let identifiers = $('[data-identifier]').map(function() {
+          return $(this).data('identifier');
+        }).get();
+        
+        identifiers.forEach(function(identifier) {
+          client.subscribe('m/' + identifier);
+          client.subscribe('m/' + identifier + '/+/+');
+        });
+      }
+
+      function onConnectionLost(responseObject) {
+        setTimeout(function() {
+          client.connect({onSuccess:onConnect})
+        }, 5000);
+      }
+      
+      function showModal(title, message) {
+        let $modal = $('#pedidoAjuda');
+        $modal.find('.header .content').contents().first().replaceWith(message);
+        $modal.modal('setting', 'closable', false).modal('show');
+      }
+
+      function onMessageArrived(message) {
+        let topic = message.destinationName;
+        let topicValues = topic.split('/');
+        let payload = message.payloadString;
+        
+        if (topicValues.length === 2) {
+          if (associado !== undefined && topicValues[0] === 'u' && topicValues[1] === associado) {
+            showModal('Pedido de Ajuda', payload);
+            Push.create("Pedido de Ajuda", {
+                body: payload,
+                icon: '/static/images/logo.png',
+                requireInteraction: true,
+                onClick: function () {
+                    window.focus();
+                    this.close();                   
+                }
+            });
+          } else {
+            // testemunho
+          }
+        } else if (topicValues.length === 3) {
+          // comando
+        } else if (topicValues.length === 4) {
+          let identifier = topicValues[1];
+          payload = Number(payload);
+          if (Number(topicValues[2]) === 1 && Number(topicValues[3]) === 1) {
+            let $card = $('[data-identifier='+identifier+']');
+            if (payload === 1) {
+              $card.find('.module.icon').addClass('blue');
+            } else {
+              $card.find('.module.icon').removeClass('blue');
+            }
+            $card.find('.meta').text(payload === 1 ? 'Ativado' : 'Desativado');
+            $card.find('.checkbox').checkbox(payload === 1 ? 'check' : 'uncheck');
+          }
+        }
+      }
+    });
+    </script>
+    {% block js %}{% endblock %}
+    
   </body>
 </html>

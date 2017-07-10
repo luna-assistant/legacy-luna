@@ -90,75 +90,9 @@
 {% endblock %}
 
 {% block js %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
   <script>
     (function() {
       function iniciar() {
-        $('.ui.checkbox').checkbox();
-
-        let client = new Paho.MQTT.Client(location.hostname, 9883, '' + Number(new Date()));
-
-        $('[data-identifier] .checkbox').click(function () {
-          let status = $(this).checkbox('is checked');
-          let $card = $(this).closest('[data-identifier]');
-          message = new Paho.MQTT.Message('1');
-          message.destinationName = 'm/' + $card.data('identifier') + '/' + (status ? 101 : 102);
-          client.send(message);
-          $card.find('.meta').text(status ? 'Ativado' : 'Desativado');
-          if (status) {
-            $card.find('.module.icon').addClass('blue');
-          } else {
-            $card.find('.module.icon').removeClass('blue');
-          }
-        });
-
-        client.onConnectionLost = onConnectionLost;
-        client.onMessageArrived = onMessageArrived;
-
-        client.connect({onSuccess:onConnect});
-
-        function onConnect() {
-          let identifiers = $('[data-identifier]').map(function() {
-            return $(this).data('identifier');
-          }).get();
-          console.log(identifiers)
-          identifiers.forEach(function(identifier) {
-            client.subscribe('m/' + identifier);
-            client.subscribe('m/' + identifier + '/+/+');
-          });
-        }
-
-        function onConnectionLost(responseObject) {
-          setTimeout(function() {
-            client.connect({onSuccess:onConnect})
-          }, 5000);
-        }
-
-        function onMessageArrived(message) {
-          let topic = message.destinationName;
-          let topicValues = topic.split('/');
-          let payload = message.payloadString;
-
-          if (topicValues.length === 2) {
-            // testamento
-          } else if (topicValues.length === 3) {
-            // comando
-          } else if (topicValues.length === 4) {
-            let identifier = topicValues[1];
-            payload = Number(payload);
-            if (Number(topicValues[2]) === 1 && Number(topicValues[3]) === 1) {
-              let $card = $('[data-identifier='+identifier+']');
-              if (payload === 1) {
-                $card.find('.module.icon').addClass('blue');
-              } else {
-                $card.find('.module.icon').removeClass('blue');
-              }
-              $card.find('.meta').text(payload === 1 ? 'Ativado' : 'Desativado');
-              $card.find('.checkbox').checkbox(payload === 1 ? 'check' : 'uncheck');
-            }
-          }
-        }
-
         function iniciarForm(selector){
           $(selector).form({
             fields: {

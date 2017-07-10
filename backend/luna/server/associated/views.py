@@ -42,14 +42,14 @@ def add():
         form.populate_obj(person)
         person.cpf = clean_id(person.cpf)
         phone = clean_id(form.contact.data)
-
+        
         person = dict(person)
         person['emails'] = [form.email.data]
         person['contacts'] = [{
             'ddd': phone[0:2],
             'num': phone[2:]
         }]
-
+        person['city_id'] = None
 
         if form.create_user.data:
             user = User(
@@ -60,7 +60,7 @@ def add():
             user = UserRepository().create(user)
 
             person['user_id'] = user.id
-
+        
         person = person_repository.create(person)
         person_associated_repository.create(dict(person_id=current_user.person.id, associated_id=person.id))
 
