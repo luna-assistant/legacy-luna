@@ -1,8 +1,9 @@
 # luna/server/main/views.py
 
 from flask_login import login_required, current_user
-from flask import render_template, Blueprint, redirect, url_for
+from flask import render_template, Blueprint, redirect, url_for, flash
 from luna.server.models import Role
+from luna.server.main.forms import NewModuleForm
 from luna.server.repositories import ModuleRepository
 from collections import defaultdict
 
@@ -23,4 +24,22 @@ def dashboard():
     modules_by_room = defaultdict(list)
     for module in modules:
         modules_by_room[module.room].append(module)
-    return render_template('main/dashboard.html', modules_by_room=modules_by_room)
+    return render_template('main/dashboard.html',form=NewModuleForm(),modules_by_room=modules_by_room)
+
+@main_blueprint.route('/modulo/adicionar', methods=['POST'])
+@login_required
+def module_add():
+    form = NewModuleForm()
+
+    if form.validate_on_submit():
+        module_repository = ModuleRepository()
+        module = module_repository.findByIdentifier(form.identifier.data)
+
+        form.populate_obj(module)
+
+        module.person_id = current_user.person.id
+
+        module_repository.update(module.id, module)
+
+        flash('Módulo adicionado com sucesso!', 'success')
+    return redirect(url_for('main.dashboard'))

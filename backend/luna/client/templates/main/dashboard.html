@@ -12,7 +12,7 @@
   <h3 class="ui sub dividing header">
     {{room}}
   </h3>
-  
+
   <div class="ui basic segment">
     <div class="ui cards">
       {% for module in modules %}
@@ -40,6 +40,53 @@
 </section>
 {% endfor %}
 
+<form class="ui small form {{ 'error' if form.errors else '' }} modal add"  action="{{ url_for('main.module_add')}}" method="post">
+  <i class="close icon"></i>
+  <div class="header">
+    Adicionar Módulo
+  </div>
+  <div class="ui content">
+    {#<div class="ui error message">
+      {% for (field, errors) in form.errors.items() %}
+        {% for error in errors %}
+          <li>{{error}}</li>
+        {% endfor %}
+      {% endfor %}
+    </div>#}
+    {{ form.hidden_tag() }}
+
+      <div class="ui field required {{ 'error' if form.identifier.errors else '' }}">
+        {{ form.identifier.label }}
+        <div class="ui action input">
+          {{ form.identifier(placeholder=form.identifier.label.text) }}
+          <div class="ui carregar modulo button">Carregar</div>
+        </div>
+      </div>
+      <div class="informacoes" style="display:none;">
+        <div class="field required {{ 'error' if form.name.errors else '' }}">
+          {{ form.name.label }}
+          {{ form.name(placeholder=form.name.label.text) }}
+        </div>
+        <div class="field required {{ 'error' if form.room.errors else '' }}">
+          {{ form.room.label }}
+          {{ form.room(placeholder=form.room.label.text) }}
+        </div>
+        <div class="field required {{ 'error' if form.module_type.errors else '' }}">
+          {{ form.module_type.label }}
+          {{ form.module_type(placeholder=form.module_type.label.text, readonly=True) }}
+        </div>
+      </div>
+  </div>
+  <div class="actions">
+    <div class="ui cancel button">
+      Cancelar
+    </div>
+    <div class="ui green submit button">
+      Adicionar
+    </div>
+  </div>
+</form>
+
 {% endblock %}
 
 {% block js %}
@@ -48,9 +95,9 @@
     (function() {
       function iniciar() {
         $('.ui.checkbox').checkbox();
-        
+
         let client = new Paho.MQTT.Client(location.hostname, 9883, '' + Number(new Date()));
-        
+
         $('[data-identifier] .checkbox').click(function () {
           let status = $(this).checkbox('is checked');
           let $card = $(this).closest('[data-identifier]');
@@ -64,12 +111,12 @@
             $card.find('.module.icon').removeClass('blue');
           }
         });
-        
+
         client.onConnectionLost = onConnectionLost;
         client.onMessageArrived = onMessageArrived;
 
         client.connect({onSuccess:onConnect});
-        
+
         function onConnect() {
           let identifiers = $('[data-identifier]').map(function() {
             return $(this).data('identifier');
@@ -91,7 +138,7 @@
           let topic = message.destinationName;
           let topicValues = topic.split('/');
           let payload = message.payloadString;
-          
+
           if (topicValues.length === 2) {
             // testamento
           } else if (topicValues.length === 3) {
@@ -111,8 +158,73 @@
             }
           }
         }
+
+        function iniciarForm(selector){
+          $(selector).form({
+            fields: {
+              identifier: {
+                rules: [{
+                  type: 'empty',
+                  prompt: 'Informe o identificador'
+                }]
+              },
+              name: {
+                rules: [{
+                  type: 'empty',
+                  prompt: 'Informe o nome'
+                }]
+              },
+              room: {
+                rules: [{
+                  type: 'empty',
+                  prompt: 'Informe o cômodo'
+                }]
+              },
+              module_type: {
+                rules: [{
+                  type: 'empty',
+                  prompt: 'Informe o tipo'
+                }]
+              }
+            },
+            inline: true
+          });
+        }
+
+        $('.novo-modulo').click(function(){
+          $('.modal.add').modal('show');
+        });
+        $('.novo-modulo').click();
+
+        $('.carregar.modulo').click(function(){
+          let $button = $(this);
+          let identificador = $('[name=identifier]').val();
+
+          if (identificador) {
+            $button.addClass('loading');
+            $.ajax({
+              url: 'api/v1/modules/' + identificador,
+              success: function(result) {
+                module = result.data
+                if (module) {
+                  let $modal = $('.modal.add .informacoes');
+                  let $tipo = $modal.find('[name=module_type]');
+
+                  $tipo.val(module.type.name);
+                  $modal.show();
+
+                  iniciarForm('.modal.add');
+                }
+              },
+              complete: function() {
+                $button.removeClass('loading');
+              }
+            });
+          }
+
+        });
       }
-      
+
       $(iniciar);
     })();
   </script>

@@ -23,13 +23,26 @@ class CityAPI(MethodView):
 
 
 class ModuleAPI(MethodView):
-    
+
     def get(self, identifier):
         if identifier is not None:
+            module = ModuleRepository().findByIdentifier(identifier)
+
+            if module:
+                module_type = module.type
+
+                data = dict(module)
+                data['type'] = dict(module_type)
+
+                return json.jsonify(dict(
+                    status=True,
+                    data=data,
+                    message='Module returned.'
+                ))
             return json.jsonify(dict(
-                status=True,
-                data=dict(ModuleRepository().findByIdentifier(identifier)),
-                message='Module returned.'
+                status=False,
+                data=None,
+                message='Module not found.'
             ))
         return json.jsonify(dict(status=True, data=[dict(x) for x in ModuleRepository().all()], message='Modules returned.'))
 
