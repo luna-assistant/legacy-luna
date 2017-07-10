@@ -23,5 +23,4 @@ def dashboard():
     modules_by_room = defaultdict(list)
     for module in modules:
         modules_by_room[module.room].append(module)
-    print(modules_by_room)
     return render_template('main/dashboard.html', modules_by_room=modules_by_room)

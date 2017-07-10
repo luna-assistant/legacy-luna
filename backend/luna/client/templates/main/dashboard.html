@@ -19,7 +19,7 @@
       <div class="card" data-identifier="{{module.identifier}}">
         <div class="content">
           <span class="right floated">
-            <i class="big {{module.type.icon}} icon"></i>
+            <i class="big {{module.type.icon}} module icon"></i>
           </span>
           <div class="header">{{module.name}}</div>
           <div class="meta">
@@ -30,7 +30,7 @@
           <a href="#" class="right floated"><i class="edit icon"></i> Editar</a>
           <div class="ui toggle checkbox">
             <input type="checkbox">
-            <label>Carregando...</label>
+            <label>Ativado</label>
           </div>
         </div>
       </div>
@@ -48,8 +48,22 @@
     (function() {
       function iniciar() {
         $('.ui.checkbox').checkbox();
-      
+        
         let client = new Paho.MQTT.Client(location.hostname, 9883, '' + Number(new Date()));
+        
+        $('[data-identifier] .checkbox').click(function () {
+          let status = $(this).checkbox('is checked');
+          let $card = $(this).closest('[data-identifier]');
+          message = new Paho.MQTT.Message('1');
+          message.destinationName = 'm/' + $card.data('identifier') + '/' + (status ? 101 : 102);
+          client.send(message);
+          $card.find('.meta').text(status ? 'Ativado' : 'Desativado');
+          if (status) {
+            $card.find('.module.icon').addClass('blue');
+          } else {
+            $card.find('.module.icon').removeClass('blue');
+          }
+        });
         
         client.onConnectionLost = onConnectionLost;
         client.onMessageArrived = onMessageArrived;
@@ -60,10 +74,10 @@
           let identifiers = $('[data-identifier]').map(function() {
             return $(this).data('identifier');
           }).get();
-          
+          console.log(identifiers)
           identifiers.forEach(function(identifier) {
             client.subscribe('m/' + identifier);
-            client.subscribe('m/' + identifier + '/+');
+            client.subscribe('m/' + identifier + '/+/+');
           });
         }
 
@@ -79,14 +93,21 @@
           let payload = message.payloadString;
           
           if (topicValues.length === 2) {
-            // nada por enquanto
+            // testamento
           } else if (topicValues.length === 3) {
+            // comando
+          } else if (topicValues.length === 4) {
             let identifier = topicValues[1];
             payload = Number(payload);
-            if (Number(topicValues[2]) == 1) {
+            if (Number(topicValues[2]) === 1 && Number(topicValues[3]) === 1) {
               let $card = $('[data-identifier='+identifier+']');
-              $card.find('.meta, .checkbox label').text(payload > 0 ? 'Ativado' : 'Desativado');
-              $card.find('.checkbox').checkbox(payload > 0 ? 'check' : 'uncheck');
+              if (payload === 1) {
+                $card.find('.module.icon').addClass('blue');
+              } else {
+                $card.find('.module.icon').removeClass('blue');
+              }
+              $card.find('.meta').text(payload === 1 ? 'Ativado' : 'Desativado');
+              $card.find('.checkbox').checkbox(payload === 1 ? 'check' : 'uncheck');
             }
           }
         }
