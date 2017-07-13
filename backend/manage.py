@@ -19,8 +19,9 @@ COV = coverage.coverage(
 COV.start()
 
 from luna.server import app
-from luna.server.models import User, Person, Role
-from luna.server.repositories import UserRepository, PersonRepository, UserHasRoleRepository
+from luna.server.models import User, Person, Role, Module, ModuleType, Command, Information
+from luna.server.repositories import UserRepository, PersonRepository, UserHasRoleRepository, \
+    ModuleTypeRepository,  ModuleRepository, InformationRepository, CommandRepository
 
 
 manager = Manager(app)
@@ -104,7 +105,7 @@ def create_data():
         if not new_user:
             new_user = User(username=user['username'], password='mudar@123')
             new_user = userRepo.create(new_user)
-            
+
             if user['username'] == 'admin@luna.com':
                 userHasRoleRepo.create(dict(user_id=new_user.id, role_id=Role.ADMIN))
             else:
@@ -120,29 +121,46 @@ def create_data():
                 'num': user['contact'][2:]
             }]
             person['user_id'] = new_user.id
-            # person = Person(person)
             personRepo.create(person)
 
-    # usuario = userRepo.findByUsername('felipempf')
-    # personRepo = PersonRepository()
-    #
-    # carol = User(username='carolina', password='mudar@123')
-    # carol = userRepo.create(carol)
-    #
-    # carolPerson = Person(name='Carolina da Silva', cpf='18434621924', birth=datetime.datetime(1993, 3, 2))
-    # carolPerson = personRepo.create(carolPerson)
-    # carolPerson.address = 'Av. Senador Cunha, 122'
-    # carolPerson.complement = 'Bloco H Ap. 201'
-    # carolPerson.postal_code = '59000000'
-    # carolPerson.neighborhood = 'Vinheiros'
-    # carolPerson = personRepo.update(carolPerson.id, carolPerson)
-    #
-    # carolPerson = personRepo.findByCpf('18434621924')
-    # if carolPerson:
-    #     carolPerson = dict(carolPerson)
-    #     carolPerson['emails'] = ['carolinasilva@gmail.com', 'carolsilva@outlook.com']
-    #     carolPerson['contacts'] = [dict(ddd='84', num='998665596')]
-    #     carolPerson = personRepo.update(carolPerson['id'], carolPerson)
+    module_repository = ModuleRepository()
+    module_type_repository = ModuleTypeRepository()
+    information_repository = InformationRepository()
+    command_repository = CommandRepository()
+
+    module_types = [
+        { 'name': 'Iluminação',  'description': 'Módulo de Iluminação para ambientes que precisem de claridão.', 'icon': 'idea', 'is_active': True },
+        { 'name': 'Segurança',  'description': 'Módulo de segurança para travamento de portas.', 'icon': 'lock', 'is_active': True },
+        { 'name': 'Torneira',  'description': 'Módulo de controle de fluxo de líquido através de torneiras.', 'icon': 'theme', 'is_active': True },
+    ]
+
+    commands = [
+        { 'name': 'Ativar', 'identifier': 101, 'description': 'Ativar o módulo.', 'command_type_id': 1},
+        { 'name': 'Desativar', 'identifier': 102, 'description': 'Desativar o módulo.', 'command_type_id': 1},
+    ]
+
+    informations = [
+        { 'name': 'Status', 'identifier': 1, 'description': 'Verificar o status do módulo.', 'information_type_id': 1}
+    ]
+
+    module_quantity = 5
+
+    for module_type in module_types:
+        new_type = module_type_repository.findByName(module_type['name'])
+        if not new_type:
+            new_type = ModuleType(**module_type)
+            new_type = module_type_repository.create(new_type)
+
+            for command in commands:
+                command['module_type_id'] = new_type.id
+                command_repository.create(command)
+
+            for information in informations:
+                information['module_type_id'] = new_type.id
+                information_repository.create(information)
+
+            for x in range(module_quantity):
+                module_repository.create(dict(module_type_id=new_type.id))
 
 
 if __name__ == '__main__':

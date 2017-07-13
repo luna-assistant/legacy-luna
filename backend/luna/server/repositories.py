@@ -372,9 +372,12 @@ class ModuleRepository(BaseRepository):
         return models.Module
 
     def create(self, values):
+        if isinstance(values, self.model):
+            values = dict(values)
+
         timestamp = int(time.time())
-        values.identifier = str(timestamp)
-        values.is_active = True
+        values['identifier'] = str(timestamp)
+        values['is_active'] = True
         module = super(ModuleRepository, self).create(values)
         module.identifier = hashids.encode(module.id, module.module_type_id, timestamp)
         return self.update(module.id, module)
@@ -412,6 +415,16 @@ class ModuleTypeRepository(BaseRepository):
     @property
     def model(self):
         return models.ModuleType
+
+    def findByName(self, name, with_trash=False):
+        query = QueryBuilder(self.model.table, self.model.columns)\
+            .where('name')\
+            .limit(1)
+
+        query = query.sql()
+
+        cursor = db.execute_sql(query, (name,))
+        return self.as_object(cursor)
 
 
 class InformationTypeRepository(BaseRepository):
