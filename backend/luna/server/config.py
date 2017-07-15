@@ -18,6 +18,9 @@ class BaseConfig(object):
     DB_DATABASE = config('DB_DATABASE', 'postgres')
     DB_USERNAME = config('DB_USERNAME', 'postgres')
     DB_PASSWORD = config('DB_PASSWORD', 'postgres')
+    BROKER_URL = 'iot.eclipse.org'
+    BROKER_PORT = 443
+    BROKER_SSL = True
 
 
 class DevelopmentConfig(BaseConfig):

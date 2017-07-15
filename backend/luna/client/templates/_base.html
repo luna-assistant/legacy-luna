@@ -115,7 +115,7 @@
       Push.Permission.request();
 
       let current_user = '{{ current_user.username }}';
-      let client = new Paho.MQTT.Client(location.hostname, 9883, 'luna_web_' + Number(new Date()));
+      let client = new Paho.MQTT.Client('{{config.BROKER_URL}}', {{config.BROKER_PORT}}, 'luna_web_' + Number(new Date()));
       let timeoutHelp = null;
 
       $('form#helpModal').modal({
@@ -181,8 +181,8 @@
       client.onConnectionLost = onConnectionLost;
       client.onMessageArrived = onMessageArrived;
 
-      client.connect({onSuccess:onConnect});
-
+      client.connect({onSuccess:onConnect, useSSL: {{'true' if config.BROKER_SSL else 'false'}}});
+      
       function onConnect() {
         if (associado !== undefined) {
           client.subscribe('u/' + associado);
